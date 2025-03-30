@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_store"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.food_ordering_mobile_app.ui.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_store_home">
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentStoreOrder"
+            app:destination="@id/fragmentStoreOrder" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentStoreOrder"
+        android:name="com.example.food_ordering_mobile_app.ui.orders.FragmentStoreOrder"
+        android:label="@string/orders"
+        tools:layout="@layout/fragment_store_order" >
+        <action
+            android:id="@+id/action_fragmentStoreOrder_to_fragmentOrderDetail"
+            app:destination="@id/fragmentOrderDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentOrderDetail"
+        android:name="com.example.food_ordering_mobile_app.ui.orders.FragmentOrderDetail"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" />
+</navigation>
