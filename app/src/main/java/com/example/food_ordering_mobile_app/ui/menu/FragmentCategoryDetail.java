@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.CategoryAdapter;
+import com.example.food_ordering_mobile_app.adapters.category.CategoryAdapter;
 import com.example.food_ordering_mobile_app.models.category.Category;
 
 import java.util.ArrayList;

@@ -12,11 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.OrderItemDetailAdapter;
+import com.example.food_ordering_mobile_app.adapters.order.OrderItemDetailAdapter;
 import com.example.food_ordering_mobile_app.models.order.OrderItem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FragmentOrderHistoryDetail extends Fragment {

@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.NotificationAdapter;
+import com.example.food_ordering_mobile_app.adapters.notification.NotificationAdapter;
 import com.example.food_ordering_mobile_app.models.notification.Notification;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity {

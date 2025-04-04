@@ -17,10 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.OuterHistoryAdapter;
-import com.example.food_ordering_mobile_app.models.order.OrderDateGroup;
+import com.example.food_ordering_mobile_app.adapters.order.OuterHistoryAdapter;
 import com.example.food_ordering_mobile_app.models.order.OrderDateStatusGroup;
-import com.example.food_ordering_mobile_app.models.order.OrderItem;
 import com.example.food_ordering_mobile_app.models.order.Order;
 import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;

@@ -1,4 +1,4 @@
-package com.example.food_ordering_mobile_app.adapters;
+package com.example.food_ordering_mobile_app.adapters.notification;
 
 import android.content.Context;
 import android.view.LayoutInflater;

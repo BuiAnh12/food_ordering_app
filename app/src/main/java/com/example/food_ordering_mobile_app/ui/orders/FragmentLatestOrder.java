@@ -1,6 +1,5 @@
 package com.example.food_ordering_mobile_app.ui.orders;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,14 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.LatestOrderAdapter;
-import com.example.food_ordering_mobile_app.models.order.OrderItem;
+import com.example.food_ordering_mobile_app.adapters.order.LatestOrderAdapter;
 import com.example.food_ordering_mobile_app.models.order.Order;
-import com.example.food_ordering_mobile_app.models.user.User;
-import com.example.food_ordering_mobile_app.ui.MainStoreActivity;
-import com.example.food_ordering_mobile_app.ui.common.LoginActivity;
 import com.example.food_ordering_mobile_app.utils.Resource;
-import com.example.food_ordering_mobile_app.viewModel.AuthViewModel;
 import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;
 
 import java.util.ArrayList;

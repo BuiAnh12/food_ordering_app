@@ -1,4 +1,4 @@
-package com.example.food_ordering_mobile_app.adapters;
+package com.example.food_ordering_mobile_app.adapters.menu;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

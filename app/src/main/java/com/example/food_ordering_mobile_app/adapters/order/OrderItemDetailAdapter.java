@@ -1,4 +1,4 @@
-package com.example.food_ordering_mobile_app.adapters;
+package com.example.food_ordering_mobile_app.adapters.order;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -38,7 +38,7 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
 
         holder.itemName.setText(order.getDish().getName());
         holder.quantity.setText(String.valueOf(order.getQuantity()));
-        holder.unitPrice.setText(String.valueOf(order.getUnitPrice()));
+        holder.unitPrice.setText(String.valueOf(order.getDish().getPrice()));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.food_ordering_mobile_app.adapters;
+package com.example.food_ordering_mobile_app.adapters.order;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,26 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.order.Order;
-import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderDetail;
+import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderHistoryDetail;
 import com.example.food_ordering_mobile_app.utils.Function;
 
 import java.util.List;
-public class InnerPreOrderAdapter extends RecyclerView.Adapter<InnerPreOrderAdapter.ViewHolder> {
+
+public class InnerHistoryAdapter extends RecyclerView.Adapter<InnerHistoryAdapter.ViewHolder> {
     private List<Order> orderList;
 
-    public InnerPreOrderAdapter(List<Order> orderList) {
+    public InnerHistoryAdapter(List<Order> orderList) {
         this.orderList = orderList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_preorder, parent, false);
+    public InnerHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_order, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InnerHistoryAdapter.ViewHolder holder, int position) {
         Order order = orderList.get(position);
 
         holder.customerName.setText(order.getCustomerName() != null ? order.getCustomerName() : "Khách hàng không xác định");
@@ -41,11 +42,13 @@ public class InnerPreOrderAdapter extends RecyclerView.Adapter<InnerPreOrderAdap
         holder.totalItems.setText(order.getTotalItems() > 0 ? String.valueOf(order.getTotalItems()) : "0");
         holder.totalPrice.setText(order.getTotalPrice() > 0 ? String.valueOf(order.getTotalPrice()) + "₫" : "0₫");
         holder.distance.setText("Không xác định");
+        holder.status.setText(order.getStatus() != null ? order.getStatus() : "Không xác định");
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a new instance of the fragment with arguments
-                FragmentOrderDetail fragment = FragmentOrderDetail.newInstance("1", "1");
+                FragmentOrderHistoryDetail fragment = FragmentOrderHistoryDetail.newInstance(order.getId());
 
                 // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
                 FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
@@ -59,14 +62,13 @@ public class InnerPreOrderAdapter extends RecyclerView.Adapter<InnerPreOrderAdap
         });
     }
 
-
     @Override
     public int getItemCount() {
         return orderList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView customerName, orderNumber, pickupTime, totalItems, totalPrice, distance;
+        TextView customerName, orderNumber, pickupTime, totalItems, totalPrice, distance, status;
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +78,7 @@ public class InnerPreOrderAdapter extends RecyclerView.Adapter<InnerPreOrderAdap
             totalItems = itemView.findViewById(R.id.item_count);
             totalPrice = itemView.findViewById(R.id.total_price);
             distance = itemView.findViewById(R.id.distance_value);
+            status = itemView.findViewById(R.id.history_status);
             cardView = itemView.findViewById(R.id.item_preorder);
         }
     }

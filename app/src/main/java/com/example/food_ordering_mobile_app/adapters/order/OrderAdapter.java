@@ -1,4 +1,4 @@
-package com.example.food_ordering_mobile_app.adapters;
+package com.example.food_ordering_mobile_app.adapters.order;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,7 +10,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentConfirmedOrder;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentHistoryOrder;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentLatestOrder;
-import com.example.food_ordering_mobile_app.ui.orders.FragmentPreorder;
 
 public class OrderAdapter extends FragmentStateAdapter {
     public OrderAdapter(@NonNull FragmentActivity fragmentActivity) {

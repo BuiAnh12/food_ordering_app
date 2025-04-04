@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.food_ordering_mobile_app.adapters.OuterPreOrderAdapter;
+import com.example.food_ordering_mobile_app.adapters.order.OuterPreOrderAdapter;
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.order.OrderDateGroup;
-import com.example.food_ordering_mobile_app.models.order.OrderItem;
 import com.example.food_ordering_mobile_app.models.order.Order;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FragmentPreorder extends Fragment {

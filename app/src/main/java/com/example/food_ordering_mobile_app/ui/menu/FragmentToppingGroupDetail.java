@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.ToppingDetailAdapter;
+import com.example.food_ordering_mobile_app.adapters.topping.ToppingDetailAdapter;
 import com.example.food_ordering_mobile_app.models.topping.Topping;
 
 import java.util.ArrayList;

@@ -16,21 +16,18 @@ public class OrderItem {
     @SerializedName("dish")
     private Dish dish;
     private int quantity;
-    private long unitPrice;
 
     public OrderItem() {
         // Default constructor
         id = "";
         dish = new Dish();
         quantity = 0;
-        unitPrice = 0;
     }
 
 
-    public OrderItem(String id, Dish dish, int quantity, long unitPrice) {
+    public OrderItem(String id, Dish dish, int quantity) {
         this.id = id;
         this.dish = dish;
         this.quantity = quantity;
-        this.unitPrice = unitPrice;
     }
 }

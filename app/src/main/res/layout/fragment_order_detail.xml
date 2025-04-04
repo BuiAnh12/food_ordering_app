@@ -154,6 +154,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_customer_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Khách đặt đơn"
@@ -162,6 +163,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_customer_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0909333333"
@@ -223,6 +225,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvShipperName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Chưa chỉ định tài xế"
@@ -290,7 +293,13 @@
                             android:id="@+id/total_price_before"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100.000 đ"
+                            android:text="0.000"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" đ"
                             android:textColor="@color/secondaryColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -335,7 +344,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="-22.000 đ"
+                            android:text="-0.000 đ"
                             android:textColor="@color/secondaryColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -363,7 +372,7 @@
                             android:id="@+id/packing_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="10.000 đ"
+                            android:text="0.000 đ"
                             android:textColor="@color/secondaryColor"
                             android:textSize="16sp" />
                     </LinearLayout>

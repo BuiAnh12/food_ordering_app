@@ -1,4 +1,4 @@
-package com.example.food_ordering_mobile_app.adapters;
+package com.example.food_ordering_mobile_app.adapters.order;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -66,7 +66,7 @@ public class OrderConfirmedAdapter extends RecyclerView.Adapter<OrderConfirmedAd
             @Override
             public void onClick(View v) {
                 // Create a new instance of the fragment with arguments
-                FragmentOrderDetail fragment = FragmentOrderDetail.newInstance("1", "3");
+                FragmentOrderDetail fragment = FragmentOrderDetail.newInstance(order.getId(), "3");
 
                 // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
                 FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();

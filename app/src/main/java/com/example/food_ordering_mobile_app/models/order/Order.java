@@ -39,11 +39,12 @@ public class Order {
         customerPhonenumber = "";
         note = "";
         store = new Store();
-        items = null;
+        items = new ArrayList<>();
         shipLocation = new Location();
         shipper = "";
         status = "";
         paymentMethod = "";
+
     }
 
 
@@ -69,7 +70,7 @@ public class Order {
     public long getTotalPrice(){
         long result = 0;
         for (OrderItem order: items){
-            result += order.getUnitPrice() * order.getQuantity();
+            result += order.getDish().getPrice() * order.getQuantity();
         }
         return result;
     }

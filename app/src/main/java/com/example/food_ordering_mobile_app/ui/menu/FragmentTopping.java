@@ -15,13 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.ToppingAdapter;
-import com.example.food_ordering_mobile_app.models.dish.Dish;
-import com.example.food_ordering_mobile_app.models.dish.DishCategory;
-import com.example.food_ordering_mobile_app.models.topping.Topping;
+import com.example.food_ordering_mobile_app.adapters.topping.ToppingAdapter;
 import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 import com.example.food_ordering_mobile_app.utils.Resource;
-import com.example.food_ordering_mobile_app.viewModel.DishViewModel;
 import com.example.food_ordering_mobile_app.viewModel.ToppingViewModel;
 
 import java.util.ArrayList;
@@ -81,20 +77,5 @@ public class FragmentTopping extends Fragment {
             }
         });
         return view;
-    }
-
-    private void loadExampleData() {
-//        toppingGroups = new ArrayList<>();
-//
-//        List<Topping> milkTeaTopping = new ArrayList<>();
-//        milkTeaTopping.add(new Topping("1231", "Bubble Dice 1", 12321));
-//        milkTeaTopping.add(new Topping( "1232", "Bubble Dice 2", 12321));
-//
-//        List<Topping> pizzaTopping = new ArrayList<>();
-//        pizzaTopping.add(new Topping("1231", "Additional Cheese", 12321));
-//        pizzaTopping.add(new Topping( "1232", "Additional Sauce", 12321));
-//
-//        toppingGroups.add(new ToppingGroup("123", milkTeaTopping, "Milk Tea Topping","1231"));
-//        toppingGroups.add(new ToppingGroup("124", pizzaTopping, "Pizza Topping","1231"));
     }
 }

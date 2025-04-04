@@ -17,11 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.OuterDishAdapter;
+import com.example.food_ordering_mobile_app.adapters.dish.OuterDishAdapter;
 import com.example.food_ordering_mobile_app.models.dish.Dish;
 import com.example.food_ordering_mobile_app.models.dish.DishCategory;
-import com.example.food_ordering_mobile_app.models.order.Order;
-import com.example.food_ordering_mobile_app.models.order.OrderDateStatusGroup;
 import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.DishViewModel;
 

@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.adapters.LatestOrderAdapter;
-import com.example.food_ordering_mobile_app.adapters.OrderConfirmedAdapter;
-import com.example.food_ordering_mobile_app.models.order.OrderItem;
+import com.example.food_ordering_mobile_app.adapters.order.OrderConfirmedAdapter;
 import com.example.food_ordering_mobile_app.models.order.Order;
 import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;
