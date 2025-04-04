@@ -1,7 +1,13 @@
 package com.example.food_ordering_mobile_app.models.dish;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class DishCategory {
     private String categoryName;
     private List<Dish> items;
@@ -11,6 +17,19 @@ public class DishCategory {
         this.items = items;
     }
 
-    public String getCategoryName() { return categoryName; }
-    public List<Dish> getItems() { return items; }
+    public static List<DishCategory> groupDishesByCategory(List<Dish> dishes) {
+        if (dishes == null || dishes.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // Group dishes by category name
+        Map<String, List<Dish>> groupedDishes = dishes.stream()
+                .collect(Collectors.groupingBy(dish -> dish.getCategory().getName()));  // Use category name, not object
+
+        return groupedDishes.entrySet().stream()
+                .map(entry -> new DishCategory(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
 }
+
+

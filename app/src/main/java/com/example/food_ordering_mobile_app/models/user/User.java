@@ -13,8 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class User {
-
-
     @SerializedName("_id")
     private String id;
     private String name;
@@ -30,6 +28,15 @@ public class User {
     private Boolean isGoogleLogin;
     @SerializedName("storeId")
     private String storeId;
+
+    public User() {
+        // Default constructor
+        this.id = "";
+        this.name = "";
+        this.email = "";
+        this.phonenumber = "";
+        this.password = "";
+    }
 
     public User(String email, String password) {
         this.email = email;

@@ -35,8 +35,8 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
     public void onBindViewHolder(@NonNull ToppingAdapter.ViewHolder holder, int position) {
         ToppingGroup toppingGroup = toppingGroups.get(position);
 
-        holder.groupName.setText(toppingGroup.getGroupName() != null ? toppingGroup.getGroupName() : "Không xác định");
-        holder.toppingNumber.setText(!toppingGroup.getToppingList().isEmpty() ? String.valueOf(toppingGroup.getToppingList().size()) : "N/A");
+        holder.groupName.setText(toppingGroup.getName() != null ? toppingGroup.getName() : "Không xác định");
+        holder.toppingNumber.setText(!toppingGroup.getToppings().isEmpty() ? String.valueOf(toppingGroup.getToppings().size()) : "N/A");
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

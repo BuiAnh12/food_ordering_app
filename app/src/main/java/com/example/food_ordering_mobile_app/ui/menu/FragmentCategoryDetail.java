@@ -55,11 +55,11 @@ public class FragmentCategoryDetail extends Fragment {
     private void loadExampleData() {
         categoryList = new ArrayList<>();
 
-        categoryList.add(new Category("123a", "Main Dishes", 123, 1));
-        categoryList.add(new Category("123b", "Appetizers", 124, 2));
-        categoryList.add(new Category("123c", "Drinks", 125, 3));
-        categoryList.add(new Category("123d", "Desserts", 126, 4));
-        categoryList.add(new Category("123e", "Side Dishes", 127, 5));
+        categoryList.add(new Category("123a", "Main Dishes"));
+        categoryList.add(new Category("123b", "Appetizers"));
+        categoryList.add(new Category("123c", "Drinks"));
+        categoryList.add(new Category("123d", "Desserts"));
+        categoryList.add(new Category("123e", "Side Dishes"));
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(

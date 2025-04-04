@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import com.example.food_ordering_mobile_app.adapters.OuterPreOrderAdapter;
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.order.OrderDateGroup;
-import com.example.food_ordering_mobile_app.models.order.OrderDetail;
-import com.example.food_ordering_mobile_app.models.order.StoreOrder;
+import com.example.food_ordering_mobile_app.models.order.OrderItem;
+import com.example.food_ordering_mobile_app.models.order.Order;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import java.util.List;
 public class FragmentPreorder extends Fragment {
 
     private OuterPreOrderAdapter outerPreOrderAdapter;
-    private List<StoreOrder> storeOrderlist;
+    private List<Order> orderlist;
     private RecyclerView preOrderRecyclerView;
 
     public FragmentPreorder() {
@@ -45,30 +45,30 @@ public class FragmentPreorder extends Fragment {
         View view = inflater.inflate(R.layout.fragment_preorder, container,false);
         preOrderRecyclerView = view.findViewById(R.id.preOrderOuterRecyclerView);
         preOrderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        storeOrderlist = new ArrayList<>();
+        orderlist = new ArrayList<>();
 
-        List<OrderDetail> orderItems1 = Arrays.asList(
-                new OrderDetail(1, "Bún Bò Huế", 2, 50000),
-                new OrderDetail(2, "Trà Sữa Trân Châu", 1, 30000)
-        );
-
-        List<OrderDetail> orderItems2 = Arrays.asList(
-                new OrderDetail(3, "Phở Bò", 1, 60000),
-                new OrderDetail(4, "Cà Phê Sữa Đá", 1, 25000)
-        );
-
-        List<StoreOrder> todayOrders = Arrays.asList(
-                new StoreOrder(101, 1, orderItems1, "Nguyễn Văn A", "11:30", "11:12",1.2,"12/04/2003","12/04/2003"),
-                new StoreOrder(102, 2, orderItems2, "Trần Thị B", "11:30", "11:12",1.2,"12/04/2003","12/04/2003")
-        );
-
-        List<StoreOrder> tomorrowOrders = Arrays.asList(
-                new StoreOrder(103, 1, orderItems1, "Nguyễn Văn C", "14:00", "11:12",1.2,"12/04/2003","12/04/2003"),
-                new StoreOrder(104, 2, orderItems2, "Trần Thị D", "15:00", "11:12",1.2,"12/04/2003","12/04/2003")
-        );
+//        List<OrderItem> orderItems1 = Arrays.asList(
+//                new OrderItem(1, "Bún Bò Huế", 2, 50000),
+//                new OrderItem(2, "Trà Sữa Trân Châu", 1, 30000)
+//        );
+//
+//        List<OrderItem> orderItems2 = Arrays.asList(
+//                new OrderItem(3, "Phở Bò", 1, 60000),
+//                new OrderItem(4, "Cà Phê Sữa Đá", 1, 25000)
+//        );
+//
+//        List<Order> todayOrders = Arrays.asList(
+//                new Order(101, 1, orderItems1, "Nguyễn Văn A", "11:30", "11:12",1.2,"12/04/2003","12/04/2003"),
+//                new Order(102, 2, orderItems2, "Trần Thị B", "11:30", "11:12",1.2,"12/04/2003","12/04/2003")
+//        );
+//
+//        List<Order> tomorrowOrders = Arrays.asList(
+//                new Order(103, 1, orderItems1, "Nguyễn Văn C", "14:00", "11:12",1.2,"12/04/2003","12/04/2003"),
+//                new Order(104, 2, orderItems2, "Trần Thị D", "15:00", "11:12",1.2,"12/04/2003","12/04/2003")
+//        );
         List<OrderDateGroup> dateGroups = new ArrayList<>();
-        dateGroups.add(new OrderDateGroup("Hôm nay", todayOrders));
-        dateGroups.add(new OrderDateGroup("Ngày mai", tomorrowOrders));
+//        dateGroups.add(new OrderDateGroup("Hôm nay", todayOrders));
+//        dateGroups.add(new OrderDateGroup("Ngày mai", tomorrowOrders));
 
         outerPreOrderAdapter = new OuterPreOrderAdapter(dateGroups);
         preOrderRecyclerView.setAdapter(outerPreOrderAdapter);

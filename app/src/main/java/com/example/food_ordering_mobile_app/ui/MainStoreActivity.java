@@ -13,6 +13,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import com.example.food_ordering_mobile_app.databinding.ActivityMainStoreBinding;
+import com.example.food_ordering_mobile_app.authorization.SecurityManager;
+
 
 public class MainStoreActivity extends AppCompatActivity {
 
@@ -21,7 +23,6 @@ public class MainStoreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainStoreBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

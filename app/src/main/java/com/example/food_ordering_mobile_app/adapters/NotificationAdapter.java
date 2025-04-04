@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.models.chat.Notification;
+import com.example.food_ordering_mobile_app.models.notification.Notification;
 
 import java.util.List;
 
@@ -46,10 +46,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notification notification = notificationList.get(position);
 
-        holder.noti.setText(notification.getNoti());
-        holder.time.setText(notification.getTime());
+        holder.noti.setText(notification.getMessage());
+        holder.time.setText(notification.getTimestamps().toString());
 
-        Boolean isRead = notification.getIsRead();
+        Boolean isRead = notification.getStatus() != null;
 
         if (isRead) {
             holder.notificationContainer.setBackgroundColor(context.getResources().getColor(R.color.backgroundColor));

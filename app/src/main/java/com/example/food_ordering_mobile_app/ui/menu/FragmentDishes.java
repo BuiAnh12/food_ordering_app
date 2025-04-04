@@ -1,14 +1,18 @@
 package com.example.food_ordering_mobile_app.ui.menu;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,15 +20,21 @@ import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.OuterDishAdapter;
 import com.example.food_ordering_mobile_app.models.dish.Dish;
 import com.example.food_ordering_mobile_app.models.dish.DishCategory;
+import com.example.food_ordering_mobile_app.models.order.Order;
+import com.example.food_ordering_mobile_app.models.order.OrderDateStatusGroup;
+import com.example.food_ordering_mobile_app.utils.Resource;
+import com.example.food_ordering_mobile_app.viewModel.DishViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FragmentDishes extends Fragment {
 
-    private RecyclerView recyclerView;
+    private RecyclerView dishRecyclerView;
     private OuterDishAdapter adapter;
-    private List<DishCategory> dishCategories;
+    private List<DishCategory> dishCategories = new ArrayList<>();
+    private DishViewModel dishViewModel;
 
     public FragmentDishes() {
         // Required empty public constructor
@@ -37,34 +47,47 @@ public class FragmentDishes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_dishes, container, false);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        dishRecyclerView = view.findViewById(R.id.recyclerView);
+        dishRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        loadExampleData();
         adapter = new OuterDishAdapter(dishCategories);
-        recyclerView.setAdapter(adapter);
+        dishRecyclerView.setAdapter(adapter);
+
+        dishViewModel = new ViewModelProvider(this).get(DishViewModel.class);
+        dishViewModel.getAllDishes("", 10, 1);
+
         Button addDishButton = view.findViewById(R.id.addDish);
         addDishButton.setOnClickListener(this::addDish);
         Button addCategory = view.findViewById(R.id.addCategory);
         addCategory.setOnClickListener(this::addCategory);
 
+        dishViewModel.getAllDishesResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Dish>>>() {
+            @Override
+            public void onChanged(Resource<List<Dish>> listResource) {
+                switch (listResource.getStatus()) {
+                    case LOADING:
+                        break;
+                    case SUCCESS:
+                        if (listResource.getData() != null) {
+                            dishCategories.clear();
+                            Log.d("FragmentHistoryOrder", "Data: " + Arrays.toString(listResource.getData().toArray()));
+                            List<Dish> dishes = listResource.getData();
+                            List<DishCategory> dishCategoriesList = DishCategory.groupDishesByCategory(dishes);
+                            dishCategories.addAll(dishCategoriesList);
+                            adapter.notifyDataSetChanged();
+                        }
+                        break;
+                    case ERROR:
+                        Log.e("FragmentConfirmOrder", "Error: " + listResource.getMessage());
+                        Toast.makeText(getContext(), listResource.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
         return view;
-    }
-
-    private void loadExampleData() {
-        dishCategories = new ArrayList<>();
-
-        List<Dish> mainDishes = new ArrayList<>();
-        mainDishes.add(new Dish("1", "Grilled Chicken", "Delicious grilled chicken with spices", 150000, "chicken.jpg", true));
-        mainDishes.add(new Dish("2", "Beef Steak", "Juicy beef steak with sauce", 250000, "steak.jpg", true));
-
-        List<Dish> drinks = new ArrayList<>();
-        drinks.add(new Dish("3", "Lemon Juice", "Refreshing lemon juice", 50000, "lemon.jpg", true));
-        drinks.add(new Dish("4", "Iced Coffee", "Vietnamese iced coffee", 40000, "coffee.jpg", true));
-
-        dishCategories.add(new DishCategory("Main Dishes", mainDishes));
-        dishCategories.add(new DishCategory("Drinks", drinks));
     }
 
     public void addDish(View view) {

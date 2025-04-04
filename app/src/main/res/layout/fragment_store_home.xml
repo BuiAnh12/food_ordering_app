@@ -50,7 +50,7 @@
                 android:layout_width="20dp"
                 android:layout_height="match_parent"/>
             <ImageButton
-                android:id="@+id/goToCartBtn"
+                android:id="@+id/gotToProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/backgroundColor"
@@ -127,6 +127,7 @@
 
         <!-- Store Details -->
         <LinearLayout
+            android:id="@+id/storeInformationLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -155,6 +156,7 @@
 
         <!-- Service Quality -->
         <LinearLayout
+            android:id="@+id/serviceQualityLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -181,8 +183,8 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Help Center -->
         <LinearLayout
+            android:id="@+id/staffLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -211,6 +213,7 @@
 
         <!-- Custom Button -->
         <LinearLayout
+            android:id="@+id/helpCenterLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"

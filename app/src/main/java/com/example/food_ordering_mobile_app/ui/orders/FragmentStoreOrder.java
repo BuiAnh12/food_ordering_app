@@ -32,7 +32,7 @@ public class FragmentStoreOrder extends Fragment {
         viewPager.setAdapter(orderAdapter);
 
         // Add tabs dynamically to ensure they are evenly spread
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.preorder));
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.preorder));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.latest));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.confirmed));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.history));
@@ -41,10 +41,10 @@ public class FragmentStoreOrder extends Fragment {
         // Set up ViewPager with TabLayout
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
-                case 0: tab.setText("Preorder"); break;
-                case 1: tab.setText("Latest"); break;
-                case 2: tab.setText("Confirmed"); break;
-                case 3: tab.setText("History"); break;
+//                case 0: tab.setText("Preorder"); break;
+                case 0: tab.setText("Latest"); break;
+                case 1: tab.setText("Confirmed"); break;
+                case 2: tab.setText("History"); break;
             }
         }).attach();
 

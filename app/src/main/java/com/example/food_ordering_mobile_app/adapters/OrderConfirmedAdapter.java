@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.models.order.StoreOrder;
+import com.example.food_ordering_mobile_app.models.order.Order;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderDetail;
 
 import java.util.List;
@@ -22,23 +22,23 @@ import java.util.List;
 public class OrderConfirmedAdapter extends RecyclerView.Adapter<OrderConfirmedAdapter.ViewHolder> {
 
     private Context context;
-    private List<StoreOrder> ordersList;
+    private List<Order> ordersList;
     private OrderConfirmedAdapter.OnOrderClickListener onOrderClickListener;
 
 
     // Interface for handling item clicks
     public interface OnOrderClickListener {
-        void onOrderClick(StoreOrder order);
+        void onOrderClick(Order order);
     }
 
     // Constructor without click listener
-    public OrderConfirmedAdapter(Context context, List<StoreOrder> ordersList) {
+    public OrderConfirmedAdapter(Context context, List<Order> ordersList) {
         this.context = context;
         this.ordersList = ordersList;
     }
 
     // Constructor with click listener
-    public OrderConfirmedAdapter(Context context, List<StoreOrder> ordersList, OrderConfirmedAdapter.OnOrderClickListener onOrderClickListener) {
+    public OrderConfirmedAdapter(Context context, List<Order> ordersList, OrderConfirmedAdapter.OnOrderClickListener onOrderClickListener) {
         this.context = context;
         this.ordersList = ordersList;
         this.onOrderClickListener = onOrderClickListener;
@@ -54,13 +54,10 @@ public class OrderConfirmedAdapter extends RecyclerView.Adapter<OrderConfirmedAd
 
     @Override
     public void onBindViewHolder(@NonNull OrderConfirmedAdapter.ViewHolder holder, int position) {
-        StoreOrder order = ordersList.get(position);
-
-
-
+        Order order = ordersList.get(position);
         holder.orderId.setText(!TextUtils.isEmpty(String.valueOf(order.getId())) ? "#" + order.getId() : "#0000");
-        holder.pickupTime.setText(!TextUtils.isEmpty(order.getPickUpTime()) ? order.getPickUpTime() : "Not Available");
-        holder.customerName.setText(!TextUtils.isEmpty(order.getCustomerName()) ? order.getCustomerName() : "Unknown");
+        holder.pickupTime.setText("Default picup time");
+        holder.customerName.setText(!TextUtils.isEmpty(order.getCustomerName()) ? order.getUser().getName() : "Unknown");
         holder.status.setText(!TextUtils.isEmpty(order.getStatus()) ? order.getStatus() : "Pending");
 
 

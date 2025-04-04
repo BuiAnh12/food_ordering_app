@@ -39,7 +39,6 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
 
         holder.dish_name.setText(dish.getName() != null ? dish.getName() : "Không xác định");
         holder.dish_price.setText(dish.getPrice() > 0 ? String.valueOf(dish.getPrice()) : "N/A");
-        holder.enable_toggle.setChecked(dish.getEnable());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,14 +67,13 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
         ImageView  dish_image;
 
         TextView dish_name, dish_price;
-        Switch enable_toggle;
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
             dish_name = itemView.findViewById(R.id.dish_name);
             dish_price = itemView.findViewById(R.id.dish_price);
             cardView = itemView.findViewById(R.id.item_topping);
-            enable_toggle = itemView.findViewById(R.id.dish_toggle);
+//            enable_toggle = itemView.findViewById(R.id.dish_toggle);
         }
     }
 }

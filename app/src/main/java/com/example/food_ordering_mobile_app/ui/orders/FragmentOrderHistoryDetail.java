@@ -13,15 +13,16 @@ import android.widget.TextView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.OrderItemDetailAdapter;
-import com.example.food_ordering_mobile_app.models.order.OrderDetail;
+import com.example.food_ordering_mobile_app.models.order.OrderItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FragmentOrderHistoryDetail extends Fragment {
 
     private OrderItemDetailAdapter orderItemDetailAdapter;
-    private List<OrderDetail> orderDetailList;
+    private List<OrderItem> orderItemList = new ArrayList<>();
     private RecyclerView orderDetailRecycleView;
     private String orderId;
 
@@ -53,11 +54,11 @@ public class FragmentOrderHistoryDetail extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_history_detail, container, false);
         orderDetailRecycleView = view.findViewById(R.id.orderSummaryRecyclerView);
         orderDetailRecycleView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        orderDetailList = Arrays.asList(
-                new OrderDetail(1, "Bún Bò Huế", 2, 50000),
-                new OrderDetail(2, "Trà Sữa Trân Châu", 1, 30000)
-        );
-        orderItemDetailAdapter = new OrderItemDetailAdapter(getContext(), orderDetailList);
+//        orderItemList = Arrays.asList(
+//                new OrderItem(1, "Bún Bò Huế", 2, 50000),
+//                new OrderItem(2, "Trà Sữa Trân Châu", 1, 30000)
+//        );
+        orderItemDetailAdapter = new OrderItemDetailAdapter(getContext(), orderItemList);
         orderDetailRecycleView.setAdapter(orderItemDetailAdapter);
         TextView backBtn = view.findViewById(R.id.backBtn);
         backBtn.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());

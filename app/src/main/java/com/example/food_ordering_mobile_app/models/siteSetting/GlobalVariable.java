@@ -2,11 +2,17 @@ package com.example.food_ordering_mobile_app.models.siteSetting;
 
 import android.app.Application;
 
+import com.example.food_ordering_mobile_app.authorization.SecurityManager;
 import com.example.food_ordering_mobile_app.models.user.User;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Getter;
+import lombok.Setter;
+
+
+@Getter
+@Setter
 public class GlobalVariable extends Application {
     private String appName = "com.example.food_ordering_mobile_app";
     private String accessToken;
@@ -18,47 +24,16 @@ public class GlobalVariable extends Application {
     private User AuthUser;
     private SiteSettings appInfo;
 
-    public SiteSettings getAppInfo() {
-        return appInfo;
-    }
-
-    public void setAppInfo(SiteSettings appInfo) {
-        this.appInfo = appInfo;
-    }
-
-    public User getAuthUser() {
-        return AuthUser;
-    }
-
-    public void setAuthUser(User authUser) {
-        AuthUser = authUser;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // Initialize SecurityManager once when the app starts
+        SecurityManager.init(this);
     }
 
     public void setAccessToken(String accessToken) {
         this.accessToken = "JWT " + accessToken;
     }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
     public Map<String, String> getHeaders() {
 
         this.headers = new HashMap<>();
@@ -68,7 +43,4 @@ public class GlobalVariable extends Application {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-    }
 }

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.NotificationAdapter;
-import com.example.food_ordering_mobile_app.models.chat.Notification;
+import com.example.food_ordering_mobile_app.models.notification.Notification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +30,12 @@ public class NotificationActivity extends AppCompatActivity {
         notificationRecyclerView = findViewById(R.id.notificationRecyclerView);
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        notificationList = new ArrayList<>();
-        notificationList.add(new Notification("Your order has been delivered", "1h ago", false));
-        notificationList.add(new Notification("Your order has been delivered", "1h ago", true));
-        notificationList.add(new Notification("Your order has been delivered", "1h ago", true));
-        notificationList.add(new Notification("Your order has been delivered", "1h ago", true));
-        notificationList.add(new Notification("Your order has been delivered", "1h ago", false));
+//        notificationList = new ArrayList<>();
+//        notificationList.add(new Notification("Your order has been delivered", "1h ago", false));
+//        notificationList.add(new Notification("Your order has been delivered", "1h ago", true));
+//        notificationList.add(new Notification("Your order has been delivered", "1h ago", true));
+//        notificationList.add(new Notification("Your order has been delivered", "1h ago", true));
+//        notificationList.add(new Notification("Your order has been delivered", "1h ago", false));
 
         notificationAdapter = new NotificationAdapter(this, notificationList);
         notificationRecyclerView.setAdapter(notificationAdapter);

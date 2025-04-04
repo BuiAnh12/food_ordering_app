@@ -13,30 +13,31 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.models.order.StoreOrder;
+import com.example.food_ordering_mobile_app.models.order.Order;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderDetail;
+import com.example.food_ordering_mobile_app.utils.Function;
 
 import java.util.List;
 
 public class LatestOrderAdapter extends RecyclerView.Adapter<LatestOrderAdapter.ViewHolder> {
 
     private Context context;
-    private List<StoreOrder> ordersList;
+    private List<Order> ordersList;
     private OnOrderClickListener onOrderClickListener;
 
     // Interface for handling item clicks
     public interface OnOrderClickListener {
-        void onOrderClick(StoreOrder order);
+        void onOrderClick(Order order);
     }
 
     // Constructor without click listener
-    public LatestOrderAdapter(Context context, List<StoreOrder> ordersList) {
+    public LatestOrderAdapter(Context context, List<Order> ordersList) {
         this.context = context;
         this.ordersList = ordersList;
     }
 
     // Constructor with click listener
-    public LatestOrderAdapter(Context context, List<StoreOrder> ordersList, OnOrderClickListener onOrderClickListener) {
+    public LatestOrderAdapter(Context context, List<Order> ordersList, OnOrderClickListener onOrderClickListener) {
         this.context = context;
         this.ordersList = ordersList;
         this.onOrderClickListener = onOrderClickListener;
@@ -52,15 +53,15 @@ public class LatestOrderAdapter extends RecyclerView.Adapter<LatestOrderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        StoreOrder order = ordersList.get(position);
+        Order order = ordersList.get(position);
 
         // Bind order details to the UI
-        holder.orderNumber.setText(String.valueOf(order.getNumberOrder()));
+        holder.orderNumber.setText(String.valueOf(Function.generateOrderNumber(order.getId())));
         holder.customerName.setText(order.getCustomerName());
         holder.orderSummary.setText(order.getOrderSummary());
         holder.orderItems.setText(order.getOrderDetail());
-        holder.pickupTime.setText(String.valueOf(order.getPickUpTime()));
-        holder.orderTime.setText(String.valueOf(order.getOrderTime()));
+        holder.pickupTime.setText("Không xác định");
+        holder.orderTime.setText("Không xác định");
 
         // Handle click event
         holder.itemView.setOnClickListener(v -> {

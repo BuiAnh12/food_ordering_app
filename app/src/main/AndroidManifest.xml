@@ -2,17 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Quyền truy cập Internet -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-    <!-- Quyền truy cập bộ nhớ -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Quyền truy cập bộ nhớ -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" /> <!-- Quyền truy cập camera -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- Quyền truy cập camera -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
-
-    <!-- Cấu hình Google Sign-In -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" /> <!-- Cấu hình Google Sign-In -->
     <meta-data
         android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
         android:value="@string/google_client_id" />
@@ -27,8 +26,11 @@
         android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodOrderingApp"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.common.LoginActivity"
             android:exported="false" />

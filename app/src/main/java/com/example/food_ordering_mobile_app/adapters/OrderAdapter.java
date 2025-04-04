@@ -30,19 +30,19 @@ public class OrderAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position){
         switch (position) {
             case 0:
-                return new FragmentPreorder();
-            case 1:
                 return new FragmentLatestOrder();
-            case 2:
+            case 1:
                 return new FragmentConfirmedOrder();
-            default:
+            case 2:
                 return new FragmentHistoryOrder();
+            default:
+                return null;
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 3;
     }
 }

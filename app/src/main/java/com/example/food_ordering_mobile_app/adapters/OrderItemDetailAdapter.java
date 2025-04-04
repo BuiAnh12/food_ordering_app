@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
-import com.example.food_ordering_mobile_app.models.order.OrderDetail;
+import com.example.food_ordering_mobile_app.models.order.OrderItem;
 
 import java.util.List;
 
 public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetailAdapter.ViewHolder> {
     private Context context;
 
-    private List<OrderDetail> orderList;
+    private List<OrderItem> orderList;
 
-    public OrderItemDetailAdapter(Context context, List<OrderDetail> orderList) {
+    public OrderItemDetailAdapter(Context context, List<OrderItem> orderList) {
         this.context = context;
         this.orderList = orderList;
     }
@@ -34,9 +34,9 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OrderDetail order = orderList.get(position);
+        OrderItem order = orderList.get(position);
 
-        holder.itemName.setText(order.getDishName());
+        holder.itemName.setText(order.getDish().getName());
         holder.quantity.setText(String.valueOf(order.getQuantity()));
         holder.unitPrice.setText(String.valueOf(order.getUnitPrice()));
     }
