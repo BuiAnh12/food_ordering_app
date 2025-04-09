@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.food_ordering_mobile_app.models.ApiResponse;
 import com.example.food_ordering_mobile_app.models.dish.Dish;
 import com.example.food_ordering_mobile_app.models.topping.Topping;
+import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 import com.example.food_ordering_mobile_app.network.RetrofitClient;
 import com.example.food_ordering_mobile_app.network.services.DishService;
 import com.example.food_ordering_mobile_app.utils.Resource;
@@ -138,6 +139,28 @@ public class DishRepository {
 
             @Override
             public void onFailure(Call<ApiResponse<Float>> call, Throwable throwable) {
+                handleFailure(throwable, result);
+            }
+        });
+        return result;
+    }
+
+    public LiveData<Resource<List<ToppingGroup>>> getToppingsFromDish(String dishId) {
+        MutableLiveData<Resource<List<ToppingGroup>>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null));
+        dishService.getToppingsFromDish(dishId).enqueue(new Callback<ApiResponse<List<ToppingGroup>>>() {
+
+            @Override
+            public void onResponse(Call<ApiResponse<List<ToppingGroup>>> call, Response<ApiResponse<List<ToppingGroup>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    result.setValue(Resource.success("Lấy danh sách topping thành công!", response.body().getData()));
+                } else {
+                    handleErrorResponse(response, result);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<ToppingGroup>>> call, Throwable throwable) {
                 handleFailure(throwable, result);
             }
         });

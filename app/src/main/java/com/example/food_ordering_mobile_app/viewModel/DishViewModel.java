@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.food_ordering_mobile_app.models.dish.Dish;
+import com.example.food_ordering_mobile_app.models.topping.Topping;
+import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 import com.example.food_ordering_mobile_app.repository.DishRepository;
 import com.example.food_ordering_mobile_app.utils.Resource;
 
@@ -79,5 +81,15 @@ public class DishViewModel extends AndroidViewModel {
     public void getAvgRating(String dishId) {
         LiveData<Resource<Float>> result = dishRepository.getAvgRating(dishId);
         result.observeForever(avgRatingResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource<List<ToppingGroup>>> toppingsResponse = new MutableLiveData<>();
+    public LiveData<Resource<List<ToppingGroup>>> getToppingsResponse() {
+        return toppingsResponse;
+    }
+
+    public void getToppingsFromDish(String dishId) {
+        LiveData<Resource<List<ToppingGroup>>> result = dishRepository.getToppingsFromDish(dishId);
+        result.observeForever(toppingsResponse::setValue);
     }
 }

@@ -2,6 +2,9 @@ package com.example.food_ordering_mobile_app.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Function {
     public static String generateOrderNumber(String orderId) {
@@ -23,6 +26,21 @@ public class Function {
 
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("MD5 algorithm not found", e);
+        }
+    }
+
+    public static String dateConverter(String isoDateString, String outputFormatString) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Parse as UTC
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat(outputFormatString);
+
+            Date date = inputFormat.parse(isoDateString);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Unknown Date";
         }
     }
 }

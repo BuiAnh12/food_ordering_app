@@ -4,6 +4,7 @@ import com.example.food_ordering_mobile_app.models.ApiResponse;
 import com.example.food_ordering_mobile_app.models.dish.Dish;
 import com.example.food_ordering_mobile_app.models.rating.Rating;
 import com.example.food_ordering_mobile_app.models.topping.Topping;
+import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -39,7 +40,7 @@ public interface DishService {
     Call<ApiResponse<List<Rating>>> getAllStoreRatings(@Path("storeId") String storeId);
 
     @GET("/api/v1/store/dish/{dish_id}/topping")
-    Call<ApiResponse<List<Topping>>> getToppingsFromDish(@Path("dish_id") String dishId);
+    Call<ApiResponse<List<ToppingGroup>>> getToppingsFromDish(@Path("dish_id") String dishId);
 
     @POST("/api/v1/store/dish/{dish_id}/topping")
     Call<Void> addToppingToDish(@Path("dish_id") String dishId, @Body Topping topping);

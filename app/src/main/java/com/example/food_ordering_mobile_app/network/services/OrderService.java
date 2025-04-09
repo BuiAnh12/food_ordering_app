@@ -22,5 +22,5 @@ public interface OrderService {
     Call<ApiResponse<Order>> getOrder(@Path("order_id") String orderId);
 
     @PUT("/api/v1/store/order/{order_id}")
-    Call<ApiResponse<Order>> updateOrder(@Path("order_id") String orderId, @Body Order order);
+    Call<ApiResponse> updateOrder(@Path("order_id") String orderId, @Body Order order);
 }

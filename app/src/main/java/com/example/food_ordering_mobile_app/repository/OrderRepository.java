@@ -99,4 +99,38 @@ public class OrderRepository {
         return result;
 
     }
+
+    public LiveData<Resource> updateOrder(String orderId, Order order) {
+        MutableLiveData<Resource> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null)); // Trạng thái Loading
+        orderService.updateOrder(orderId, order).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() ) {
+                    result.setValue(Resource.success(
+                            "Cập nhật đơn hàng thành công!",
+                            response.body().getData()
+                    ));
+                    Log.d("OrderRepository", "API Response: " + response.body());
+                } else {
+                    try {
+                        String errorMessage = response.errorBody() != null ?
+                                response.errorBody().string() : "Lỗi không xác định!";
+                        Log.e("OrderRepository", "API Error: " + errorMessage);
+                        result.setValue(Resource.error(errorMessage, null));
+                    } catch (Exception e) {
+                        Log.e("OrderRepository", "Error parsing errorBody", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                Log.e("OrderRepository", "Lỗi khi lấy danh sách đơn hàng: " + throwable.getMessage(), throwable);
+                result.setValue(Resource.error("Lỗi kết nối", null));
+            }
+        });
+        return result;
+    }
+
 }

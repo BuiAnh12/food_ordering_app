@@ -39,5 +39,9 @@ public class Dish {
         description = "";
     }
 
+    public String getFortmatedPrice(){
+        return String.format("%.2f", price);
+    }
+
 
 }

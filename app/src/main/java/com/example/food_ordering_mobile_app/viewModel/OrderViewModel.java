@@ -40,4 +40,13 @@ public class OrderViewModel extends AndroidViewModel {
         LiveData<Resource<Order>> result = orderRepository.getOrder(orderId);
         result.observeForever(getOrderResponse::setValue);
     }
+
+    private final MutableLiveData<Resource> updateOrderResponse = new MutableLiveData<>();
+    public void updateOrder(String orderId, Order order) {
+        LiveData<Resource> result  = orderRepository.updateOrder(orderId, order);
+        result.observeForever(updateOrderResponse::setValue);
+    }
+    public LiveData<Resource> getUpdateOrderResponse() {
+        return updateOrderResponse;
+    }
 }

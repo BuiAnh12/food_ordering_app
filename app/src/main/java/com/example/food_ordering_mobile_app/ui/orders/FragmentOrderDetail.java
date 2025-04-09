@@ -4,12 +4,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.order.OrderItemDetailAdapter;
 import com.example.food_ordering_mobile_app.models.order.Order;
 import com.example.food_ordering_mobile_app.models.order.OrderItem;
+import com.example.food_ordering_mobile_app.utils.Function;
 import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;
 
@@ -73,26 +77,40 @@ public class FragmentOrderDetail extends Fragment {
 
         TextView backBtn = view.findViewById(R.id.backBtn);
         backBtn.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+        Button modifyOrder = view.findViewById(R.id.active_button);
+        modifyOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentModifyOrder modifyOrderFragment = FragmentModifyOrder.newInstance(orderId, status);
 
-        // Them logic thay doi nut bam theo input
-        Button active_btn = view.findViewById(R.id.active_button);
+
+                // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
+                FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+
+                // Begin transaction and replace the container
+                fragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_store_main, modifyOrderFragment)  // Make sure R.id.fragment_container exists in your layout
+                        .addToBackStack(null)  // Adds to back stack so user can go back
+                        .commit();
+            }
+        });
         Button deactive_btn = view.findViewById(R.id.deactive_button);
         TextView title = view.findViewById(R.id.title);
         switch (status){
             case "1" :{
-                active_btn.setText("Sửa đơn");
+                modifyOrder.setText("Sửa đơn");
                 deactive_btn.setText("Hủy đơn");
                 title.setText("Đặt trước");
                 break;
             }
             case "2" :{
-                active_btn.setText("Sửa đơn");
+                modifyOrder.setText("Sửa đơn");
                 deactive_btn.setText("Hủy đơn");
                 title.setText("Chi tiết đơn hàng");
                 break;
             }
             case "3" :{
-                active_btn.setText("Sửa/Hủy");
+                modifyOrder.setText("Sửa/Hủy");
                 deactive_btn.setText("Thông báo tài xế");
                 title.setText("Chi tiết đơn hàng");
                 break;
@@ -130,6 +148,9 @@ public class FragmentOrderDetail extends Fragment {
         TextView shipper_name = view.findViewById(R.id.tvShipperName);
         TextView totalPriceBefore = view.findViewById(R.id.total_price_before);
         TextView totalPriceAfter = view.findViewById(R.id.total_price_after);
+        TextView orderId = view.findViewById(R.id.order_id);
+        TextView orderTime = view.findViewById(R.id.order_date_time);
+
 
 
         tv_customer_name.setText(order.getCustomerName() != "" ? order.getCustomerName() : order.getUser().getName());
@@ -137,6 +158,9 @@ public class FragmentOrderDetail extends Fragment {
         shipper_name.setText(order.getShipper() != "" ? order.getShipper() : "Chưa chỉ định tài xế");
         totalPriceBefore.setText(String.valueOf(order.getTotalPrice()));
         totalPriceAfter.setText(String.valueOf(order.getTotalPrice()));
+        orderId.setText(Function.generateOrderNumber(order.getId()));
+        Log.d("TAG", "displayOrder: " + order.getCreatedAt());
+        orderTime.setText(Function.dateConverter(order.getCreatedAt(), "dd/MM/yyyy HH:mm"));
     }
 
 
