@@ -26,8 +26,8 @@ public class OrderViewModel extends AndroidViewModel {
     public LiveData<Resource<List<Order>>> getAllOrderResponse() {
         return getAllOrderResponse;
     }
-    public void getAllOrders(String status, Integer limit, Integer page) {
-        LiveData<Resource<List<Order>>> result = orderRepository.getAllOrders(status, limit, page);
+    public void getAllOrders(String status, Integer limit, Integer page, String query) {
+        LiveData<Resource<List<Order>>> result = orderRepository.getAllOrders(status, limit, page, query);
         result.observeForever(getAllOrderResponse::setValue);
     }
 

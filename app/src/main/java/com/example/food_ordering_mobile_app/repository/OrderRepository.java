@@ -28,14 +28,14 @@ public class OrderRepository {
         sharedPreferencesHelper = new SharedPreferencesHelper(context);
     }
 
-    public LiveData<Resource<List<Order>>> getAllOrders(String status, Integer limit, Integer page) {
+    public LiveData<Resource<List<Order>>> getAllOrders(String status, Integer limit, Integer page, String name) {
         MutableLiveData<Resource<List<Order>>> result = new MutableLiveData<>();
         result.setValue(Resource.loading(null)); // Trạng thái Loading
 
         String storeId = sharedPreferencesHelper.getStoreId();
         Log.d("OrderRepository", "Store ID: " + storeId);
 
-        orderService.getAllOrders(storeId, status, limit, page)
+        orderService.getAllOrders(storeId, status, limit, page, name)
                 .enqueue(new Callback<ApiResponse<List<Order>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<Order>>> call, Response<ApiResponse<List<Order>>> response) {

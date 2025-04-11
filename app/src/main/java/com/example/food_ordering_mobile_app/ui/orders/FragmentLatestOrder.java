@@ -8,11 +8,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
@@ -26,10 +28,15 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class FragmentLatestOrder extends Fragment {
+public class FragmentLatestOrder extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private LatestOrderAdapter latestOrderAdapter;
     private List<Order> orderList =  new ArrayList<>();
     private RecyclerView latestOrderRecyclerView;
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    interface refreshListener {
+        void onRefresh();
+    }
 
 
     private OrderViewModel orderViewModel;
@@ -49,21 +56,44 @@ public class FragmentLatestOrder extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_latest_order, container, false);
-
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         // Khởi tạo RecyclerView
         latestOrderRecyclerView = view.findViewById(R.id.latestOrderRecyclerView);
         latestOrderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         // Gán Adapter ngay từ đầu (danh sách rỗng)
-        latestOrderAdapter = new LatestOrderAdapter(getContext(), orderList);
+        latestOrderAdapter = new LatestOrderAdapter(getContext(), orderList,  new LatestOrderAdapter.OnOrderClickListener() {
+
+            @Override
+            public void onOrderClick(Order order) {
+
+            }
+
+            @Override
+            public void onNextStatusClick(Order order) {
+                order.moveToNextStatus();
+                orderViewModel.updateOrder(order.getId(), order);
+                orderViewModel.getUpdateOrderResponse().observe(getViewLifecycleOwner(), resource -> {
+                    if (resource.getStatus() == Resource.Status.SUCCESS) {
+                        Log.d("FragmentModifyOrder", "Order updated successfully");
+                        Toast toast = Toast.makeText(getContext(), "Nhận đơn hàng thành công", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+            }
+        });
         latestOrderRecyclerView.setAdapter(latestOrderAdapter);
+        swipeRefreshLayout = view.findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        filterOrders("");
 
-        // Khởi tạo ViewModel
-        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
-        // Lấy danh sách đơn hàng
-        orderViewModel.getAllOrders("pending", 10, 1);
+        return view;
+    }
 
+    public void filterOrders(String query) {
+        orderList.clear();
+        orderViewModel.getAllOrders("pending", 10, 1, query);
         // Quan sát dữ liệu
         orderViewModel.getAllOrderResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Order>>>() {
             @Override
@@ -77,6 +107,7 @@ public class FragmentLatestOrder extends Fragment {
                             Log.e("FragmentLatestOrder", "Data: " + Arrays.toString(listResource.getData().toArray()));
                             orderList.addAll(listResource.getData());  // Cập nhật danh sách đơn hàng
                             latestOrderAdapter.notifyDataSetChanged(); // Thông báo Adapter cập nhật
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
                     case ERROR:
@@ -86,9 +117,18 @@ public class FragmentLatestOrder extends Fragment {
                 }
             }
         });
-
-        return view;
     }
 
 
+    @Override
+    public void onRefresh() {
+        filterOrders("");
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment instanceof FragmentStoreOrder) {
+            EditText searchEditText = ((FragmentStoreOrder) parentFragment).getSearchEditText();
+            if (searchEditText != null) {
+                searchEditText.setText("");
+            }
+        }
+    }
 }

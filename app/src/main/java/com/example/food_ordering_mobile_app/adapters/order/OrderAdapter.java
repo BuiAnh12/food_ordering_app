@@ -12,13 +12,18 @@ import com.example.food_ordering_mobile_app.ui.orders.FragmentHistoryOrder;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentLatestOrder;
 
 public class OrderAdapter extends FragmentStateAdapter {
+    private final Fragment[] fragments = new Fragment[3];
+
+    public OrderAdapter(@NonNull Fragment fragment) {
+        super(fragment);
+        fragments[0] = new FragmentLatestOrder();
+        fragments[1] = new FragmentConfirmedOrder();
+        fragments[2] = new FragmentHistoryOrder();
+    }
     public OrderAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public OrderAdapter(@NonNull Fragment fragment) {
-        super(fragment);
-    }
 
     public OrderAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -27,21 +32,15 @@ public class OrderAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position){
-        switch (position) {
-            case 0:
-                return new FragmentLatestOrder();
-            case 1:
-                return new FragmentConfirmedOrder();
-            case 2:
-                return new FragmentHistoryOrder();
-            default:
-                return null;
-        }
-
+        return fragments[position];
     }
 
     @Override
     public int getItemCount() {
         return 3;
+    }
+
+    public Fragment getFragment(int currentItem) {
+        return fragments[currentItem];
     }
 }

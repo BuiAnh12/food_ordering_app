@@ -1,13 +1,17 @@
 package com.example.food_ordering_mobile_app.ui.orders;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.food_ordering_mobile_app.R;
@@ -48,6 +52,35 @@ public class FragmentStoreOrder extends Fragment {
             }
         }).attach();
 
+        EditText searchEditText = view.findViewById(R.id.search_edit_text);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int currentItem = viewPager.getCurrentItem();
+                Fragment currentFragment = orderAdapter.getFragment(currentItem);
+
+                if (currentFragment instanceof FragmentLatestOrder) {
+                    ((FragmentLatestOrder) currentFragment).filterOrders(s.toString());
+                } else if (currentFragment instanceof FragmentConfirmedOrder) {
+                    ((FragmentConfirmedOrder) currentFragment).filterOrders(s.toString());
+                } else if (currentFragment instanceof FragmentHistoryOrder) {
+                    ((FragmentHistoryOrder) currentFragment).filterOrders(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
+
         return view;
+    }
+    public EditText getSearchEditText() {
+        return getView() != null ? getView().findViewById(R.id.search_edit_text) : null;
     }
 }

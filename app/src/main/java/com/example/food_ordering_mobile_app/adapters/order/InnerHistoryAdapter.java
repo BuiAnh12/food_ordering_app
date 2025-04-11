@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.order.Order;
+import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderDetail;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderHistoryDetail;
 import com.example.food_ordering_mobile_app.utils.Function;
 
@@ -48,7 +49,7 @@ public class InnerHistoryAdapter extends RecyclerView.Adapter<InnerHistoryAdapte
             @Override
             public void onClick(View v) {
                 // Create a new instance of the fragment with arguments
-                FragmentOrderHistoryDetail fragment = FragmentOrderHistoryDetail.newInstance(order.getId());
+                FragmentOrderDetail fragment = FragmentOrderDetail.newInstance(order.getId(), "3");
 
                 // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
                 FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();

@@ -16,7 +16,8 @@ public interface OrderService {
     Call<ApiResponse<List<Order>>> getAllOrders(@Path("store_id") String storeId,
                                                 @Query("status") String status,
                                                 @Query("limit") Integer limit,
-                                                @Query("page") Integer page);
+                                                @Query("page") Integer page,
+                                                @Query("name") String name);
 
     @GET("/api/v1/store/order/{order_id}")
     Call<ApiResponse<Order>> getOrder(@Path("order_id") String orderId);

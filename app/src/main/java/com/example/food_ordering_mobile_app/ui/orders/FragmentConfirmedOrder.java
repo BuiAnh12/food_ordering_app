@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,10 +15,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.order.OrderConfirmedAdapter;
 import com.example.food_ordering_mobile_app.models.order.Order;
+import com.example.food_ordering_mobile_app.models.order.OrderDateStatusGroup;
 import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;
 
@@ -25,10 +28,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FragmentConfirmedOrder extends Fragment {
+public class FragmentConfirmedOrder extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView confirmOrderRecyclerView;
     private OrderConfirmedAdapter confirmedAdapter;
     private List<Order> orderList = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefreshLayout;
     private OrderViewModel orderViewModel;
 
     public FragmentConfirmedOrder() {
@@ -43,17 +47,23 @@ public class FragmentConfirmedOrder extends Fragment {
         // Khoi tao RecyclerView
         confirmOrderRecyclerView = view.findViewById(R.id.confirmOrderRecyclerView);
         confirmOrderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        confirmedAdapter = new OrderConfirmedAdapter(getContext(), orderList);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        confirmedAdapter = new OrderConfirmedAdapter(getContext(), orderList, orderViewModel, getViewLifecycleOwner());
         confirmOrderRecyclerView.setAdapter(confirmedAdapter);
 
-        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
-        orderViewModel.getAllOrders("confirmed", 10, 1);
+        swipeRefreshLayout = view.findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        filterOrders("");
 
+        return view;
+    }
 
+    public void filterOrders(String query) {
+        orderList.clear();
+        orderViewModel.getAllOrders("confirmed,finished", 10, 1, query);
+        // Quan sát dữ liệu
         orderViewModel.getAllOrderResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Order>>>() {
-
             @Override
             public void onChanged(Resource<List<Order>> listResource) {
                 switch (listResource.getStatus()) {
@@ -65,6 +75,7 @@ public class FragmentConfirmedOrder extends Fragment {
                             Log.e("FragmentConfirmOrder", "Data: " + Arrays.toString(listResource.getData().toArray()));
                             orderList.addAll(listResource.getData());  // Cập nhật danh sách đơn hàng
                             confirmedAdapter.notifyDataSetChanged(); // Thông báo Adapter cập nhật
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
                     case ERROR:
@@ -74,7 +85,17 @@ public class FragmentConfirmedOrder extends Fragment {
                 }
             }
         });
+    }
 
-        return view;
+    @Override
+    public void onRefresh() {
+        filterOrders("");
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment instanceof FragmentStoreOrder) {
+            EditText searchEditText = ((FragmentStoreOrder) parentFragment).getSearchEditText();
+            if (searchEditText != null) {
+                searchEditText.setText("");
+            }
+        }
     }
 }

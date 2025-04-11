@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.order.OrderItemDetailAdapter;
@@ -29,6 +30,7 @@ import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class FragmentOrderDetail extends Fragment {
@@ -95,24 +97,30 @@ public class FragmentOrderDetail extends Fragment {
             }
         });
         Button deactive_btn = view.findViewById(R.id.deactive_button);
+
         TextView title = view.findViewById(R.id.title);
         switch (status){
             case "1" :{
                 modifyOrder.setText("Sửa đơn");
                 deactive_btn.setText("Hủy đơn");
-                title.setText("Đặt trước");
+                title.setText("Chi tiết đơn hàng");
+                deactive_btn.setOnClickListener(this::onCancleOrderClick);
                 break;
             }
             case "2" :{
-                modifyOrder.setText("Sửa đơn");
-                deactive_btn.setText("Hủy đơn");
+                modifyOrder.setText("Sửa/Hủy");
+                deactive_btn.setText("Thông báo tài xế");
+                deactive_btn.setOnClickListener(this::onNextStatusClick);
                 title.setText("Chi tiết đơn hàng");
                 break;
             }
             case "3" :{
-                modifyOrder.setText("Sửa/Hủy");
-                deactive_btn.setText("Thông báo tài xế");
+//                modifyOrder.setText("Sửa đơn");
+//                deactive_btn.setText("Hủy đơn");
+                modifyOrder.setVisibility(View.GONE);
+                deactive_btn.setVisibility(View.GONE);
                 title.setText("Chi tiết đơn hàng");
+                deactive_btn.setOnClickListener(this::onCancleOrderClick);
                 break;
             }
         }
@@ -132,7 +140,6 @@ public class FragmentOrderDetail extends Fragment {
                             displayOrder(order, view);
                             orderItemDetailAdapter = new OrderItemDetailAdapter(getContext(), order.getItems());
                             orderDetailRecycleView.setAdapter(orderItemDetailAdapter);
-//                            orderItemDetailAdapter.notifyDataSetChanged(); // Thông báo Adapter cập nhật
                         }
                         break;
                 }
@@ -140,6 +147,34 @@ public class FragmentOrderDetail extends Fragment {
         });
 
         return view;
+    }
+
+    public void onCancleOrderClick(View view){
+        order.cancel();
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        orderViewModel.updateOrder(orderId, order);
+        orderViewModel.getUpdateOrderResponse().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.getStatus() == Resource.Status.SUCCESS) {
+                Log.d("FragmentModifyOrder", "Order updated successfully");
+                Toast toast = Toast.makeText(getContext(), "Hủy đơn hàng thành công", Toast.LENGTH_SHORT);
+                toast.show();
+                requireActivity().onBackPressed();
+            }
+        });
+    }
+
+    public void onNextStatusClick(View view) {
+        order.moveToNextStatus();
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        orderViewModel.updateOrder(orderId, order);
+        orderViewModel.getUpdateOrderResponse().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.getStatus() == Resource.Status.SUCCESS) {
+                Log.d("FragmentModifyOrder", "Order updated successfully");
+                Toast toast = Toast.makeText(getContext(), "Nhận đơn hàng thành công", Toast.LENGTH_SHORT);
+                toast.show();
+                requireActivity().onBackPressed();
+            }
+        });
     }
 
     public void displayOrder(Order order, View view) {
@@ -153,11 +188,11 @@ public class FragmentOrderDetail extends Fragment {
 
 
 
-        tv_customer_name.setText(order.getCustomerName() != "" ? order.getCustomerName() : order.getUser().getName());
-        tv_customer_phone.setText(order.getCustomerPhonenumber() != "" ? order.getCustomerPhonenumber() : "Unknow");
-        shipper_name.setText(order.getShipper() != "" ? order.getShipper() : "Chưa chỉ định tài xế");
-        totalPriceBefore.setText(String.valueOf(order.getTotalPrice()));
-        totalPriceAfter.setText(String.valueOf(order.getTotalPrice()));
+        tv_customer_name.setText(!Objects.equals(order.getCustomerName(), "") ? order.getCustomerName() : order.getUser().getName());
+        tv_customer_phone.setText(!Objects.equals(order.getCustomerPhonenumber(), "") ? order.getCustomerPhonenumber() : "Unknow");
+        shipper_name.setText(!Objects.equals(order.getShipper().getName(), "") ? order.getShipper().getName() : "Chưa chỉ định tài xế");
+        totalPriceBefore.setText(Function.priceConverter(order.getTotalPrice()));
+        totalPriceAfter.setText(Function.priceConverter(order.getTotalPrice()));
         orderId.setText(Function.generateOrderNumber(order.getId()));
         Log.d("TAG", "displayOrder: " + order.getCreatedAt());
         orderTime.setText(Function.dateConverter(order.getCreatedAt(), "dd/MM/yyyy HH:mm"));

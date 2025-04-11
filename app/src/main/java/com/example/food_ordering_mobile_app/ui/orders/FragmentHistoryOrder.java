@@ -9,11 +9,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
@@ -26,13 +29,14 @@ import com.example.food_ordering_mobile_app.viewModel.OrderViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-public class FragmentHistoryOrder extends Fragment {
+public class FragmentHistoryOrder extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private OuterHistoryAdapter outerHistoryAdapter;
     private List<OrderDateStatusGroup> orderlist = new ArrayList<>();
     private RecyclerView historyRecycleView;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private OrderViewModel orderViewModel;
     public FragmentHistoryOrder() {
         // Required empty public constructor
@@ -57,12 +61,19 @@ public class FragmentHistoryOrder extends Fragment {
 
         outerHistoryAdapter = new OuterHistoryAdapter(orderlist);
         historyRecycleView.setAdapter(outerHistoryAdapter);
-
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
-        orderViewModel.getAllOrders("done,cancelled",10,1);
+        swipeRefreshLayout = view.findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        filterOrders("");
 
+        return view;
+    }
+
+    public void filterOrders(String query) {
+        orderlist.clear();
+        orderViewModel.getAllOrders("done,cancelled",10,1,query);
+        // Quan sát dữ liệu
         orderViewModel.getAllOrderResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Order>>>() {
-
             @Override
             public void onChanged(Resource<List<Order>> listResource) {
                 switch (listResource.getStatus()) {
@@ -76,17 +87,27 @@ public class FragmentHistoryOrder extends Fragment {
                             List<OrderDateStatusGroup> dateStatusGroups = OrderDateStatusGroup.groupOrdersByDateAndStatus(orders);
                             orderlist.addAll(dateStatusGroups);
                             outerHistoryAdapter.notifyDataSetChanged(); // Thông báo Adapter cập nhật
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
                     case ERROR:
-                        Log.e("FragmentConfirmOrder", "Error: " + listResource.getMessage());
+                        Log.e("FragmentLatestOrder", "Error: " + listResource.getMessage());
                         Toast.makeText(getContext(), listResource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         });
-
-        return view;
     }
 
+    @Override
+    public void onRefresh() {
+        filterOrders("");
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment instanceof FragmentStoreOrder) {
+            EditText searchEditText = ((FragmentStoreOrder) parentFragment).getSearchEditText();
+            if (searchEditText != null) {
+                searchEditText.setText("");
+            }
+        }
+    }
 }

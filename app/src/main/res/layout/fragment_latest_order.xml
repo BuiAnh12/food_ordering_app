@@ -7,6 +7,10 @@ android:layout_height="match_parent"
 android:padding="0dp"
 android:background="@color/grayBackground"
 tools:context=".ui.orders.FragmentLatestOrder">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe">
 
 <androidx.core.widget.NestedScrollView
     android:layout_width="0dp"
@@ -51,4 +55,5 @@ tools:context=".ui.orders.FragmentLatestOrder">
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

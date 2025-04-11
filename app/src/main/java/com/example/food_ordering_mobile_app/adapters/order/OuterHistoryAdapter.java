@@ -44,6 +44,10 @@ public class OuterHistoryAdapter extends RecyclerView.Adapter<OuterHistoryAdapte
         return orderDateStatusGroups.size();
     }
 
+    public void filter(String query) {
+
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView dateText, statusText;
         RecyclerView innerRecyclerView;

@@ -43,4 +43,15 @@ public class Function {
             return "Unknown Date";
         }
     }
+
+    public static String priceConverter(double price) {
+        String result;
+        try {
+            result = String.format("%,.0f", price);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = String.valueOf(price);
+        }
+        return result;
+    }
 }

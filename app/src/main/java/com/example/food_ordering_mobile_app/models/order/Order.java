@@ -1,7 +1,9 @@
 package com.example.food_ordering_mobile_app.models.order;
 
 import com.example.food_ordering_mobile_app.models.location.Location;
+import com.example.food_ordering_mobile_app.models.shipper.Shipper;
 import com.example.food_ordering_mobile_app.models.store.Store;
+import com.example.food_ordering_mobile_app.models.topping.Topping;
 import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.network.SingleOrListOrIdDeserializer;
 import com.google.gson.annotations.Expose;
@@ -27,10 +29,26 @@ public class Order {
     private Store store;
     private ArrayList<OrderItem> items;
     private Location shipLocation;
-    private String shipper;
+    private Shipper shipper;
     private String status;
     private String paymentMethod;
     private String createdAt;
+
+    public enum OrderStatus {
+        PREORDER, PENDING, CONFIRMED, PREPARING, FINISHED,
+        TAKEN, DELIVERING, DELIVERED, DONE,
+        CANCELLED;
+
+        public static OrderStatus fromString(String status) {
+            return OrderStatus.valueOf(status.toUpperCase());
+        }
+
+        public String toValue() {
+            return name().toLowerCase(); // match with your backend enum strings
+        }
+    }
+
+
 
     public Order(){
         id = "";
@@ -41,12 +59,42 @@ public class Order {
         store = new Store();
         items = new ArrayList<>();
         shipLocation = new Location();
-        shipper = "";
+        shipper = new Shipper();
         status = "";
         paymentMethod = "";
 
     }
 
+    public OrderStatus getNextStatus(OrderStatus current) {
+        switch (current) {
+            case PENDING: return OrderStatus.CONFIRMED;
+            case CONFIRMED: return OrderStatus.PREPARING;
+            case PREPARING: return OrderStatus.FINISHED;
+            case FINISHED: return OrderStatus.TAKEN;
+            case TAKEN: return OrderStatus.DELIVERING;
+            case DELIVERING: return OrderStatus.DELIVERED;
+            case DELIVERED: return OrderStatus.DONE;
+            default: return current; // if already final or unknown
+        }
+    }
+
+    public void cancel() {
+        this.status = OrderStatus.CANCELLED.toValue();
+    }
+
+    public boolean moveToNextStatus() {
+        try {
+            OrderStatus current = OrderStatus.fromString(this.status);
+            OrderStatus next = getNextStatus(current);
+            if (next != current) {
+                this.status = next.toValue();
+                return true;
+            }
+        } catch (IllegalArgumentException e) {
+            // invalid status string
+        }
+        return false;
+    }
 
 
     public String getOrderDetail(){
@@ -71,6 +119,9 @@ public class Order {
         long result = 0;
         for (OrderItem order: items){
             result += order.getDish().getPrice() * order.getQuantity();
+            for (Topping topping: order.getToppings()){
+                result += topping.getPrice();
+            }
         }
         return result;
     }
