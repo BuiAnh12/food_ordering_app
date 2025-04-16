@@ -78,46 +78,47 @@ public class DishRepository {
         return result;
     }
 
-    public LiveData<Resource<Dish>> updateDish(String dishId, Dish dish) {
-        MutableLiveData<Resource<Dish>> result = new MutableLiveData<>();
+    public LiveData<Resource> updateDish(String dishId, Dish dish) {
+        MutableLiveData<Resource> result = new MutableLiveData<>();
         result.setValue(Resource.loading(null));
-
-        dishService.updateDish(dishId, dish).enqueue(new Callback<ApiResponse<Dish>>() {
+        String storeId = sharedPreferencesHelper.getStoreId();
+        dish.setStoreId(storeId);
+        dishService.updateDish(dishId, dish).enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse<Dish>> call, Response<ApiResponse<Dish>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    result.setValue(Resource.success("Cập nhật món ăn thành công!", response.body().getData()));
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    result.setValue(Resource.success("Cập nhật món ăn thành công!", null));
                 } else {
-                    handleErrorResponse(response, result);
+                    result.setValue(Resource.error("Cập nhật thất bại", null));
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<Dish>> call, Throwable throwable) {
-                handleFailure(throwable, result);
+            public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                result.setValue(Resource.error("Cập nhật thất bại", null));
             }
         });
         return result;
     }
 
-    public LiveData<Resource<Dish>> createDish(Dish dish) {
-        MutableLiveData<Resource<Dish>> result = new MutableLiveData<>();
+    public LiveData<Resource> createDish(Dish dish) {
+        MutableLiveData<Resource> result = new MutableLiveData<>();
         result.setValue(Resource.loading(null));
 
         String storeId = sharedPreferencesHelper.getStoreId();
-        dishService.createDish(storeId, dish).enqueue(new Callback<ApiResponse<Dish>>() {
+        dishService.createDish(storeId, dish).enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse<Dish>> call, Response<ApiResponse<Dish>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    result.setValue(Resource.success("Tạo món ăn thành công!", response.body().getData()));
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    result.setValue(Resource.success("Tạo món ăn thành công!", null));
                 } else {
-                    handleErrorResponse(response, result);
+                    result.setValue(Resource.error("Thêm mới thất bại", null));
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<Dish>> call, Throwable throwable) {
-                handleFailure(throwable, result);
+            public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                result.setValue(Resource.error("Thêm mới thất bại", null));
             }
         });
         return result;
@@ -162,6 +163,27 @@ public class DishRepository {
             @Override
             public void onFailure(Call<ApiResponse<List<ToppingGroup>>> call, Throwable throwable) {
                 handleFailure(throwable, result);
+            }
+        });
+        return result;
+    }
+
+    public LiveData<Resource> deleteDish(String dishId) {
+        MutableLiveData<Resource> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null));
+        dishService.deleteDish(dishId).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    result.setValue(Resource.success("Xóa món ăn thành công!", null));
+                } else {
+                    result.setValue(Resource.error("Xóa món thất bại", null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                result.setValue(Resource.error("Xóa món thất bại", null));
             }
         });
         return result;

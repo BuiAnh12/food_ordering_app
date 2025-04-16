@@ -25,16 +25,16 @@ public interface ToppingService {
 
     // Get a specific topping by its ID
     @GET("/api/v1/store/topping-group/{group_id}")
-    Call<ApiResponse<Topping>> getTopping(@Path("group_id") String groupId);
+    Call<ApiResponse<ToppingGroup>> getTopping(@Path("group_id") String groupId);
 
     // Add a topping to a specific topping group
     @POST("/api/v1/store/topping-group/{group_id}/topping")
-    Call<ApiResponse<Topping>> addToppingToGroup(@Path("group_id") String groupId,
+    Call<ApiResponse<Void>> addToppingToGroup(@Path("group_id") String groupId,
                                                  @Body Topping topping);
 
     // Update a topping in a specific topping group
     @PUT("/api/v1/store/topping-group/{group_id}/topping/{topping_id}")
-    Call<ApiResponse<Topping>> updateTopping(@Path("group_id") String groupId,
+    Call<ApiResponse<Void>> updateTopping(@Path("group_id") String groupId,
                                              @Path("topping_id") String toppingId,
                                              @Body Topping topping);
 
@@ -45,8 +45,9 @@ public interface ToppingService {
 
     // Delete a topping group
     @DELETE("/api/v1/store/topping-group/{group_id}")
-    Call<ApiResponse<Void>> deleteToppingGroup(@Path("group_id") String groupId);
+        Call<ApiResponse<Void>> deleteToppingGroup(@Path("group_id") String groupId);
 
-
+    @POST("/api/v1/store/{store_id}/topping-group/add")
+    Call<ApiResponse<Void>> addToppingGroup(@Body ToppingGroup toppingGroup, @Path("store_id") String storeId);
 }
 

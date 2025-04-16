@@ -22,20 +22,15 @@
                 android:layout_weight="1"
                 android:background="@color/grayBackground"
                 android:textColor="@color/onSecondary"
-                android:text="Vị trí"
-                android:drawableStart="@drawable/ic_location"
-                android:padding="10dp"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="@color/grayBackground"
-                android:textColor="@color/onSecondary"
                 android:text="Thêm"
                 android:id="@+id/addDish"
                 android:drawableStart="@drawable/ic_location"
                 android:padding="10dp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
             <Button
                 android:layout_width="0dp"

@@ -55,7 +55,7 @@ public class DishViewModel extends AndroidViewModel {
     }
 
     public void updateDish(String dishId, Dish dish) {
-        LiveData<Resource<Dish>> result = dishRepository.updateDish(dishId, dish);
+        LiveData<Resource> result = dishRepository.updateDish(dishId, dish);
         result.observeForever(updateDishResponse::setValue);
     }
 
@@ -67,7 +67,7 @@ public class DishViewModel extends AndroidViewModel {
     }
 
     public void createDish(Dish dish) {
-        LiveData<Resource<Dish>> result = dishRepository.createDish(dish);
+        LiveData<Resource> result = dishRepository.createDish(dish);
         result.observeForever(createDishResponse::setValue);
     }
 
@@ -91,5 +91,14 @@ public class DishViewModel extends AndroidViewModel {
     public void getToppingsFromDish(String dishId) {
         LiveData<Resource<List<ToppingGroup>>> result = dishRepository.getToppingsFromDish(dishId);
         result.observeForever(toppingsResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource> deleteDishResponse = new MutableLiveData<>();
+    public LiveData<Resource> deleteDishResponse() {
+        return deleteDishResponse;
+    }
+    public void deleteDish(String dishId) {
+        LiveData<Resource> result = dishRepository.deleteDish(dishId);
+        result.observeForever(deleteDishResponse::setValue);
     }
 }

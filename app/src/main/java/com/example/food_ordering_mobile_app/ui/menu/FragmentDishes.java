@@ -90,7 +90,7 @@ public class FragmentDishes extends Fragment {
 
     public void addDish(View view) {
         // Create a new instance of the fragment you want to load
-        FragmentAddDish fragment = FragmentAddDish.newInstance("1", "2");
+        FragmentAddDish fragment = FragmentAddDish.newInstance();
 
         // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
         FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();

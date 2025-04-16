@@ -8,6 +8,7 @@ import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -46,8 +47,11 @@ public interface DishService {
     Call<Void> addToppingToDish(@Path("dish_id") String dishId, @Body Topping topping);
 
     @PUT("/api/v1/store/dish/{dish_id}")
-    Call<ApiResponse<Dish>> updateDish(@Path("dish_id") String dishId, @Body Dish dish);
+    Call<ApiResponse> updateDish(@Path("dish_id") String dishId, @Body Dish dish);
 
     @POST("/api/v1/store/{store_id}/dish/add")
-    Call<ApiResponse<Dish>> createDish(@Path("store_id") String storeId, @Body Dish dish);
+    Call<ApiResponse> createDish(@Path("store_id") String storeId, @Body Dish dish);
+
+    @DELETE("/api/v1/store/dish/{dish_id}")
+    Call<ApiResponse> deleteDish(@Path("dish_id") String dishId);
 }

@@ -36,13 +36,13 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         ToppingGroup toppingGroup = toppingGroups.get(position);
 
         holder.groupName.setText(toppingGroup.getName() != null ? toppingGroup.getName() : "Không xác định");
-        holder.toppingNumber.setText(!toppingGroup.getToppings().isEmpty() ? String.valueOf(toppingGroup.getToppings().size()) : "N/A");
+        holder.toppingNumber.setText(!toppingGroup.getToppings().isEmpty() ? String.valueOf(toppingGroup.getToppings().size()) : "0");
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // Create a new instance of the fragment with arguments
-                FragmentToppingGroupDetail fragment = FragmentToppingGroupDetail.newInstance();
+                FragmentToppingGroupDetail fragment = FragmentToppingGroupDetail.newInstance(toppingGroup.getId());
 
                 // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
                 FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();

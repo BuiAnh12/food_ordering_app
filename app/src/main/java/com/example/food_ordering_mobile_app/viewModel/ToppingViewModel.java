@@ -29,4 +29,65 @@ public class ToppingViewModel extends AndroidViewModel {
         LiveData<Resource<List<ToppingGroup>>> result = toppingRepository.getAllToppings(limit, page);
         result.observeForever(getAllToppingsResponse::setValue);
     }
+
+    private final MutableLiveData<Resource<ToppingGroup>> getToppingResponse = new MutableLiveData<>();
+
+    public MutableLiveData<Resource<ToppingGroup>> getToppingResponse() {
+        return getToppingResponse;
+    }
+
+    public void getTopping(String groupId) {
+        LiveData<Resource<ToppingGroup>> result = toppingRepository.getTopping(groupId);
+        result.observeForever(getToppingResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource<Void>> addToppingToGroupResponse = new MutableLiveData<>();
+    public MutableLiveData<Resource<Void>> addToppingToGroupResponse() {
+        return addToppingToGroupResponse;
+    }
+    public void addToppingToGroup(String groupId, Topping topping) {
+        LiveData<Resource<Void>> result = toppingRepository.addToppingToGroup(groupId, topping);
+        result.observeForever(addToppingToGroupResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource<Void>> updateToppingResponse = new MutableLiveData<>();
+
+    public MutableLiveData<Resource<Void>> updateToppingResponse() {
+        return updateToppingResponse;
+    }
+    public void updateTopping(String groupId, String toppingId, Topping topping) {
+        LiveData<Resource<Void>> result = toppingRepository.updateTopping(groupId, toppingId, topping);
+        result.observeForever(updateToppingResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource<Void>> removeToppingFromGroupResponse = new MutableLiveData<>();
+    public MutableLiveData<Resource<Void>> removeToppingFromGroupResponse() {
+        return removeToppingFromGroupResponse;
+    }
+
+    public void removeToppingFromGroup(String groupId, String toppingId) {
+        LiveData<Resource<Void>> result = toppingRepository.removeToppingFromGroup(groupId, toppingId);
+        result.observeForever(removeToppingFromGroupResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource<Void>> addToppingGroupResponse = new MutableLiveData<>();
+
+    public MutableLiveData<Resource<Void>> addToppingGroupResponse() {
+        return addToppingGroupResponse;
+    }
+
+    public void addToppingGroup(ToppingGroup toppingGroup) {
+        LiveData<Resource<Void>> result = toppingRepository.addToppingGroup(toppingGroup);
+        result.observeForever(addToppingGroupResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource<Void>> deleteToppingGroupResponse = new MutableLiveData<>();
+    public MutableLiveData<Resource<Void>> deleteToppingGroupResponse() {
+        return deleteToppingGroupResponse;
+    }
+    public void deleteToppingGroup(String groupId) {
+        LiveData<Resource<Void>> result = toppingRepository.deleteToppingGroup(groupId);
+        result.observeForever(deleteToppingGroupResponse::setValue);
+    }
+
 }

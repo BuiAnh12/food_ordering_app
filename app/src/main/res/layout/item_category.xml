@@ -16,31 +16,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_filter"
-            android:layout_marginHorizontal="4dp"/>
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/category_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Category 1"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold"/>
 
-
-
-
-
+        <ImageButton
+            android:id="@+id/btn_delete_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete_category"
+            app:tint="@android:color/holo_red_dark" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

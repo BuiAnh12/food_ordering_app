@@ -16,7 +16,7 @@ import com.example.food_ordering_mobile_app.databinding.ActivityMainStoreBinding
 import com.example.food_ordering_mobile_app.authorization.SecurityManager;
 
 
-public class MainStoreActivity extends AppCompatActivity {
+public class    MainStoreActivity extends AppCompatActivity {
 
     private ActivityMainStoreBinding binding;
 

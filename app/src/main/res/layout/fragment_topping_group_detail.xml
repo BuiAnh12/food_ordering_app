@@ -61,7 +61,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Chi tiết đơn hàng"
+                            android:text="Chi tiết nhóm topping"
                             android:textColor="@color/onPrimary"
                             android:textSize="24dp"
                             android:textStyle="bold" />
@@ -79,13 +79,15 @@
             android:background="@color/whiteColor"
             android:gravity="center_vertical">
 
+
             <TextView
+                android:id="@+id/deleteGroup"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:textColor="@color/onSecondary"
-                android:text="Vị trí"
+                android:text="Xóa"
                 android:drawableStart="@drawable/ic_add_active"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"

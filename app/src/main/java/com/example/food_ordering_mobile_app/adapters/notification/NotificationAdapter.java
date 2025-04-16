@@ -47,7 +47,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification = notificationList.get(position);
 
         holder.noti.setText(notification.getMessage());
-        holder.time.setText(notification.getTimestamps().toString());
+        holder.time.setText(notification.getStatus().toString());
 
         Boolean isRead = notification.getStatus() != null;
 

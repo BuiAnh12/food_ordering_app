@@ -42,7 +42,7 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
             @Override
             public void onClick(View v) {
                 // Create a new instance of the fragment with arguments
-                FragmentDishDetail fragment = FragmentDishDetail.newInstance("1", "1");
+                FragmentDishDetail fragment = FragmentDishDetail.newInstance(dish.getId());
 
                 // Get FragmentManager (make sure this code runs inside an Activity or Fragment)
                 FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();

@@ -14,43 +14,64 @@ import com.example.food_ordering_mobile_app.models.topping.Topping;
 
 import java.util.List;
 
-public class ToppingDetailAdapter extends RecyclerView.Adapter<ToppingDetailAdapter.ViewHolder>{
-    private final List<Topping> toppingList;
+public class ToppingDetailAdapter extends RecyclerView.Adapter<ToppingDetailAdapter.ToppingViewHolder> {
 
-    public ToppingDetailAdapter(List<Topping> toppingList) {
+    private final List<Topping> toppingList;
+    private final OnEditClickListener onEditClickListener;
+    private final OnDeleteClickListener onDeleteClickListener;
+
+    public interface OnEditClickListener {
+        void onEditClick(Topping topping);
+    }
+
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Topping topping);
+    }
+
+    public ToppingDetailAdapter(List<Topping> toppingList,
+                                OnEditClickListener onEditClickListener,
+                                OnDeleteClickListener onDeleteClickListener) {
         this.toppingList = toppingList;
+        this.onEditClickListener = onEditClickListener;
+        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topping_detail, parent, false);
-        return new ViewHolder(view);
+    public ToppingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_topping_detail, parent, false);
+        return new ToppingViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ToppingDetailAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ToppingViewHolder holder, int position) {
         Topping topping = toppingList.get(position);
+        holder.name.setText(topping.getName());
+        holder.price.setText(String.format("%.0fđ", topping.getPrice()));
 
-        holder.toppingName.setText(topping.getName() != null ? topping.getName() : "Không xác định");
-        holder.toppingPrice.setText(topping.getPrice() >= 0 ? String.valueOf(topping.getPrice()) : "N/A");
+        // Click anywhere to edit
+        holder.itemView.setOnClickListener(v -> onEditClickListener.onEditClick(topping));
 
+        // Delete button
+        holder.deleteButton.setOnClickListener(v -> onDeleteClickListener.onDeleteClick(topping));
     }
-
 
     @Override
     public int getItemCount() {
         return toppingList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView toppingName, toppingPrice;
-        Button modButton;
-        public ViewHolder(View itemView) {
+    public static class ToppingViewHolder extends RecyclerView.ViewHolder {
+        TextView name, price;
+        Button deleteButton;
+
+        public ToppingViewHolder(@NonNull View itemView) {
             super(itemView);
-            toppingName = itemView.findViewById(R.id.topping_name);
-            toppingPrice = itemView.findViewById(R.id.topping_price);
-            modButton = itemView.findViewById(R.id.mod_button);
+            name = itemView.findViewById(R.id.topping_name);
+            price = itemView.findViewById(R.id.topping_price);
+            deleteButton = itemView.findViewById(R.id.delete_button);
         }
     }
 }
+
