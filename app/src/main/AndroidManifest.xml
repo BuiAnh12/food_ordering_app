@@ -7,6 +7,7 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" /> <!-- Quyền truy cập camera -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
@@ -48,6 +49,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainStoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.notifications.NotificationActivity"
             android:exported="false" />
         <activity
             android:name=".ui.common.SplashActivity"

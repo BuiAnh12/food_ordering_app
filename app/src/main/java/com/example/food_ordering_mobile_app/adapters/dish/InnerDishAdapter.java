@@ -1,5 +1,6 @@
 package com.example.food_ordering_mobile_app.adapters.dish;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.dish.Dish;
+import com.example.food_ordering_mobile_app.models.image.Image;
 import com.example.food_ordering_mobile_app.ui.menu.FragmentDishDetail;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.List;
 
@@ -38,6 +45,23 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
 
         holder.dish_name.setText(dish.getName() != null ? dish.getName() : "Không xác định");
         holder.dish_price.setText(dish.getPrice() > 0 ? String.valueOf(dish.getPrice()) : "N/A");
+        Image dish_image = dish.getImage();
+
+        Glide.with(holder.itemView.getContext())
+                .asBitmap()
+                .load(dish_image.getUrl() != null ? dish_image.getUrl() : R.drawable.menu_1)
+                .apply(new RequestOptions().override(110, 110).centerCrop())
+                .placeholder(R.drawable.menu_1)
+                .error(R.drawable.menu_1)
+                .into(new BitmapImageViewTarget(holder.dish_image) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable roundedDrawable =
+                                RoundedBitmapDrawableFactory.create(holder.itemView.getContext().getResources(), resource);
+                        roundedDrawable.setCornerRadius(999);
+                        holder.dish_image.setImageDrawable(roundedDrawable);
+                    }
+                });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +93,7 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
+            dish_image = itemView.findViewById(R.id.dish_image);
             dish_name = itemView.findViewById(R.id.dish_name);
             dish_price = itemView.findViewById(R.id.dish_price);
             cardView = itemView.findViewById(R.id.item_topping);

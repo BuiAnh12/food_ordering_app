@@ -19,6 +19,7 @@ import com.example.food_ordering_mobile_app.R;
 //import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.authorization.SecurityManager;
 import com.example.food_ordering_mobile_app.ui.menu.FragmentStoreMenu;
+import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.ui.profile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,8 +39,8 @@ public class HomeFragment extends Fragment {
 
         // Set up click listeners
         goToNotificationBtn.setOnClickListener(v -> {
-//            Intent intent = new Intent(getActivity(), NotificationActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getActivity(), NotificationActivity.class);
+            startActivity(intent);
         });
 
         goToProfile.setOnClickListener(v -> {
