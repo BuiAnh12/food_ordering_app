@@ -16,6 +16,8 @@ import com.example.food_ordering_mobile_app.utils.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
 public class NotificationViewModel extends AndroidViewModel {
     private final NotificationRepository notificationRepository;
 
@@ -28,9 +30,14 @@ public class NotificationViewModel extends AndroidViewModel {
         return updateNotificationStatusResponse;
     }
 
-    private MutableLiveData<Resource<List<Notification>>> notifications = new MutableLiveData<>();
+    private MutableLiveData<Resource<List<Notification>>> updatedNotifications  = new MutableLiveData<>();
     public LiveData<Resource<List<Notification>>> getNotificationsResponse() {
-        return notifications;
+        return updatedNotifications ;
+    }
+
+    private final MutableLiveData<Resource<ApiResponse<List<Notification>>>> storeNotificationResponse = new MutableLiveData<>();
+    public LiveData<Resource<ApiResponse<List<Notification>>>> getStoreNotificationResponse() {
+        return storeNotificationResponse;
     }
 
     public NotificationViewModel(Application application) {
@@ -65,8 +72,39 @@ public class NotificationViewModel extends AndroidViewModel {
         List<Notification> response = new ArrayList<>(notificationsList);
 
         // Cập nhật LiveData với giá trị thành công
-        notifications.postValue(new Resource<>(Resource.Status.SUCCESS, response, null));
+        updatedNotifications.postValue(new Resource<>(Resource.Status.SUCCESS, response, null));
     }
+
+    public void getStoreNotification(int limit, int page) {
+        LiveData<Resource<ApiResponse<List<Notification>>>> result = notificationRepository.getStoreNotification(limit, page);
+        result.observeForever(new Observer<Resource<ApiResponse<List<Notification>>>>() {
+            @Override
+            public void onChanged(Resource<ApiResponse<List<Notification>>> resource) {
+                Log.d("NotificationViewModel", "getStoreNotification: " + resource);
+                storeNotificationResponse.setValue(resource);
+            }
+        });
+    }
+
+    @Getter
+    private MutableLiveData<List<Notification>> notifications = new MutableLiveData<>();
+    private List<Notification> notificationList = new ArrayList<>();
+
+    public void addNewNotification(Notification notification) {
+        // Đổi setValue thành postValue để tránh crash khi gọi từ background thread
+        MutableLiveData<List<Notification>> liveData = getNotifications(); // hoặc notificationList tùy bạn dùng biến nào
+
+        List<Notification> currentList = liveData.getValue();
+        if (currentList == null) {
+            currentList = new ArrayList<>();
+        }
+
+        currentList.add(0, notification); // thêm thông báo mới ở đầu danh sách
+
+        // postValue sẽ an toàn với background thread
+        liveData.postValue(currentList);
+    }
+
 
 
 }

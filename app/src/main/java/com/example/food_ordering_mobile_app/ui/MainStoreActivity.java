@@ -28,7 +28,7 @@ public class    MainStoreActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view_store);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_store_main);
-        NavigationUI.setupWithNavController(navView, navController); // ✅ No need to manually replace fragments
+        NavigationUI.setupWithNavController(navView, navController);
 
 
         // Manual Fragment Transactions (Handling Clicks)

@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.adapters.order.OrderAdapter;
+import com.example.food_ordering_mobile_app.ui.common.CustomHeaderView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -24,11 +25,15 @@ public class FragmentStoreOrder extends Fragment {
     private ViewPager2 viewPager;
     private OrderAdapter orderAdapter;
 
+    private CustomHeaderView customHeaderView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_store_order, container, false);
-
+        customHeaderView = view.findViewById(R.id.customHeaderView);
+        customHeaderView.setLifecycleOwner(getViewLifecycleOwner());
+        customHeaderView.setText("Đơn hàng");
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
 

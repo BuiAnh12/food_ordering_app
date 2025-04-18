@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.notification.Notification;
+import com.example.food_ordering_mobile_app.utils.Function;
 
 import java.util.List;
 
@@ -46,10 +47,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notification notification = notificationList.get(position);
 
-        holder.noti.setText(notification.getMessage());
-        holder.time.setText(notification.getStatus().toString());
+        // Hiển thị orderId + title + message
+        String orderId = notification.getOrderId() != null ? Function.generateOrderNumber(notification.getOrderId()) : "N/A";
+        String displayText;
+        if (notification.getOrderId() != null) {
+            displayText = "#" + orderId + " - " + notification.getTitle() + "\n" + notification.getMessage();
+        }
+        else {
+            displayText = notification.getTitle() + "\n" + notification.getMessage();
+        }
 
-        Boolean isRead = notification.getStatus() != null;
+        holder.noti.setText(displayText);
+
+        // Tính thời gian tương đối
+        holder.time.setText(notification.getRelativeTime());
+
+        boolean isRead = notification.getStatus() != null;
 
         if (isRead) {
             holder.notificationContainer.setBackgroundColor(context.getResources().getColor(R.color.backgroundColor));
@@ -69,6 +82,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

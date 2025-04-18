@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface NotificationService {
     @GET("/api/v1/notification/get-all-notifications")
@@ -16,4 +17,10 @@ public interface NotificationService {
 
     @PUT("/api/v1/notification/update-notification/{id}")
     Call<ApiResponse<List<Notification>>> updateNotificationStatus(@Path("id") String id);
+
+    @GET("/api/v1/notification/get-all-notifications/store/{store_id}")
+    Call<ApiResponse<List<Notification>>> getStoreNotification(@Path("store_id") String storeId,
+                                                               @Query("page") int page,
+                                                               @Query("limit") int limit);
+
 }

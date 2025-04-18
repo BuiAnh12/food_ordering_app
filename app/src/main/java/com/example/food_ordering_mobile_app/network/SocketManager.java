@@ -22,11 +22,18 @@ import java.util.Locale;
 public class SocketManager {
     private static Socket mSocket;
     private static SharedPreferencesHelper sharedPreferencesHelper;
+
+    private static boolean isSocketInitialized = false;
+
     private static Emitter.Listener messageListener;
     private static Emitter.Listener messageDeletedListener;
 
     public static void connectSocket(Context context, NotificationViewModel notificationViewModel) {
         try {
+            if (isSocketInitialized) {
+                return;
+            }
+            isSocketInitialized = true;
             sharedPreferencesHelper = new SharedPreferencesHelper(context);
             String userId = sharedPreferencesHelper.getUserId();
             List<Notification> notifications = new ArrayList<>();
@@ -36,7 +43,7 @@ public class SocketManager {
                 return;
             }
 
-            mSocket = IO.socket("http://192.168.0.57:5000");
+            mSocket = IO.socket("http://10.0.2.2:5000");
             mSocket.connect();
 
             mSocket.on(Socket.EVENT_CONNECT, args -> {
@@ -54,7 +61,84 @@ public class SocketManager {
             });
 
             // Nhận danh sách thông báo
-            mSocket.on("getAllNotifications", args -> {
+//            mSocket.on("getAllNotifications", args -> {
+//                try {
+//                    if (args.length > 0 && args[0] instanceof JSONArray) {
+//                        JSONArray jsonArray = (JSONArray) args[0];
+//
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+//
+//                            String id = jsonObject.getString("_id");
+//                            String uId = jsonObject.getString("userId");
+//                            String title = jsonObject.getString("title");
+//                            String message = jsonObject.getString("message");
+//                            String type = jsonObject.getString("type");
+//                            String status = jsonObject.getString("status");
+//                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+//
+//                            // Chuyển đổi từ chuỗi JSON sang Date
+//                            Date createdDate = dateFormat.parse(jsonObject.getString("createdAt"));
+//                            Date updatedDate = dateFormat.parse(jsonObject.getString("updatedAt"));
+//
+//                            // Chuyển Date thành Timestamp
+//                            Timestamp createdAt = new Timestamp(createdDate.getTime());
+//                            Timestamp updatedAt = new Timestamp(updatedDate.getTime());
+//
+//                            // Tạo đối tượng Notification
+//                            Notification notification = new Notification(id, uId, title, message, type, status, createdAt, updatedAt);
+//                            notifications.add(notification);
+//                        }
+//
+//                        Log.d("SocketManager", "Danh sách thông báo: " + notifications.toString());
+//
+//                        // Cập nhật UI hoặc ViewModel nếu cần
+//                        notificationViewModel.updateNotifications(notifications);
+//                    } else {
+//                        Log.e("SocketManager", "Không có dữ liệu hợp lệ từ server!");
+//                    }
+//                } catch (Exception e) {
+//                    Log.e("SocketManager", "Lỗi khi xử lý thông báo: ", e);
+//                }
+//            });
+
+            mSocket.on("newOrderNotification", args -> {
+                Log.d("SocketManager", "Đã nhận thông báo đơn hàng mới");
+                try {
+                    if (args.length > 0 && args[0] instanceof JSONObject) {
+                        JSONObject jsonObject = (JSONObject) args[0];
+
+                        JSONObject notification = jsonObject.getJSONObject("notification");
+                        String orderId = jsonObject.getString("orderId");
+                        String title = notification.getString("title");
+                        String message = notification.getString("message");
+                        String type = notification.getString("type");
+                        String uId = notification.getString("userId");
+                        String status = notification.getString("status");
+                        String id = notification.getString("_id");
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+
+                        Date createdDate = dateFormat.parse(notification.getString("createdAt"));
+                        Date updatedDate = dateFormat.parse(notification.getString("updatedAt"));
+
+                        Timestamp createdAt = new Timestamp(createdDate.getTime());
+                        Timestamp updatedAt = new Timestamp(updatedDate.getTime());
+
+                        Notification newOrderNotification = new Notification(id, uId, title, message, type, status,  orderId, createdAt, updatedAt);
+
+                        // Gửi thông báo mới đến ViewModel
+                        notificationViewModel.addNewNotification(newOrderNotification);
+
+                        Log.d("SocketManager", "Đã nhận thông báo đơn hàng mới: " + newOrderNotification.toString());
+                    }
+                } catch (Exception e) {
+                    Log.e("SocketManager", "Lỗi khi nhận thông báo đơn hàng mới: ", e);
+                }
+            });
+
+            mSocket.on("getStoreNotifications", args -> {
+                Log.d("SocketManager", "Lấy danh sách thông báo cửa hàng");
                 try {
                     if (args.length > 0 && args[0] instanceof JSONArray) {
                         JSONArray jsonArray = (JSONArray) args[0];
@@ -109,21 +193,18 @@ public class SocketManager {
                         String status = jsonObject.getString("status");
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
 
-                        // Chuyển đổi từ chuỗi JSON sang Date
                         Date createdDate = dateFormat.parse(jsonObject.getString("createdAt"));
                         Date updatedDate = dateFormat.parse(jsonObject.getString("updatedAt"));
 
-                        // Chuyển Date thành Timestamp
                         Timestamp createdAt = new Timestamp(createdDate.getTime());
                         Timestamp updatedAt = new Timestamp(updatedDate.getTime());
 
-                        // Tạo đối tượng Notification
                         Notification newNotification = new Notification(id, uId, title, message, type, status, createdAt, updatedAt);
 
-                        Log.d("SocketManager", "Nhận thông báo mới: " + newNotification.toString());
+                        // Send the new notification to the ViewModel
+                        notificationViewModel.addNewNotification(newNotification);  // Update the ViewModel with the new notification
 
-                        notifications.add(newNotification);
-                        notificationViewModel.updateNotifications(notifications);
+                        Log.d("SocketManager", "Nhận thông báo mới: " + newNotification.toString());
                     }
                 } catch (Exception e) {
                     Log.e("SocketManager", "Lỗi khi nhận thông báo mới: ", e);

@@ -11,15 +11,18 @@ import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Message implements Serializable {
     @SerializedName("_id")
     private String id;
-    private String sender;
+    private User sender;
     private String content;
-    private Image image;
     private String chat;
+    private Image image;
+    private Timestamp createdAt;
     private Timestamp updatedAt;
 }

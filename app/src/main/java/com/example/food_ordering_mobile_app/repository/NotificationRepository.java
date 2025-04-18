@@ -89,4 +89,34 @@ public class NotificationRepository {
 
         return result;
     }
+
+    public LiveData<Resource<ApiResponse<List<Notification>>>> getStoreNotification(int limit, int page) {
+        MutableLiveData<Resource<ApiResponse<List<Notification>>>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null));
+        String storeId = sharedPreferencesHelper.getStoreId();
+        notificationService.getStoreNotification(storeId, page , limit).enqueue(new Callback<ApiResponse<List<Notification>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Notification>>> call, Response<ApiResponse<List<Notification>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("NotificationRepository", "getAllNotifications: " + response.body());
+                    result.setValue(Resource.success("Lay thong tin thành công!", response.body()));
+                } else {
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorMessage);
+                        String message = jsonObject.getString("message");
+                        result.setValue(Resource.error(message, null));
+                    } catch (Exception e) {
+                        result.setValue(Resource.error("Lỗi không xác định!", null));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Notification>>> call, Throwable t) {
+                result.setValue(Resource.error("Lỗi kết nối: " + t.getMessage(), null));
+            }
+        });
+        return result;
+    }
 }

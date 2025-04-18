@@ -18,6 +18,8 @@ import com.example.food_ordering_mobile_app.R;
 //import com.example.food_ordering_mobile_app.ui.cart.CartActivity;
 //import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.authorization.SecurityManager;
+import com.example.food_ordering_mobile_app.ui.chat.FragmentChat;
+import com.example.food_ordering_mobile_app.ui.common.CustomHeaderView;
 import com.example.food_ordering_mobile_app.ui.menu.FragmentStoreMenu;
 import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.ui.profile.ProfileActivity;
@@ -26,38 +28,29 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeFragment extends Fragment {
 
     private ImageButton goToNotificationBtn, goToProfile;
+    private CustomHeaderView headerView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_store_home, container, false);
+        headerView = view.findViewById(R.id.header);
+        headerView.setText("Cửa hàng");
+        headerView.setLifecycleOwner(this);
 
-        // Initialize buttons
-        goToNotificationBtn = view.findViewById(R.id.goToNotificationBtn);
-        goToProfile = view.findViewById(R.id.gotToProfile);
-
-        // Set up click listeners
-        goToNotificationBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), NotificationActivity.class);
-            startActivity(intent);
-        });
-
-        goToProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProfileActivity.class);
-            startActivity(intent);
-        });
 
 
         LinearLayout orderLayout = view.findViewById(R.id.orderLayout);
         LinearLayout staffLayout = view.findViewById(R.id.staffLayout);
         LinearLayout storeInformationLayout = view.findViewById(R.id.storeInformationLayout);
         LinearLayout serviceQualityLayout = view.findViewById(R.id.serviceQualityLayout);
-        LinearLayout helpCenterLayout = view.findViewById(R.id.helpCenterLayout);
+        LinearLayout chatLayout = view.findViewById(R.id.chatLayout);
         LinearLayout menuLayout = view.findViewById(R.id.menuLayout);
 
         menuLayout.setOnClickListener(this::menuClick);
         orderLayout.setOnClickListener(this::orderClick);
+        chatLayout.setOnClickListener(this::chatLayout);
         String userRole = SecurityManager.getHighestRole();
 
 
@@ -76,7 +69,7 @@ public class HomeFragment extends Fragment {
                 storeInformationLayout.setVisibility(View.GONE);
                 serviceQualityLayout.setVisibility(View.GONE);
                 staffLayout.setVisibility(View.GONE);
-                helpCenterLayout.setVisibility(View.GONE);
+                chatLayout.setVisibility(View.GONE);
                 break;
 
             default:
@@ -86,7 +79,7 @@ public class HomeFragment extends Fragment {
                 storeInformationLayout.setVisibility(View.GONE);
                 serviceQualityLayout.setVisibility(View.GONE);
                 staffLayout.setVisibility(View.GONE);
-                helpCenterLayout.setVisibility(View.GONE);
+                chatLayout.setVisibility(View.GONE);
                 break;
         }
 
@@ -124,4 +117,13 @@ public class HomeFragment extends Fragment {
     public void helpCenterClick(View view) {
     }
 
+    public void chatLayout(View view) {
+        FragmentChat fragment = new FragmentChat(); // Create an instance of your fragment
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.nav_host_fragment_activity_store_main, fragment); // Replace with your container ID
+        transaction.addToBackStack(null); // Add to back stack for navigation
+        transaction.commit();
+    }
 }
