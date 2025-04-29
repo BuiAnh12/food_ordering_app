@@ -62,6 +62,29 @@ public class ChatRepository {
         return result;
     }
 
+    public LiveData<Resource<Chat>> createStoreChat(String id, String storeId) {
+        MutableLiveData<Resource<Chat>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null));
+        chatService.createStoreChat(id, storeId).enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(Call<Chat> call, Response<Chat> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("ChatRepository", "createChat: " + response.body());
+                    result.setValue(Resource.success("Lay thong tin thành công!", response.body()));
+                }
+                else {
+                    Log.e("ChatRepository", "createChat error: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Chat> call, Throwable throwable) {
+                Log.e("ChatRepository", "createChat error: " + throwable.getMessage());
+            }
+        });
+        return result;
+    }
+
     public LiveData<Resource<ApiResponse<Message>>> sendMessage(String chatId, Map<String, Object> data) {
         MutableLiveData<Resource<ApiResponse<Message>>> result = new MutableLiveData<>();
         result.setValue(Resource.loading(null));

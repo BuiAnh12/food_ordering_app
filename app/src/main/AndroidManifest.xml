@@ -4,6 +4,7 @@
     <!-- Quyền truy cập Internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Quyền truy cập bộ nhớ -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" /> <!-- Quyền truy cập camera -->
@@ -12,7 +13,10 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true" /> <!-- Cấu hình Google Sign-In -->
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" /> <!-- Cấu hình Google Sign-In -->
     <meta-data
         android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
         android:value="@string/google_client_id" />

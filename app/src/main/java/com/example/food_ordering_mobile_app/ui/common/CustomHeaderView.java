@@ -2,16 +2,15 @@ package com.example.food_ordering_mobile_app.ui.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -19,7 +18,6 @@ import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.notification.Notification;
 import com.example.food_ordering_mobile_app.network.SocketManager;
 import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
-import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.NotificationViewModel;
 
 import java.util.ArrayList;
@@ -36,6 +34,9 @@ public class CustomHeaderView extends LinearLayout {
     private NotificationViewModel notificationViewModel;
     private LifecycleOwner lifecycleOwner;
     private boolean isNotificationObserverSet = false;
+
+    // Controlled from outside
+    private List<Notification> notifications = new ArrayList<>();
 
     public void setLifecycleOwner(LifecycleOwner lifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner;
@@ -54,8 +55,9 @@ public class CustomHeaderView extends LinearLayout {
 
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.item_custom_header_view, this, true);
-        setBackgroundResource(R.color.whiteColor); // Ensure the background is not transparent
+        setBackgroundResource(R.color.whiteColor);
         setElevation(16f);
+
         tvTitle = findViewById(R.id.textView);
         btnNotification = findViewById(R.id.goToNotificationBtn);
         btnUser = findViewById(R.id.gotToProfile);
@@ -65,13 +67,12 @@ public class CustomHeaderView extends LinearLayout {
         notificationViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(NotificationViewModel.class);
 
         btnNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(context, NotificationActivity.class);
-            context.startActivity(intent);
+            context.startActivity(new Intent(context, NotificationActivity.class));
+            markAllAsRead(); // Mark all as read on click
         });
 
         btnUser.setOnClickListener(v -> {
-            Intent intent = new Intent(context, com.example.food_ordering_mobile_app.ui.profile.ProfileActivity.class);
-            context.startActivity(intent);
+            context.startActivity(new Intent(context, com.example.food_ordering_mobile_app.ui.profile.ProfileActivity.class));
         });
     }
 
@@ -80,39 +81,51 @@ public class CustomHeaderView extends LinearLayout {
 
         SocketManager.connectSocket(getContext(), notificationViewModel);
 
-        notificationViewModel.getNotificationsResponse().observe(lifecycleOwner, new Observer<Resource<List<Notification>>>() {
-            @Override
-            public void onChanged(Resource<List<Notification>> resource) {
-                switch (resource.getStatus()) {
-                    case LOADING:
-                        break;
-                    case SUCCESS:
-                        updateUnreadNotificationCount(resource.getData());
-                        break;
-                    case ERROR:
-                        updateUnreadNotificationCount(new ArrayList<>());
-                        break;
-                }
+        notificationViewModel.getNewNotification().observe(lifecycleOwner, newNotifications -> {
+            if (newNotifications != null) {
+                notifications = newNotifications;
+                updateUnreadNotificationCount();
+            } else {
+                notifications = new ArrayList<>();
+                updateUnreadNotificationCount();
             }
         });
 
         isNotificationObserverSet = true;
     }
 
-    private void updateUnreadNotificationCount(List<Notification> notifications) {
+    public void setNotifications(List<Notification> newNotifications) {
+        this.notifications = newNotifications != null ? newNotifications : new ArrayList<>();
+        updateUnreadNotificationCount();
+    }
+
+    public void clearNotifications() {
+        this.notifications.clear();
+        updateUnreadNotificationCount();
+    }
+
+    public void markAllAsRead() {
+        for (Notification notification : notifications) {
+            notification.setStatus("read");
+        }
+        updateUnreadNotificationCount();
+    }
+
+    private void updateUnreadNotificationCount() {
         int unreadCount = 0;
-        Set<String> seenNotificationIds = new HashSet<>();
+        Set<String> seenIds = new HashSet<>();
 
         for (Notification notification : notifications) {
-            if ("unread".equals(notification.getStatus()) && !seenNotificationIds.contains(notification.getId())) {
+            if ("unread".equals(notification.getStatus()) && !seenIds.contains(notification.getId())) {
                 unreadCount++;
-                seenNotificationIds.add(notification.getId());
+                seenIds.add(notification.getId());
             }
         }
 
         if (unreadCount > 0) {
             unreadNotificationBadge.setVisibility(VISIBLE);
             unreadNotificationCount.setText(String.valueOf(unreadCount));
+            unreadNotificationCount.setTextColor(Color.WHITE);
         } else {
             unreadNotificationBadge.setVisibility(GONE);
         }

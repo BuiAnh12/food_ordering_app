@@ -30,9 +30,12 @@ import com.example.food_ordering_mobile_app.models.ApiResponse;
 import com.example.food_ordering_mobile_app.models.image.Image;
 import com.example.food_ordering_mobile_app.models.chat.Message;
 import com.example.food_ordering_mobile_app.models.chat.MessageResponse;
+import com.example.food_ordering_mobile_app.models.store.Store;
 import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.network.SocketManager;
 import com.example.food_ordering_mobile_app.utils.Resource;
+import com.example.food_ordering_mobile_app.utils.SharedPreferencesHelper;
+import com.example.food_ordering_mobile_app.viewModel.AuthViewModel;
 import com.example.food_ordering_mobile_app.viewModel.ChatViewModel;
 import com.example.food_ordering_mobile_app.viewModel.UploadViewModel;
 import com.google.gson.Gson;
@@ -40,7 +43,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +54,7 @@ public class DetailMessageActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ChatViewModel chatViewModel;
     private UploadViewModel uploadViewModel;
+    private AuthViewModel authViewModel;
     private MessageAdapter messageAdapter;
     private List<Message> messageList;
     private RecyclerView chatRecyclerView;
@@ -57,6 +63,8 @@ public class DetailMessageActivity extends AppCompatActivity {
     private TextView tvUserName, tvTime;
     private String chatId;
     private static final int PICK_IMAGES_REQUEST = 1;
+
+    private Store store;
 
 
     @Override
@@ -78,11 +86,19 @@ public class DetailMessageActivity extends AppCompatActivity {
 
         uploadViewModel = new ViewModelProvider(this).get(UploadViewModel.class);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         swipeRefreshLayout.setOnRefreshListener(this::refreshData);
         setupAllMessages();
 
         sendImage.setOnClickListener(view -> openImagePicker());
+        authViewModel.getOwnStore();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        chatRecyclerView.setLayoutManager(layoutManager);
+        messageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(this, this, messageList);
+        chatRecyclerView.setAdapter(messageAdapter);
 
         SocketManager.joinChat(chatId);
 
@@ -92,8 +108,21 @@ public class DetailMessageActivity extends AppCompatActivity {
                 try {
                     Map<String, Object> data = new HashMap<>();
                     data.put("content", messageContent);
-                    chatViewModel.sendMessage(chatId, data);
 
+                    chatViewModel.sendMessage(chatId, data); // Let ViewModel handle server POST
+
+                    // Optimistically add the message to the UI
+//                    Message newMessage = new Message();
+//                    newMessage.setContent(messageContent);
+//                    User store_owner = new User();
+//                    store_owner.setId(store.getOwner());
+//                    newMessage.setSender(store_owner);
+//                    Log.d("SUPER DEBUG",store.getOwner());
+//                    newMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+//                    messageList.add(newMessage);
+//                    messageAdapter.notifyDataSetChanged();
+
+                    // Send via socket
                     JSONObject dataObject = new JSONObject();
                     dataObject.put("content", messageContent);
 
@@ -104,19 +133,16 @@ public class DetailMessageActivity extends AppCompatActivity {
                     SocketManager.sendMessage(sendObject);
 
                     etMessageInput.setText("");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        SocketManager.setOnMessageReceivedListener(args  -> runOnUiThread(() -> {
-            setupAllMessages();
-        }));
+        SocketManager.setOnMessageReceivedListener(args  -> runOnUiThread(this::setupAllMessages));
 
-        SocketManager.setOnMessageDeletedListener(args  -> runOnUiThread(() -> {
-            setupAllMessages();
-        }));
+        SocketManager.setOnMessageDeletedListener(args  -> runOnUiThread(this::setupAllMessages));
 
         chatViewModel.getSendMessageResponse().observe(this, new Observer<Resource<ApiResponse<Message>>>() {
             @Override
@@ -127,19 +153,37 @@ public class DetailMessageActivity extends AppCompatActivity {
                     case SUCCESS:
 //                        messageList.add(resource.getData().getData());
 //                        messageAdapter.notifyItemInserted(messageList.size() - 1);
-
-                        chatRecyclerView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (messageList != null && !messageList.isEmpty()) {
-                                    chatRecyclerView.post(() -> {
-                                        chatRecyclerView.smoothScrollToPosition(messageList.size() - 1);
-                                    });
-                                }
-                            }
-                        });
+//                        chatRecyclerView.smoothScrollToPosition(messageList.size() - 1);
+//                        messageAdapter.notifyDataSetChanged();
+//                        chatRecyclerView.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if (messageList != null && !messageList.isEmpty()) {
+//                                    chatRecyclerView.post(() -> {
+//                                        chatRecyclerView.smoothScrollToPosition(messageList.size());
+//                                    });
+//                                }
+//                            }
+//                        });
                         break;
                     case ERROR:
+                        break;
+                }
+            }
+        });
+
+        authViewModel.getOwnStoreResponse().observe(this, new Observer<Resource<Store>>() {
+            @Override
+            public void onChanged(Resource<Store> resource) {
+                switch (resource.getStatus()) {
+                    case LOADING:
+                        break;
+                    case SUCCESS:
+                        store = resource.getData();
+                        Log.d("AuthViewModel", "Store data: " + resource.getData().toString());
+                        break;
+                    case ERROR:
+                        Log.e("AuthViewModel", "Error: " + resource.getMessage());
                         break;
                 }
             }
@@ -184,36 +228,6 @@ public class DetailMessageActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGES_REQUEST && resultCode == RESULT_OK) {
-            if (data.getData() != null) {
-                Uri uri = data.getData();
-                List<Uri> selectedImageUris = new ArrayList<>();
-                if (!selectedImageUris.contains(uri)) {
-                    selectedImageUris.add(uri);
-                }
-                uploadViewModel.uploadImages(selectedImageUris, this);
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SocketManager.leaveChat(chatId);
-    }
-
-    private void setupAllMessages() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
-        chatRecyclerView.setLayoutManager(layoutManager);
-        messageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(this, this, messageList);
-        chatRecyclerView.setAdapter(messageAdapter);
 
         chatViewModel.getAllMessagesResponse().observe(this, new Observer<Resource<MessageResponse>>() {
             @Override
@@ -228,23 +242,12 @@ public class DetailMessageActivity extends AppCompatActivity {
                         messageList.addAll(resource.getData().getMessages());
 
                         List<User> users = resource.getData().getChat().getUsers();
-                        if (users.size() > 1) {
-                            tvUserName.setText(users.get(1).getName());
-                            String avatarUrl = users.get(1).getAvatar() != null ? users.get(1).getAvatar().getUrl() : null;
-                            loadRoundedImage(avatarUrl, ivUserAvatar);
-                        } else if (users.size() == 1) {
-                            tvUserName.setText(users.get(0).getName());
-                            String avatarUrl = users.get(0).getAvatar() != null ? users.get(0).getAvatar().getUrl() : null;
-                            loadRoundedImage(avatarUrl, ivUserAvatar);
-                        }
-
+                        tvUserName.setText(users.get(0).getName());
+                        String avatarUrl = users.get(0).getAvatar() != null ? users.get(0).getAvatar().getUrl() : null;
+                        loadRoundedImage(avatarUrl, ivUserAvatar);
 //                        long timeDiff = System.currentTimeMillis() - resource.getData().getChat().getLatestMessage().getUpdatedAt().getTime();
 //                        tvTime.setText(formatTimeAgo(timeDiff));
 
-                        String avatarUrl = resource.getData().getChat().getUsers().get(1).getAvatar() != null
-                                ? resource.getData().getChat().getUsers().get(1).getAvatar().getUrl()
-                                : null;
-                        loadRoundedImage(avatarUrl, ivUserAvatar);
 
                         messageAdapter.notifyDataSetChanged();
 
@@ -269,10 +272,35 @@ public class DetailMessageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGES_REQUEST && resultCode == RESULT_OK) {
+            if (data.getData() != null) {
+                Uri uri = data.getData();
+                List<Uri> selectedImageUris = new ArrayList<>();
+                if (!selectedImageUris.contains(uri)) {
+                    selectedImageUris.add(uri);
+                }
+                uploadViewModel.uploadImages(selectedImageUris, this);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SocketManager.leaveChat(chatId);
+    }
+
+    private void setupAllMessages() {
         chatViewModel.getAllMessages(chatId);
     }
 
     private void refreshData() {
+        swipeRefreshLayout.setRefreshing(true);
         chatViewModel.getAllMessages(chatId);
     }
 

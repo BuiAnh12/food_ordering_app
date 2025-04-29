@@ -1,5 +1,6 @@
 package com.example.food_ordering_mobile_app.network.services;
 
+import com.example.food_ordering_mobile_app.models.store.Store;
 import com.example.food_ordering_mobile_app.models.user.User;
 
 import java.util.Map;
@@ -20,4 +21,6 @@ public interface AuthService {
     Call<User> refreshToken();
     @PUT("/api/v1/auth/change-password")
     Call<String> changePassword(@Body Map<String, String> data);
+    @POST("/api/v1/auth/store")
+    Call<Store> ownStore();
 }

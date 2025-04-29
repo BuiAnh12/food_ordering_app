@@ -28,6 +28,7 @@ public class User {
     private Boolean isGoogleLogin;
     @SerializedName("storeId")
     private String storeId;
+    private String ownerId;
 
     public User() {
         // Default constructor
@@ -42,6 +43,7 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
 
     public User(String name, String email, String phonenumber, String gender, String password) {
         this.name = name;

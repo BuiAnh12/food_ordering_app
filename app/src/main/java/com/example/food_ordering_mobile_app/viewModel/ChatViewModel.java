@@ -14,6 +14,7 @@ import com.example.food_ordering_mobile_app.models.chat.Message;
 import com.example.food_ordering_mobile_app.models.chat.MessageResponse;
 import com.example.food_ordering_mobile_app.repository.ChatRepository;
 import com.example.food_ordering_mobile_app.utils.Resource;
+import com.example.food_ordering_mobile_app.utils.SharedPreferencesHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,16 @@ import java.util.Map;
 public class ChatViewModel extends AndroidViewModel {
     private final ChatRepository chatRepository;
 
+    private final SharedPreferencesHelper sharedPreferencesHelper;
+
     private final MutableLiveData<Resource<Chat>> createChatResponse = new MutableLiveData<>();
     public LiveData<Resource<Chat>> getCreateChatResponse() {
         return createChatResponse;
+    }
+
+    private final MutableLiveData<Resource<Chat>> createStoreChatResponse = new MutableLiveData<>();
+    public LiveData<Resource<Chat>> getCreateStoreChatResponse() {
+        return createStoreChatResponse;
     }
     private final MutableLiveData<Resource<ApiResponse<Message>>> sendMessageResponse = new MutableLiveData<>();
     public LiveData<Resource<ApiResponse<Message>>> getSendMessageResponse() {
@@ -49,6 +57,8 @@ public class ChatViewModel extends AndroidViewModel {
     public ChatViewModel(Application application) {
         super(application);
         chatRepository = new ChatRepository(application);
+        sharedPreferencesHelper = SharedPreferencesHelper.getInstance(application);
+
     }
 
     public void createChat(String id) {
@@ -60,6 +70,18 @@ public class ChatViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public void createStoreChat(String id) {
+        String storeId = sharedPreferencesHelper.getStoreId();
+        LiveData<Resource<Chat>> result = chatRepository.createStoreChat(id, storeId);
+        result.observeForever(new Observer<Resource<Chat>>() {
+            @Override
+            public void onChanged(Resource<Chat> resource) {
+                createStoreChatResponse.setValue(resource);
+            }
+        });
+    }
+
 
     public void sendMessage(String chatId, Map<String, Object> data) {
         LiveData<Resource<ApiResponse<Message>>> result = chatRepository.sendMessage(chatId, data);

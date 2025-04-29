@@ -1,5 +1,29 @@
 <resources>
     <!-- Base application theme -->
-    <style name="Theme.FoodOrderingApp" parent="Theme.AppCompat.Light.NoActionBar">
+<!--    <style name="Theme.FoodOrderingApp" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--    </style>-->
+    <style name="Theme.FoodOrderingApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Set the status bar color -->
+        <item name="android:statusBarColor">@android:color/darker_gray</item>
+
+        <!-- Primary theme colors -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/primaryColor</item>
+
+        <!-- Secondary (accent) colors -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryColor</item>
+        <item name="colorOnSecondary">@color/secondaryColor</item>
+
+        <!-- Background, surface, and error -->
+        <item name="colorSurface">@color/backgroundColor</item>
+        <item name="colorError">@color/errorColor</item>
+
+        <!-- Foreground on top of background/surface/error -->
+        <item name="colorOnBackground">@color/blackColor</item>
+        <item name="colorOnSurface">@color/blackColor</item>
+        <item name="colorOnError">@color/errorColor</item>
     </style>
+
 </resources>

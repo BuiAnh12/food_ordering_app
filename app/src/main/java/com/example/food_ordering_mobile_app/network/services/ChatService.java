@@ -18,6 +18,9 @@ import retrofit2.http.Path;
 public interface ChatService {
     @POST("/api/v1/chat/{id}")
     Call<Chat> createChat(@Path("id") String id);
+
+    @POST("/api/v1/chat/{id}/store/{storeId}")
+    Call<Chat> createStoreChat(@Path("id") String id, @Path("storeId") String storeId);
     @POST("/api/v1/message/{id}")
     Call<ApiResponse<Message>> sendMessage(@Path("id") String id, @Body Map<String, Object> data);
     @GET("/api/v1/chat/")

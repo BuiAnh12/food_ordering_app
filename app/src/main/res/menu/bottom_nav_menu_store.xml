@@ -13,9 +13,9 @@
         android:title="@string/orders" />
 
     <item
-        android:id="@+id/discount_item"
-        android:icon="@drawable/shortcut_favorites_state"
+        android:id="@+id/messages_item"
+        android:icon="@drawable/ic_chat_24"
         app:labelVisibilityMode="labeled"
-        android:title="@string/discount" />
+        android:title="Chat" />
 
 </menu>

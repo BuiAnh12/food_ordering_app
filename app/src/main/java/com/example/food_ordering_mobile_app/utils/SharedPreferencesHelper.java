@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 //import com.example.food_ordering_mobile_app.models.foodType.FoodType;
 //import com.example.food_ordering_mobile_app.models.store.Store;
+import com.example.food_ordering_mobile_app.models.store.Store;
 import com.example.food_ordering_mobile_app.models.user.User;
 import com.google.gson.Gson;
 
@@ -18,12 +19,14 @@ public class SharedPreferencesHelper {
     private static final String KEY_USER_INFO = "user_info";
     private static final String USER_ROLE = "user_role";
     private static final String USER_STORE_ID = "user_store_id";
+    private static final String USER_STORE_OWNER = "user_store_owner";
 
 
     private static SharedPreferencesHelper instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Gson gson = new Gson();
+
 
     public SharedPreferencesHelper(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -37,11 +40,12 @@ public class SharedPreferencesHelper {
         return instance;
     }
 
-    public void saveUserData(String accessToken, String userId, ArrayList<String> roles, String storeId) {
+    public void saveUserData(String accessToken, String userId, ArrayList<String> roles, String storeId, String owner) {
         editor.putString(KEY_ACCESS_TOKEN, accessToken);
         editor.putString(KEY_USER_ID, userId);
         editor.putString(USER_ROLE, gson.toJson(roles));
         editor.putString(USER_STORE_ID, storeId);
+        editor.putString(USER_STORE_OWNER, owner);
         editor.apply();
     }
 
@@ -57,6 +61,7 @@ public class SharedPreferencesHelper {
     public String getUserId() {
         return sharedPreferences.getString(KEY_USER_ID, null);
     }
+    public String getOwnerId(){return sharedPreferences.getString(USER_STORE_OWNER, null);}
 
     public void saveCurrentUser(User user) {
         String userJson = gson.toJson(user);

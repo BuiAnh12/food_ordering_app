@@ -32,6 +32,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_RECEIVED = 2;
     private FragmentActivity activity;
 
+    private User store_owner;
+
     public MessageAdapter(FragmentActivity activity, Context context, List<Message> messageList) {
         this.activity = activity;
         this.context = context;
@@ -41,12 +43,13 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         String currentUserId = SharedPreferencesHelper.getInstance(context).getUserId();
+        String ownerId = SharedPreferencesHelper.getInstance(context).getOwnerId();
         String senderId = messageList.get(position).getSender().getId();
 
         Log.d("MESSAGE_ADAPTER", "CurrentUserID: " + currentUserId);
         Log.d("MESSAGE_ADAPTER", "SenderID: " + senderId);
 
-        if (senderId != null && senderId.trim().equals(currentUserId.trim())) {
+        if (senderId != null && (senderId.trim().equals(currentUserId.trim()) || ownerId.trim().equals(senderId.trim()))) {
             return VIEW_TYPE_SENT;
         } else {
             return VIEW_TYPE_RECEIVED;

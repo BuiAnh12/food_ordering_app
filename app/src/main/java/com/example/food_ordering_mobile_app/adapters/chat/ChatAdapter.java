@@ -23,6 +23,7 @@ import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.chat.Chat;
 import com.example.food_ordering_mobile_app.models.chat.Message;
 import com.example.food_ordering_mobile_app.models.rating.Rating;
+import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.viewModel.ChatViewModel;
 
 
@@ -64,9 +65,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+        User client = chatList.get(position).getUsers().get(0);
         Chat chat = chatList.get(position);
 
-        holder.tvUserName.setText(chat.getUsers().get(1).getName());
+        holder.tvUserName.setText(client.getName());
         if (chat.getLatestMessage() != null && chat.getLatestMessage().getContent() != null && !chat.getLatestMessage().getContent().isEmpty()) {
             holder.tvLatestMessage.setText(chat.getLatestMessage().getContent());
         } else {
@@ -93,7 +95,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         holder.tvCreatedTime.setText(formattedDate);
 
-        String userAvatarUrl = chat.getUsers().get(1).getAvatar() != null ? chat.getUsers().get(1).getAvatar().getUrl() : null;
+        String userAvatarUrl = client.getAvatar() != null ? client.getAvatar().getUrl() : null;
         Glide.with(context)
                 .asBitmap()
                 .load(userAvatarUrl)

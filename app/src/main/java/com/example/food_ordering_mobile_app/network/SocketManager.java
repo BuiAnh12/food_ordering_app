@@ -50,6 +50,9 @@ public class SocketManager {
                 Log.d("SocketManager", "Kết nối thành công đến server");
                 // Khi kết nối thành công, gửi userId lên server
                 mSocket.emit("registerUser", userId);
+                String storeId = sharedPreferencesHelper.getStoreId();
+                mSocket.emit("joinStoreRoom", storeId);
+                Log.d("SocketManager", "Đã đăng ký nhận thông báo tin nhắn cho cửa hàng: " + storeId);
             });
 
             mSocket.on(Socket.EVENT_CONNECT_ERROR, args -> {
@@ -211,6 +214,8 @@ public class SocketManager {
                 }
             });
 
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -257,9 +262,27 @@ public class SocketManager {
 
     // Lắng nghe tin nhắn đến
     public static void setOnMessageReceivedListener(Emitter.Listener listener) {
+        Log.d("Socket", "Setting messageReceived listener");
+
         messageListener = listener;
         if (mSocket != null) {
             mSocket.on("messageReceived", listener);
+            Log.d("Socket", "Listener registered for messageReceived");
+        } else {
+            Log.e("Socket", "Socket is null");
+        }
+    }
+
+    // Lắng nghe tất cả tin nhắn tới store
+    public static void setOnStoreMessageReceivedListener(Emitter.Listener listener) {
+        Log.d("Socket", "Setting StoreMessageReceived listener");
+
+        messageListener = listener;
+        if (mSocket != null) {
+            mSocket.on("storeNewMessage", listener);
+            Log.d("Socket", "Listener registered for StoreMessageReceived");
+        } else {
+            Log.e("Socket", "Socket is null");
         }
     }
 
@@ -313,4 +336,9 @@ public class SocketManager {
             mSocket.disconnect();
         }
     }
+
+    public static boolean isConnected() {
+        return mSocket != null && mSocket.connected();
+    }
+
 }

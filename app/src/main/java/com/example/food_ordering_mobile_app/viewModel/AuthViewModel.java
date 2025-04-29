@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.food_ordering_mobile_app.models.store.Store;
 import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.repository.AuthRepository;
 import com.example.food_ordering_mobile_app.utils.Resource;
@@ -30,6 +31,9 @@ public class AuthViewModel extends AndroidViewModel {
     public LiveData<Resource<String>> getLogoutResponse() {
         return logoutResponse;
     }
+    public MutableLiveData<Resource<Store>> ownStoreResponse = new MutableLiveData<Resource<Store>>();
+
+    public LiveData<Resource<Store>> getOwnStoreResponse() {return ownStoreResponse; }
 
     public void login(String email, String password) {
         Log.d("AuthViewModel", "Starting login with email: " + email);
@@ -53,6 +57,16 @@ public class AuthViewModel extends AndroidViewModel {
             @Override
             public void onChanged(Resource<String> resource) {
                 logoutResponse.setValue(resource);
+            }
+        });
+    }
+
+    public void getOwnStore() {
+        LiveData<Resource<Store>> result = authRepository.getOwnStore();
+        result.observeForever(new Observer<Resource<Store>>() {
+            @Override
+            public void onChanged(Resource<Store> resource) {
+                ownStoreResponse.setValue(resource);
             }
         });
     }

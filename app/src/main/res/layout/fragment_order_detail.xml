@@ -173,17 +173,34 @@
                     </LinearLayout>
 
                     <!-- Call Button -->
-                    <Button
+                   <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/custom_button_normal"
-                        android:paddingVertical="8dp"
-                        android:paddingHorizontal="16dp"
-                        android:text="Gọi"
-                        android:textAllCaps="false"
-                        android:textColor="@color/whiteColor"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                         <ImageButton
+                            android:id="@+id/btn_call_customer"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Call customer"
+                            android:src="@drawable/ic_call"
+                            app:tint="@color/primaryColor" />
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"/>
+
+                        <ImageButton
+                            android:id="@+id/btn_message_customer"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Message customer"
+                            android:src="@drawable/ic_message"
+                            app:tint="@color/primaryColor" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -233,6 +250,34 @@
                             android:textSize="18sp"/>
 
 
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <ImageButton
+                            android:id="@+id/btn_call_shipper"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Call customer"
+                            android:src="@drawable/ic_call"
+                            app:tint="@color/primaryColor" />
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"/>
+
+                        <ImageButton
+                            android:id="@+id/btn_message_shipper"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Message customer"
+                            android:src="@drawable/ic_message"
+                            app:tint="@color/primaryColor" />
                     </LinearLayout>
                 </LinearLayout>
 

@@ -86,23 +86,20 @@ public class NotificationViewModel extends AndroidViewModel {
         });
     }
 
-    @Getter
     private MutableLiveData<List<Notification>> notifications = new MutableLiveData<>();
-    private List<Notification> notificationList = new ArrayList<>();
 
     public void addNewNotification(Notification notification) {
-        // Đổi setValue thành postValue để tránh crash khi gọi từ background thread
-        MutableLiveData<List<Notification>> liveData = getNotifications(); // hoặc notificationList tùy bạn dùng biến nào
-
-        List<Notification> currentList = liveData.getValue();
+        Log.d("NotificationViewModel", "addNewNotification: " + notification);
+        List<Notification> currentList = notifications.getValue();
         if (currentList == null) {
             currentList = new ArrayList<>();
         }
+        currentList.add(0, notification);
+        notifications.postValue(currentList);
+    }
 
-        currentList.add(0, notification); // thêm thông báo mới ở đầu danh sách
-
-        // postValue sẽ an toàn với background thread
-        liveData.postValue(currentList);
+    public LiveData<List<Notification>> getNewNotification() {
+        return notifications;
     }
 
 

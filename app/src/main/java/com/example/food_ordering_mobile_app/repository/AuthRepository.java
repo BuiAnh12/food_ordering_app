@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.food_ordering_mobile_app.models.store.Store;
 import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.network.services.AuthService;
 import com.example.food_ordering_mobile_app.network.RetrofitClient;
@@ -92,10 +93,11 @@ public class AuthRepository {
                     String accessToken = response.body().getAccessToken();
                     String userId = response.body().getId();
                     String storeId = response.body().getStoreId();
+                    String owner = response.body().getOwnerId();
                     ArrayList<String> role = response.body().getRole();
 
                     // Lưu vào SharedPreferences
-                    sharedPreferencesHelper.saveUserData(accessToken, userId, role, storeId);
+                    sharedPreferencesHelper.saveUserData(accessToken, userId, role, storeId, owner);
 
                     saveCookies(response);
 
@@ -158,6 +160,28 @@ public class AuthRepository {
             }
         });
 
+        return result;
+    }
+
+    public MutableLiveData<Resource<Store>> getOwnStore() {
+        MutableLiveData<Resource<Store>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null)); // Trạng thái Loading
+        authService.ownStore().enqueue(new Callback<Store>() {
+            @Override
+            public void onResponse(Call<Store> call, Response<Store> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    result.setValue(Resource.success("Lấy thông tin cửa hàng thành công!", response.body()));
+                }
+                else {
+                    result.setValue(Resource.error("Lỗi không xác định!", null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Store> call, Throwable throwable) {
+                result.setValue(Resource.error("Lỗi không xác định!", null));
+            }
+        });
         return result;
     }
 }

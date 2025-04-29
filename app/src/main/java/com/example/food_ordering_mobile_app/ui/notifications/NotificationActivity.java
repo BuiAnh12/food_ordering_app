@@ -63,7 +63,7 @@ public class NotificationActivity extends AppCompatActivity {
 
 
         // Observe notification list changes from ViewModel
-        notificationViewModel.getNotifications().observe(this, new Observer<List<Notification>>() {
+        notificationViewModel.getNewNotification().observe(this, new Observer<List<Notification>>() {
             @Override
             public void onChanged(List<Notification> notifications) {
                 notificationList.addAll(notifications);  // Update the list
@@ -105,26 +105,6 @@ public class NotificationActivity extends AppCompatActivity {
                 }
             }
         });
-
-//        notificationViewModel.getNotificationsResponse().observe(this, new Observer<Resource<List<Notification>>>() {
-//            @Override
-//            public void onChanged(Resource<List<Notification>> resource) {
-//                    switch (resource.getStatus()) {
-//                        case LOADING:
-//                            swipeRefreshLayout.setRefreshing(true);
-//                            break;
-//                        case SUCCESS:
-//                            swipeRefreshLayout.setRefreshing(false);
-//                            notificationList.clear();
-//                            notificationList.addAll(resource.getData());
-//                            notificationAdapter.notifyDataSetChanged();
-//                            break;
-//                        case ERROR:
-//                            swipeRefreshLayout.setRefreshing(false);
-//                            break;
-//                    }
-//            }
-//        });
     }
 
     public void goBack(View view) {
