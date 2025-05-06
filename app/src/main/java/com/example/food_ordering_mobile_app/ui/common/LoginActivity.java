@@ -23,6 +23,7 @@ import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.ui.MainStoreActivity;
 import com.example.food_ordering_mobile_app.utils.Resource;
 import com.example.food_ordering_mobile_app.viewModel.AuthViewModel;
+import com.example.food_ordering_mobile_app.viewModel.StoreDetailViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,8 +59,40 @@ public class LoginActivity extends AppCompatActivity {
                     case SUCCESS:
                         User user = resource.getData();
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MainStoreActivity.class));
-                        finish();
+
+                        // Check store status
+                        StoreDetailViewModel storeViewModel = new ViewModelProvider(LoginActivity.this).get(StoreDetailViewModel.class);
+                        storeViewModel.getStore();
+                        storeViewModel.getStoreResponse().observe(LoginActivity.this, data -> {
+                            switch (data.getStatus()) {
+                                case LOADING:
+                                    break;
+                                case SUCCESS:
+                                    String status = data.getData().getStatus();
+                                    boolean isApproved = data.getData().isApproved();
+                                    Log.d("Login", "Store status: " + status);
+                                    Log.d("Login", "Store isApproved: " + isApproved);
+                                    if ("BLOCKED".equals(status)) {
+                                        Intent intent = new Intent(LoginActivity.this, BlockedActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else if (!isApproved){
+                                        Intent intent = new Intent(LoginActivity.this, WaitForApprovalActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Intent intent = new Intent(LoginActivity.this, MainStoreActivity.class);
+                                        startActivity(intent);
+                                    }
+
+                                    finish();
+                                    break;
+                                case ERROR:
+                                    Toast.makeText(LoginActivity.this, "Không thể lấy thông tin cửa hàng.", Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+
+                        });
                         break;
                     case ERROR:
                         Toast.makeText(LoginActivity.this, resource.getMessage(), Toast.LENGTH_SHORT).show();

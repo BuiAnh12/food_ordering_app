@@ -1,6 +1,7 @@
 package com.example.food_ordering_mobile_app.models.store;
 
 import com.example.food_ordering_mobile_app.models.category.Category;
+import com.example.food_ordering_mobile_app.models.category.FoodType;
 import com.example.food_ordering_mobile_app.models.image.Image;
 import com.example.food_ordering_mobile_app.models.location.Location;
 import com.example.food_ordering_mobile_app.models.shipper.Shipper;
@@ -26,7 +27,8 @@ public class Store {
     private String description;
     private Location address;
 
-    private List<String> storeCategory;
+
+    private List<FoodType> storeCategory;
     private Image avatar;
     private Image cover;
     private PaperWork paperWork;
@@ -35,6 +37,10 @@ public class Store {
     private boolean isApproved;
 
     private Shipper shipper;
+
+    private String avgRating;
+    private String amountRating;
+    private String status;
 
     public Store() {
         // Default constructor

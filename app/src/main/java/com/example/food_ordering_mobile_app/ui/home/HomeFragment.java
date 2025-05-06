@@ -18,11 +18,13 @@ import com.example.food_ordering_mobile_app.R;
 //import com.example.food_ordering_mobile_app.ui.cart.CartActivity;
 //import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.authorization.SecurityManager;
+import com.example.food_ordering_mobile_app.repository.StoreDetailRepository;
 import com.example.food_ordering_mobile_app.ui.chat.FragmentChat;
 import com.example.food_ordering_mobile_app.ui.common.CustomHeaderView;
 import com.example.food_ordering_mobile_app.ui.menu.FragmentStoreMenu;
 import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.ui.profile.ProfileActivity;
+import com.example.food_ordering_mobile_app.ui.store.StoreDetailFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeFragment extends Fragment {
@@ -51,6 +53,9 @@ public class HomeFragment extends Fragment {
         menuLayout.setOnClickListener(this::menuClick);
         orderLayout.setOnClickListener(this::orderClick);
         chatLayout.setOnClickListener(this::chatLayout);
+        storeInformationLayout.setOnClickListener(this::storeInfoClick);
+        serviceQualityLayout.setOnClickListener(this::serviceQualityClick);
+        staffLayout.setOnClickListener(this::staffManagementClick);
         String userRole = SecurityManager.getHighestRole();
 
 
@@ -106,6 +111,13 @@ public class HomeFragment extends Fragment {
     }
 
     public void storeInfoClick(View view) {
+        StoreDetailFragment fragment = new StoreDetailFragment(); // Create an instance of your fragment
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.nav_host_fragment_activity_store_main, fragment); // Replace with your container ID
+        transaction.addToBackStack(null); // Add to back stack for navigation
+        transaction.commit();
     }
 
     public void serviceQualityClick(View view) {

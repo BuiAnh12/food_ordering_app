@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/backBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:drawableStart="@drawable/ic_arrow_left_long_24"
+                        android:onClick="goBack"
+                        android:textColor="@color/onPrimary"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <Space
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Chi tiết cửa hàng"
+                            android:textColor="@color/onPrimary"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/whiteColor">
+
+            <!-- Tên cửa hàng -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên cửa hàng:"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <EditText
+                    android:id="@+id/storeName"
+                    android:textSize="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tasty Bites"
+                    android:textColor="@color/blackColor"
+                    android:background="@drawable/custom_input"
+                    android:padding="8dp"
+                    android:layout_marginEnd="8dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/editStoreNameBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/blackColor"
+                    android:contentDescription="Edit Store Name" />
+            </LinearLayout>
+
+            <!-- Mô tả -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mô tả:"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <EditText
+                    android:id="@+id/description"
+                    android:textSize="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="A great place for fast food."
+                    android:textColor="@color/blackColor"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp" />
+
+                <ImageButton
+                    android:id="@+id/editDescriptionBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/blackColor"
+                    android:contentDescription="Edit Description" />
+            </LinearLayout>
+
+            <!-- Địa chỉ -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ:"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <EditText
+                    android:id="@+id/address"
+                    android:textSize="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Toà F FPTPOLYTECHNIC..."
+                    android:textColor="@color/blackColor"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp" />
+
+                <ImageButton
+                    android:id="@+id/editAddressBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/blackColor"
+                    android:contentDescription="Edit Address" />
+            </LinearLayout>
+
+            <!-- Đánh giá trung bình -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đánh giá trung bình:"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:textSize="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4.3 ⭐"
+                    android:textColor="@color/blackColor"
+                    android:background="@drawable/custom_input"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Lượt đánh giá -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lượt đánh giá:"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/rateAmount"
+                    android:textSize="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4"
+                    android:textColor="@color/blackColor"
+                    android:background="@drawable/custom_input"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+            <!-- Ảnh đại diện -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ảnh đại diện"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <ImageView
+                android:id="@+id/avatarImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_thank_you"
+                android:background="@drawable/image_border"
+                android:contentDescription="Ảnh đại diện" />
+
+            <Button
+                android:id="@+id/changeAvatarBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/whiteColor"
+                android:text="Thay đổi ảnh"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/onPrimary" />
+
+            <!-- Ảnh bìa -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ảnh bìa"
+                android:textStyle="bold"
+                android:textColor="@color/blackColor"
+                android:paddingBottom="4dp" />
+
+            <ImageView
+                android:id="@+id/coverImage"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_thank_you"
+                android:background="@drawable/image_border"
+                android:contentDescription="Ảnh bìa" />
+
+            <Button
+                android:id="@+id/changeCoverBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thay đổi ảnh"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/onPrimary"
+                android:textColor="@color/whiteColor" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
