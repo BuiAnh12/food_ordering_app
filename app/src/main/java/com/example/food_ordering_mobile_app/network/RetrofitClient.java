@@ -33,6 +33,7 @@ public class RetrofitClient {
             client = new OkHttpClient.Builder()
                     .cookieJar(new JavaNetCookieJar(cookieManager)) // Dùng cookie manager toàn cục
                     .addInterceptor(new AuthInterceptor(context))
+                    .authenticator(new TokenAuthenticator(context))
                     .build();
         }
     }

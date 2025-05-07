@@ -15,16 +15,16 @@
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
         app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingTop="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp"
+            android:padding="10dp"
             android:gravity="center_vertical">
 
             <!-- Back Button -->
@@ -32,16 +32,12 @@
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:drawableStart="@drawable/ic_arrow_left_long_24"
-                android:onClick="goBack"
                 android:textColor="@color/onPrimary"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="wrap_content" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="10dp"
+                android:paddingEnd="10dp" />
 
             <!-- Title -->
             <TextView
@@ -49,28 +45,184 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Thông tin cá nhân"
+                android:text="Hồ sơ cá nhân"
                 android:textColor="@color/onPrimary"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Logout Button (Centered at the Bottom) -->
+    <!-- Profile Details Section -->
+    <LinearLayout
+        android:id="@+id/profileDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:background="@android:color/transparent"
+        android:elevation="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Thông tin cá nhân"
+            android:textColor="@color/secondaryColor"
+            android:layout_marginBottom="16dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên"
+            android:textColor="@color/secondaryColor"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            android:background="@drawable/custom_input"
+            android:hint="Nhập tên"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Email"
+            android:textColor="@color/secondaryColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            android:background="@drawable/custom_input"
+            android:textSize="16sp"
+            android:hint="Nhập email"
+            android:enabled="false" />
+
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Số điện thoại"
+            android:textColor="@color/secondaryColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/phoneInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            android:background="@drawable/custom_input"
+            android:hint="Nhập số điện thoại"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đổi mật khẩu"
+            android:textColor="@color/secondaryColor"
+            android:layout_marginTop="40dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <!-- Profile Details Section -->
+        <LinearLayout
+            android:id="@+id/changePwSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:background="@android:color/transparent"
+            android:elevation="4dp">
+
+            <!-- Old Password -->
+            <EditText
+                android:id="@+id/oldPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="12dp"
+                android:background="@drawable/custom_input"
+                android:hint="Mật khẩu hiện tại"
+                android:textSize="16sp"
+                android:inputType="textPassword" />
+
+            <!-- New Password -->
+            <EditText
+                android:id="@+id/newPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:background="@drawable/custom_input"
+                android:hint="Mật khẩu mới"
+                android:textSize="16sp"
+                android:inputType="textPassword" />
+
+            <!-- Confirm New Password -->
+            <EditText
+                android:id="@+id/confirmNewPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:background="@drawable/custom_input"
+                android:hint="Xác nhận mật khẩu mới"
+                android:textSize="16sp"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/changePasswordBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Cập nhật mật khẩu"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/custom_button_secondary"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <!-- Logout Button -->
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/logoutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/custom_button_secondary"
         android:paddingHorizontal="24dp"
         android:paddingVertical="12dp"
         android:text="Đăng xuất"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:background="@drawable/custom_button_secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="40dp" />
+        app:layout_constraintTop_toBottomOf="@+id/profileDetails" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

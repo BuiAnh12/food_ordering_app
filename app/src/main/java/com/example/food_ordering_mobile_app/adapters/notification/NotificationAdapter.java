@@ -8,32 +8,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.notification.Notification;
 import com.example.food_ordering_mobile_app.utils.Function;
+import com.example.food_ordering_mobile_app.viewModel.NotificationViewModel;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     private Context context;
     private List<Notification> notificationList;
-    private OnNotificationClickListener onNotificationClickListener;
-    public interface OnNotificationClickListener {
-        void onNotificationClick(Notification notification);
-    }
 
-    public NotificationAdapter(Context context, List<Notification> cartList) {
+    private NotificationViewModel notificationViewModel;
+
+    public NotificationAdapter(Context context, List<Notification> cartList, NotificationViewModel notificationViewModel) {
         this.context = context;
         this.notificationList = cartList;
+        this.notificationViewModel = notificationViewModel;
     }
 
-    public NotificationAdapter(Context context, List<Notification> notificationList, OnNotificationClickListener onNotificationClickListener) {
-        this.context = context;
-        this.notificationList = notificationList;
-        this.onNotificationClickListener = onNotificationClickListener;
-    }
 
     @NonNull
     @Override
@@ -62,7 +59,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         // Tính thời gian tương đối
         holder.time.setText(notification.getRelativeTime());
 
-        boolean isRead = notification.getStatus() != null;
+        boolean isRead = notification.getStatus().equals("read");
 
         if (isRead) {
             holder.notificationContainer.setBackgroundColor(context.getResources().getColor(R.color.backgroundColor));
@@ -77,11 +74,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (onNotificationClickListener != null) {
-                onNotificationClickListener.onNotificationClick(notification);
+            if (!isRead) {
+                // Update the status locally for instant feedback
+                notification.setStatus("read");
+                notifyItemChanged(position);
+                notificationViewModel.updateNotificationStatus(notification.getId());
+
             }
         });
     }
+
+
 
 
     @Override

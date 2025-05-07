@@ -92,8 +92,9 @@ public class ChatRepository {
         chatService.sendMessage(chatId, data).enqueue(new Callback<ApiResponse<Message>>() {
             @Override
             public void onResponse(Call<ApiResponse<Message>> call, Response<ApiResponse<Message>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("ChatRepository", "sendMessage: " + response.body());
+                Log.d("ChatRepository", "sendMessageResponse: " + response.body());
+                if (response.isSuccessful()) {
+                    Log.d("ChatRepository", "sendMessageResult: " + response.body());
                     result.setValue(Resource.success("Lay thong tin thành công!", response.body()));
                 } else {
                     try {
@@ -158,7 +159,7 @@ public class ChatRepository {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d("ChatRepository", "sendMessage: " + response.body());
+                    Log.d("ChatRepository", "sendMessageAllData: " + response.body());
                     result.setValue(Resource.success("Lay thong tin thành công!", response.body()));
                 } else {
                     try {

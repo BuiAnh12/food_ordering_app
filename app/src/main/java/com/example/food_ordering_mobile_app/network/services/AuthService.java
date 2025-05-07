@@ -23,4 +23,7 @@ public interface AuthService {
     Call<String> changePassword(@Body Map<String, String> data);
     @POST("/api/v1/auth/store")
     Call<Store> ownStore();
+
+    @POST("/api/v1/auth/refresh/mobile")
+    Call<User> refreshTokenMobile(@Body String refreshToken);
 }

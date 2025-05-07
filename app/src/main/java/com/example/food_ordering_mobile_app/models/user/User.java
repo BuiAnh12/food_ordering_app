@@ -25,6 +25,8 @@ public class User {
     private Image avatar;
     @SerializedName("token")
     private String accessToken;
+    @SerializedName("refreshToken")
+    private String refreshToken;
     private Boolean isGoogleLogin;
     @SerializedName("storeId")
     private String storeId;

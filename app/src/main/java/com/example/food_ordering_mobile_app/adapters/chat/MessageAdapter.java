@@ -46,8 +46,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         String ownerId = SharedPreferencesHelper.getInstance(context).getOwnerId();
         String senderId = messageList.get(position).getSender().getId();
 
-        Log.d("MESSAGE_ADAPTER", "CurrentUserID: " + currentUserId);
-        Log.d("MESSAGE_ADAPTER", "SenderID: " + senderId);
+//        Log.d("MESSAGE_ADAPTER", "CurrentUserID: " + currentUserId);
+//        Log.d("MESSAGE_ADAPTER", "SenderID: " + senderId);
 
         if (senderId != null && (senderId.trim().equals(currentUserId.trim()) || ownerId.trim().equals(senderId.trim()))) {
             return VIEW_TYPE_SENT;

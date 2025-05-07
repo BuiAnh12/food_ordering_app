@@ -91,13 +91,14 @@ public class AuthRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     String accessToken = response.body().getAccessToken();
+                    String refreshToken = response.body().getRefreshToken();
                     String userId = response.body().getId();
                     String storeId = response.body().getStoreId();
                     String owner = response.body().getOwnerId();
                     ArrayList<String> role = response.body().getRole();
 
                     // Lưu vào SharedPreferences
-                    sharedPreferencesHelper.saveUserData(accessToken, userId, role, storeId, owner);
+                    sharedPreferencesHelper.saveUserData(accessToken, refreshToken, userId, role, storeId, owner);
 
                     saveCookies(response);
 

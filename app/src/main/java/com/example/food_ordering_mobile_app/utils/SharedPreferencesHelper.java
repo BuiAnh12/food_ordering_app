@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 public class SharedPreferencesHelper {
     private static final String PREF_NAME = "user_prefs";
     private static final String KEY_ACCESS_TOKEN = "access_token";
+    private static final String KEY_REFRESH_TOKEN = "refresh_token";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USER_INFO = "user_info";
     private static final String USER_ROLE = "user_role";
@@ -40,13 +41,23 @@ public class SharedPreferencesHelper {
         return instance;
     }
 
-    public void saveUserData(String accessToken, String userId, ArrayList<String> roles, String storeId, String owner) {
+    public void saveUserData(String accessToken,String refreshToken, String userId, ArrayList<String> roles, String storeId, String owner) {
         editor.putString(KEY_ACCESS_TOKEN, accessToken);
+        editor.putString(KEY_REFRESH_TOKEN, refreshToken);
         editor.putString(KEY_USER_ID, userId);
         editor.putString(USER_ROLE, gson.toJson(roles));
         editor.putString(USER_STORE_ID, storeId);
         editor.putString(USER_STORE_OWNER, owner);
         editor.apply();
+    }
+
+    public void saveAccessToken(String accessToken) {
+        editor.putString(KEY_ACCESS_TOKEN, accessToken);
+        editor.apply();
+    }
+
+    public String getRefreshToken() {
+        return sharedPreferences.getString(KEY_REFRESH_TOKEN, null);
     }
 
     public String getRoles() {
@@ -78,4 +89,6 @@ public class SharedPreferencesHelper {
         editor.clear();
         editor.apply();
     }
+
+
 }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -99,6 +100,23 @@ public class DetailMessageActivity extends AppCompatActivity {
         messageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(this, this, messageList);
         chatRecyclerView.setAdapter(messageAdapter);
+        chatRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager != null) {
+                    int lastVisible = layoutManager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = layoutManager.getItemCount();
+
+                    // When the last item is fully visible, trigger reload (get new messages)
+                    if (lastVisible == totalItemCount - 1 && dy > 0) {
+                        // dy > 0 ensures it's a scroll up
+                        refreshData(); // Fetch new messages from server
+                    }
+                }
+            }
+        });
 
         SocketManager.joinChat(chatId);
 
@@ -151,6 +169,7 @@ public class DetailMessageActivity extends AppCompatActivity {
                     case LOADING:
                         break;
                     case SUCCESS:
+                        Log.d("DetailMessage",resource.getData().getData().toString());
 //                        messageList.add(resource.getData().getData());
 //                        messageAdapter.notifyItemInserted(messageList.size() - 1);
 //                        chatRecyclerView.smoothScrollToPosition(messageList.size() - 1);
@@ -165,8 +184,10 @@ public class DetailMessageActivity extends AppCompatActivity {
 //                                }
 //                            }
 //                        });
+                        setupAllMessages();
                         break;
                     case ERROR:
+                        Log.d("DetailMessage","SEND FAIL");
                         break;
                 }
             }

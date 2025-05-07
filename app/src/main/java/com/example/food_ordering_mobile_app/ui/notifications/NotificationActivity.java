@@ -61,6 +61,23 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
 
+        notificationViewModel.getUpdateNotificationStatusResponse().observe(this, new Observer<Resource<ApiResponse<List<Notification>>>>() {
+            @Override
+            public void onChanged(Resource<ApiResponse<List<Notification>>> resource) {
+                switch (resource.getStatus()) {
+                    case LOADING:
+                        swipeRefreshLayout.setRefreshing(true);
+                        break;
+                    case SUCCESS:
+                        swipeRefreshLayout.setRefreshing(false);
+                        Log.d("NotificationActivity", "Notification status updated successfully");
+                    case ERROR:
+                        swipeRefreshLayout.setRefreshing(false);
+                        break;
+                }
+            }
+        });
+
 
         // Observe notification list changes from ViewModel
         notificationViewModel.getNewNotification().observe(this, new Observer<List<Notification>>() {
@@ -83,7 +100,7 @@ public class NotificationActivity extends AppCompatActivity {
     private void setupStoreNotification() {
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         notificationList = new ArrayList<>();
-        notificationAdapter = new NotificationAdapter(NotificationActivity.this, this.notificationList);
+        notificationAdapter = new NotificationAdapter(NotificationActivity.this, this.notificationList, notificationViewModel);
         notificationRecyclerView.setAdapter(notificationAdapter);
 
         notificationViewModel.getStoreNotificationResponse().observe(this, new Observer<Resource<ApiResponse<List<Notification>>>>() {
