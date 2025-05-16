@@ -15,7 +15,7 @@ public interface AuthService {
     Call<User> register(@Body User user);
     @POST("/api/v1/auth/login?getRole=true&getStore=true")
     Call<User> login(@Body User user);
-    @POST("/api/v1/auth/logout")
+    @GET("/api/v1/auth/logout")
     Call<String> logout();
     @GET("/api/v1/auth/refresh")
     Call<User> refreshToken();

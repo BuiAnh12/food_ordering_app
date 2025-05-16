@@ -13,6 +13,7 @@ import com.example.food_ordering_mobile_app.ui.discount.DiscountFragment;
 import com.example.food_ordering_mobile_app.ui.home.HomeFragment;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentStoreOrder;
 import com.example.food_ordering_mobile_app.ui.store.StoreDetailFragment;
+import com.example.food_ordering_mobile_app.utils.Notificaiton;
 import com.example.food_ordering_mobile_app.viewModel.StoreDetailViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,8 +41,13 @@ public class    MainStoreActivity extends AppCompatActivity {
         binding = ActivityMainStoreBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         BottomNavigationView navView = findViewById(R.id.nav_view_store);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_store_main);
+
+        Intent intent = getIntent();
+        handleIntent(intent, navView);
+
         NavigationUI.setupWithNavController(navView, navController);
 
         navView.setOnItemSelectedListener(item -> {
@@ -75,6 +81,39 @@ public class    MainStoreActivity extends AppCompatActivity {
             badge.setVisible(true);
             badge.setNumber(unreadMessageCount);
         }));
+
+
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+
+        BottomNavigationView navView = findViewById(R.id.nav_view_store);
+        handleIntent(intent, navView);
+    }
+
+    private void handleIntent(Intent intent, BottomNavigationView navView) {
+        if (intent != null) {
+            // Set the selected item
+            if (intent.hasExtra("menu_item_id")) {
+                int menuItemId = intent.getIntExtra("menu_item_id", R.id.orders_item);
+                navView.setSelectedItemId(menuItemId);
+            }
+
+            // Open the target fragment if specified
+            if (intent.hasExtra(Notificaiton.FRAGMENT_KEY)) {
+                String fragmentName = intent.getStringExtra(Notificaiton.FRAGMENT_KEY);
+                try {
+                    Fragment fragment = (Fragment) Class.forName(fragmentName).newInstance();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment_activity_store_main, fragment)
+                            .commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

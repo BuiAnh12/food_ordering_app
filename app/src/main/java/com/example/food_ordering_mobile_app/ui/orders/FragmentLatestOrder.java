@@ -92,8 +92,12 @@ public class FragmentLatestOrder extends Fragment implements SwipeRefreshLayout.
     }
 
     public void filterOrders(String query) {
+        if (orderViewModel == null) {
+            Log.e("FragmentLatestOrder", "OrderViewModel is null. Skipping filter.");
+            return;
+        }
         orderList.clear();
-        orderViewModel.getAllOrders("pending", 10, 1, query);
+        orderViewModel.getAllOrders("pending", 100, 1, query);
         // Quan sát dữ liệu
         orderViewModel.getAllOrderResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Order>>>() {
             @Override

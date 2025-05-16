@@ -66,8 +66,8 @@
             holder.customerName.setText(order.getCustomerName());
             holder.orderSummary.setText(order.getOrderSummary());
             holder.orderItems.setText(order.getOrderDetail());
-            holder.pickupTime.setText("Không xác định");
-            holder.orderTime.setText("Không xác định");
+//            holder.pickupTime.setText("Không xác định");
+            holder.orderTime.setText(Function.dateConverter(order.getCreatedAt(), "dd/MM/yyyy HH:mm"));
 
             // Handle click event
             holder.itemView.setOnClickListener(v -> {
@@ -107,7 +107,7 @@
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView orderNumber, customerName, orderSummary, orderItems, pickupTime, orderTime;
+            TextView orderNumber, customerName, orderSummary, orderItems, orderTime;
             Button btnDetail, btnConfirm;
 
             public ViewHolder(@NonNull View itemView) {
@@ -116,7 +116,7 @@
                 customerName = itemView.findViewById(R.id.customer_name);
                 orderSummary = itemView.findViewById(R.id.order_summary);
                 orderItems = itemView.findViewById(R.id.order_items);
-                pickupTime = itemView.findViewById(R.id.pickup_time);
+//                pickupTime = itemView.findViewById(R.id.pickup_time);
                 orderTime = itemView.findViewById(R.id.order_time);
                 btnDetail = itemView.findViewById(R.id.btn_view_more);
                 btnConfirm = itemView.findViewById(R.id.btn_confirm);

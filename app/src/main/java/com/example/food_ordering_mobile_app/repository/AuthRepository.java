@@ -185,4 +185,44 @@ public class AuthRepository {
         });
         return result;
     }
+
+    public MutableLiveData<Resource<String>> changePassword(String oldPassword, String newPassword) {
+        MutableLiveData<Resource<String>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null)); // Trạng thái Loading
+
+        // Prepare the request body
+        Map<String, String> passwordData = new HashMap<>();
+        passwordData.put("oldPassword", oldPassword);
+        passwordData.put("newPassword", newPassword);
+
+        // Make the API call
+        authService.changePassword(passwordData).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    result.setValue(Resource.success("Mật khẩu đã được thay đổi thành công!", response.body()));
+                } else {
+                    try {
+                        String errorMessage = response.errorBody() != null ? response.errorBody().string() : "Lỗi không xác định!";
+                        JSONObject jsonObject = new JSONObject(errorMessage);
+                        String message = jsonObject.getString("message");
+                        result.setValue(Resource.error(message, null));
+                    } catch (Exception e) {
+                        result.setValue(Resource.error("Lỗi khi đọc phản hồi từ server!", null));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("AuthRepository", "Change password request failed: " + t.getMessage(), t);
+                result.setValue(Resource.error("Lỗi kết nối", null));
+            }
+        });
+
+        return result;
+    }
+
+
+
 }

@@ -18,6 +18,7 @@ import com.example.food_ordering_mobile_app.R;
 //import com.example.food_ordering_mobile_app.ui.cart.CartActivity;
 //import com.example.food_ordering_mobile_app.ui.notifications.NotificationActivity;
 import com.example.food_ordering_mobile_app.authorization.SecurityManager;
+import com.example.food_ordering_mobile_app.network.SocketManager;
 import com.example.food_ordering_mobile_app.repository.StoreDetailRepository;
 import com.example.food_ordering_mobile_app.ui.chat.FragmentChat;
 import com.example.food_ordering_mobile_app.ui.common.CustomHeaderView;
@@ -40,8 +41,6 @@ public class HomeFragment extends Fragment {
         headerView = view.findViewById(R.id.header);
         headerView.setText("Cửa hàng");
         headerView.setLifecycleOwner(this);
-
-
 
         LinearLayout orderLayout = view.findViewById(R.id.orderLayout);
         LinearLayout staffLayout = view.findViewById(R.id.staffLayout);

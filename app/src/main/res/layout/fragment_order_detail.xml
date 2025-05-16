@@ -537,59 +537,59 @@
                     </LinearLayout>
 
                     <!-- Distance -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingVertical="4dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:paddingVertical="4dp">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Khoảng cách"
-                            android:textColor="@color/secondaryColor"
-                            android:textSize="16sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Khoảng cách"-->
+<!--                            android:textColor="@color/secondaryColor"-->
+<!--                            android:textSize="16sp" />-->
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+<!--                        <View-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1" />-->
 
-                        <TextView
-                            android:id="@+id/distance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2.2Km"
-                            android:textColor="@color/secondaryColor"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/distance"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="2.2Km"-->
+<!--                            android:textColor="@color/secondaryColor"-->
+<!--                            android:textSize="16sp" />-->
+<!--                    </LinearLayout>-->
                     <!-- Total Price -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingVertical="4dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:paddingVertical="4dp">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Thời gian lấy hàng dự kiến"
-                            android:textColor="@color/secondaryColor"
-                            android:textSize="16sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Thời gian lấy hàng dự kiến"-->
+<!--                            android:textColor="@color/secondaryColor"-->
+<!--                            android:textSize="16sp" />-->
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+<!--                        <View-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1" />-->
 
-                        <TextView
-                            android:id="@+id/pickup_date_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hôm nay 14:12"
-                            android:textColor="@color/secondaryColor"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/pickup_date_time"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Hôm nay 14:12"-->
+<!--                            android:textColor="@color/secondaryColor"-->
+<!--                            android:textSize="16sp" />-->
+<!--                    </LinearLayout>-->
                 </LinearLayout>
 
 
@@ -617,7 +617,7 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/custom_button_normal"
                     android:paddingVertical="10dp"
-                    android:text="Chỉnh đơn hàng"
+                    android:text="Chỉnh đơn"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
                     android:textSize="18sp"
@@ -631,7 +631,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@drawable/custom_button_secondary"
                     android:paddingVertical="10dp"
-                    android:text="Hủy đơn hàng"
+                    android:text="Hủy đơn"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
                     android:textSize="18sp"

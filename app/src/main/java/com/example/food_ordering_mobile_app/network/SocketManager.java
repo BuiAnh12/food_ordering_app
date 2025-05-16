@@ -2,7 +2,11 @@ package com.example.food_ordering_mobile_app.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.food_ordering_mobile_app.R;
 import com.example.food_ordering_mobile_app.models.notification.Notification;
+import com.example.food_ordering_mobile_app.ui.MainStoreActivity;
+import com.example.food_ordering_mobile_app.ui.orders.FragmentStoreOrder;
+import com.example.food_ordering_mobile_app.utils.Notificaiton;
 import com.example.food_ordering_mobile_app.utils.SharedPreferencesHelper;
 import com.example.food_ordering_mobile_app.viewModel.NotificationViewModel;
 
@@ -25,14 +29,28 @@ public class SocketManager {
 
     private static boolean isSocketInitialized = false;
 
+    private static Notificaiton notificaitonUtil;
+
     private static Emitter.Listener messageListener;
     private static Emitter.Listener messageDeletedListener;
+
+    public static void requestNotificationPermission(Context context) {
+        if (notificaitonUtil != null) {
+            notificaitonUtil.requestNotificationPermission((android.app.Activity) context);
+        }
+        else {
+            notificaitonUtil = new Notificaiton(context);
+            notificaitonUtil.requestNotificationPermission((android.app.Activity) context);
+        }
+
+    }
 
     public static void connectSocket(Context context, NotificationViewModel notificationViewModel) {
         try {
             if (isSocketInitialized) {
                 return;
             }
+            requestNotificationPermission(context);
             isSocketInitialized = true;
             sharedPreferencesHelper = new SharedPreferencesHelper(context);
             String userId = sharedPreferencesHelper.getUserId();
@@ -43,7 +61,7 @@ public class SocketManager {
                 return;
             }
 
-            mSocket = IO.socket("http://10.0.2.2:5000");
+            mSocket = IO.socket("http://10.0.2.2:5100");
             mSocket.connect();
 
             mSocket.on(Socket.EVENT_CONNECT, args -> {
@@ -63,6 +81,25 @@ public class SocketManager {
                 Log.e("SocketManager", "Socket bị ngắt kết nối");
             });
 
+            Notificaiton phoneNotification = new Notificaiton(context);
+//            phoneNotification.sendNotificationSwitchMenu(
+//                    "New Order",
+//                    "New order have been place",
+//                    "com.example.food_ordering_mobile_app.ui.orders.FragmentStoreOrder",
+//                    R.id.orders_item
+//            );
+//
+//            phoneNotification.sendNotificationSwitchMenu(
+//                    "New Chat",
+//                    "New chat form ...",
+//                    "com.example.food_ordering_mobile_app.ui.chat.FragmentChat",
+//                    R.id.messages_item
+//            );
+
+
+
+
+
             mSocket.on("newOrderNotification", args -> {
                 Log.d("SocketManager", "Đã nhận thông báo đơn hàng mới");
                 try {
@@ -71,12 +108,12 @@ public class SocketManager {
 
                         JSONObject notification = jsonObject.getJSONObject("notification");
                         String orderId = jsonObject.getString("orderId");
-                        String title = notification.getString("title");
-                        String message = notification.getString("message");
+                        String title = jsonObject.getString("title");
+                        String message = jsonObject.getString("message");
                         String type = notification.getString("type");
-                        String uId = notification.getString("userId");
+                        String uId = jsonObject.getString("userId");
                         String status = notification.getString("status");
-                        String id = notification.getString("_id");
+                        String id = jsonObject.getString("_id");
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
 
@@ -87,6 +124,14 @@ public class SocketManager {
                         Timestamp updatedAt = new Timestamp(updatedDate.getTime());
 
                         Notification newOrderNotification = new Notification(id, uId, title, message, type, status,  orderId, createdAt, updatedAt);
+
+                        phoneNotification.sendNotificationSwitchMenu(
+                                "New Order",
+                                "New order have been place",
+                                "com.example.food_ordering_mobile_app.ui.orders.FragmentStoreOrder",
+                                R.id.orders_item
+                        );
+
 
                         // Gửi thông báo mới đến ViewModel
                         notificationViewModel.addNewNotification(newOrderNotification);

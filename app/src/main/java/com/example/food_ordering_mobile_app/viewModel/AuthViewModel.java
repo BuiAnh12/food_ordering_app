@@ -14,61 +14,67 @@ import com.example.food_ordering_mobile_app.models.store.Store;
 import com.example.food_ordering_mobile_app.models.user.User;
 import com.example.food_ordering_mobile_app.repository.AuthRepository;
 import com.example.food_ordering_mobile_app.utils.Resource;
+
+import lombok.Getter;
+
+@Getter
 public class AuthViewModel extends AndroidViewModel {
 
     private final AuthRepository authRepository;
-    public AuthViewModel(Application application) {
+    private final MutableLiveData<Resource<User>> loginResponse = new MutableLiveData<>();
+    private final MutableLiveData<Resource<String>> logoutResponse = new MutableLiveData<>();
+    private final MutableLiveData<Resource<Store>> ownStoreResponse = new MutableLiveData<>();
+    private final MutableLiveData<Resource<String>> changePasswordResponse = new MutableLiveData<>();
+
+    public AuthViewModel(@NonNull Application application) {
         super(application);
         authRepository = new AuthRepository(application);
     }
 
-    private final MutableLiveData<Resource<User>> loginResponse = new MutableLiveData<>();
     public LiveData<Resource<User>> getLoginResponse() {
         return loginResponse;
     }
 
-    public MutableLiveData<Resource<String>> logoutResponse = new MutableLiveData<Resource<String>>();
     public LiveData<Resource<String>> getLogoutResponse() {
         return logoutResponse;
     }
-    public MutableLiveData<Resource<Store>> ownStoreResponse = new MutableLiveData<Resource<Store>>();
 
-    public LiveData<Resource<Store>> getOwnStoreResponse() {return ownStoreResponse; }
+    public LiveData<Resource<Store>> getOwnStoreResponse() {
+        return ownStoreResponse;
+    }
+
+    public LiveData<Resource<String>> getChangePasswordResponse() {
+        return changePasswordResponse;
+    }
 
     public void login(String email, String password) {
         Log.d("AuthViewModel", "Starting login with email: " + email);
-        LiveData<Resource<User>> result = authRepository.login(email, password);
-        result.observeForever(new Observer<Resource<User>>() {
-            @Override
-            public void onChanged(Resource<User> resource) {
-                Log.d("AuthViewModel", "Login result: " + resource.getStatus());
-                if (resource.getStatus() == Resource.Status.SUCCESS) {
-                    Log.d("AuthViewModel", "User data: " + resource.getData());
-                } else if (resource.getStatus() == Resource.Status.ERROR) {
-                    Log.e("AuthViewModel", "Error: " + resource.getMessage());
-                }
-                loginResponse.setValue(resource);
+        authRepository.login(email, password).observeForever(resource -> {
+            Log.d("AuthViewModel", "Login result: " + resource.getStatus());
+            if (resource.getStatus() == Resource.Status.SUCCESS) {
+                Log.d("AuthViewModel", "User data: " + resource.getData());
+            } else if (resource.getStatus() == Resource.Status.ERROR) {
+                Log.e("AuthViewModel", "Error: " + resource.getMessage());
             }
+            loginResponse.setValue(resource);
         });
     }
+
     public void logout(Context context) {
-        LiveData<Resource<String>> result = authRepository.logout(context);
-        result.observeForever(new Observer<Resource<String>>() {
-            @Override
-            public void onChanged(Resource<String> resource) {
-                logoutResponse.setValue(resource);
-            }
+        authRepository.logout(context).observeForever(resource -> {
+            logoutResponse.setValue(resource);
         });
     }
 
     public void getOwnStore() {
-        LiveData<Resource<Store>> result = authRepository.getOwnStore();
-        result.observeForever(new Observer<Resource<Store>>() {
-            @Override
-            public void onChanged(Resource<Store> resource) {
-                ownStoreResponse.setValue(resource);
-            }
+        authRepository.getOwnStore().observeForever(resource -> {
+            ownStoreResponse.setValue(resource);
         });
     }
 
+    public void changePassword(String oldPassword, String newPassword) {
+        authRepository.changePassword(oldPassword, newPassword).observeForever(resource -> {
+            changePasswordResponse.setValue(resource);
+        });
+    }
 }

@@ -19,39 +19,27 @@ import java.util.List;
 
 public interface DishService {
 
-    @GET("/api/v1/store/{store_id}/dish")
+    @GET("/api/v1/dish/store/{store_id}")
     Call <ApiResponse<List<Dish>>> getAllDishes(@Path("store_id") String storeId,
                                                 @Query("name") String name,
                                                 @Query("limit") Integer limit,
                                                 @Query("page") Integer page);
 
-    @GET("/api/v1/store/dish/{dish_id}")
+    @GET("/api/v1/dish/{dish_id}")
     Call<ApiResponse<Dish>> getDish(@Path("dish_id") String dishId);
 
-    @GET("/api/v1/store/dish/{dish_id}/rating/avg")
+    @GET("/api/v1/dish/{dish_id}/rating/avg")
     Call<ApiResponse<Float>> getAvgRating(@Path("dish_id") String dishId);
 
-    @GET("/api/v1/store/dish/{dish_id}/rating")
-    Call<ApiResponse<List<Rating>>> getAllRatings(@Path("dish_id") String dishId);
-
-    @GET("/api/v1/store/{store_id}/rating/avg")
-    Call<ApiResponse<Float>> getAvgStoreRating(@Path("store_id") String storeId);
-
-    @GET("/api/v1/store/{storeId}/rating")
-    Call<ApiResponse<List<Rating>>> getAllStoreRatings(@Path("storeId") String storeId);
-
-    @GET("/api/v1/store/dish/{dish_id}/topping")
+    @GET("/api/v1/topping/dish/{dish_id}")
     Call<ApiResponse<List<ToppingGroup>>> getToppingsFromDish(@Path("dish_id") String dishId);
 
-    @POST("/api/v1/store/dish/{dish_id}/topping")
-    Call<Void> addToppingToDish(@Path("dish_id") String dishId, @Body Topping topping);
-
-    @PUT("/api/v1/store/dish/{dish_id}")
+    @PUT("/api/v1/dish/{dish_id}")
     Call<ApiResponse> updateDish(@Path("dish_id") String dishId, @Body Dish dish);
 
-    @POST("/api/v1/store/{store_id}/dish/add")
+    @POST("/api/v1/dish/store/{store_id}")
     Call<ApiResponse> createDish(@Path("store_id") String storeId, @Body Dish dish);
 
-    @DELETE("/api/v1/store/dish/{dish_id}")
+    @DELETE("/api/v1/dish/{dish_id}")
     Call<ApiResponse> deleteDish(@Path("dish_id") String dishId);
 }

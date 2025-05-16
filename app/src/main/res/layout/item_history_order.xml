@@ -47,29 +47,29 @@
 
         <!-- Pickup Time -->
 
-        <TextView
-            android:id="@+id/pickup_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="36dp"
-            android:text="Lấy đơn"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/items_label"
-            app:layout_constraintTop_toBottomOf="@+id/order_number" />
+<!--        <TextView-->
+<!--            android:id="@+id/pickup_label"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="36dp"-->
+<!--            android:layout_marginTop="36dp"-->
+<!--            android:text="Lấy đơn"-->
+<!--            android:textColor="@android:color/darker_gray"-->
+<!--            android:textSize="14sp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/items_label"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/order_number" />-->
 
-        <TextView
-            android:id="@+id/pickup_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="12:12"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/pickup_label"
-            app:layout_constraintTop_toBottomOf="@id/pickup_label" />
+<!--        <TextView-->
+<!--            android:id="@+id/pickup_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="12:12"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintStart_toStartOf="@id/pickup_label"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/pickup_label" />-->
 
         <!-- Items Label -->
 
@@ -105,30 +105,30 @@
 
         <!-- Price -->
 
-        <TextView
-            android:id="@+id/distance_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="36dp"
-            android:text="Khoảng cách"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/pickup_label"
-            app:layout_constraintTop_toBottomOf="@+id/order_number" />
+<!--        <TextView-->
+<!--            android:id="@+id/distance_label"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="40dp"-->
+<!--            android:layout_marginTop="36dp"-->
+<!--            android:text="Khoảng cách"-->
+<!--            android:textColor="@android:color/darker_gray"-->
+<!--            android:textSize="14sp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/pickup_label"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/order_number" />-->
 
-        <TextView
-            android:id="@+id/distance_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="4dp"
-            android:text="2.4 Km"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/distance_label"
-            app:layout_constraintTop_toBottomOf="@id/distance_label" />
+<!--        <TextView-->
+<!--            android:id="@+id/distance_value"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="0dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="2.4 Km"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintStart_toStartOf="@id/distance_label"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/distance_label" />-->
 
         <TextView
             android:id="@+id/total_price"

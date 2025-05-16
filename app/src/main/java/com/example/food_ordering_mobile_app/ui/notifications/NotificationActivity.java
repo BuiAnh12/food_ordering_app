@@ -44,7 +44,7 @@ public class NotificationActivity extends AppCompatActivity {
         setupStoreNotification();  // Setup initial notification
 
         // Pull the latest notifications from the server
-        notificationViewModel.getStoreNotification(20,1);
+        notificationViewModel.getStoreNotification(40,1);
         notificationViewModel.getStoreNotificationResponse().observe(this, new Observer<Resource<ApiResponse<List<Notification>>>>() {
             @Override
             public void onChanged(Resource<ApiResponse<List<Notification>>> resource) {

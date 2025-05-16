@@ -14,21 +14,21 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CategoryService {
-    @GET("/api/v1/store/{store_id}/category")
+    @GET("/api/v1/category/store/{store_id}/category")
     Call<ApiResponse<List<Category>>> getAllCategories(@Path("store_id") String storeId,
                                                        @Query("limit") Integer limit,
                                                        @Query("page") Integer page,
                                                        @Query("name") String name);
 
-    @GET("/api/v1/store/category/{category_id}")
+    @GET("/api/v1/category/{category_id}")
     Call<ApiResponse<Category>> getCategory(@Path("category_id") String categoryId);
 
-    @POST("/api/v1/store/{store_id}/category/add")
+    @POST("/api/v1/category/store/{store_id}/add")
     Call<ApiResponse> createCategory(@Path("store_id") String storeId, @Body Category category);
 
-    @PUT("/api/v1/store/category/{category_id}")
+    @PUT("/api/v1/category/{category_id}")
     Call<ApiResponse> updateCategory(@Path("category_id") String categoryId, @Body Category category);
 
-    @DELETE("/api/v1/store/category/{category_id}")
+    @DELETE("/api/v1/category/{category_id}")
     Call<ApiResponse> deleteCategory(@Path("category_id") String categoryId);
 }

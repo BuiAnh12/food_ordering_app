@@ -26,7 +26,7 @@ public class Order {
     private String customerName;
     private String customerPhonenumber;
     private String note;
-    private Store store;
+//    private Store store;
     private ArrayList<OrderItem> items;
     private Location shipLocation;
     private Shipper shipper;
@@ -56,7 +56,7 @@ public class Order {
         customerName = "";
         customerPhonenumber = "";
         note = "";
-        store = new Store();
+//        store = new Store();
         items = new ArrayList<>();
         shipLocation = new Location();
         shipper = new Shipper();

@@ -71,7 +71,7 @@ public class FragmentHistoryOrder extends Fragment implements SwipeRefreshLayout
 
     public void filterOrders(String query) {
         orderlist.clear();
-        orderViewModel.getAllOrders("done,cancelled",10,1,query);
+        orderViewModel.getAllOrders("done,cancelled",100,1,query);
         // Quan sát dữ liệu
         orderViewModel.getAllOrderResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Order>>>() {
             @Override

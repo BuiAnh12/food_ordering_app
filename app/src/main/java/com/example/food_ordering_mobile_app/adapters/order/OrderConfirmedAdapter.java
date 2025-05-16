@@ -60,7 +60,7 @@ public class OrderConfirmedAdapter extends RecyclerView.Adapter<OrderConfirmedAd
     public void onBindViewHolder(@NonNull OrderConfirmedAdapter.ViewHolder holder, int position) {
         Order order = ordersList.get(position);
         holder.orderId.setText(!TextUtils.isEmpty(String.valueOf(order.getId())) ? "#" + order.getId() : "#0000");
-        holder.pickupTime.setText("Default picup time");
+//        holder.pickupTime.setText("Default picup time");
         holder.customerName.setText(!TextUtils.isEmpty(order.getCustomerName()) ? order.getCustomerName() : order.getUser().getName());
         holder.status.setText(!TextUtils.isEmpty(order.getStatus()) ? order.getStatus() : "Pending");
         if (order.getStatus().equals("finished")) {
@@ -124,7 +124,7 @@ public class OrderConfirmedAdapter extends RecyclerView.Adapter<OrderConfirmedAd
             super(itemView);
             orderNumber = itemView.findViewById(R.id.order_number);
             customerName = itemView.findViewById(R.id.customer_name);
-            pickupTime = itemView.findViewById(R.id.pickup_time);
+//            pickupTime = itemView.findViewById(R.id.pickup_time);
             btnInformDriver = itemView.findViewById(R.id.btn_confirm);
             orderId =  itemView.findViewById(R.id.order_id);
             status = itemView.findViewById(R.id.status);

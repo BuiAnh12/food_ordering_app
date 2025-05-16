@@ -61,7 +61,7 @@ public class FragmentConfirmedOrder extends Fragment implements SwipeRefreshLayo
 
     public void filterOrders(String query) {
         orderList.clear();
-        orderViewModel.getAllOrders("confirmed,finished", 10, 1, query);
+        orderViewModel.getAllOrders("confirmed,finished", 100, 1, query);
         // Quan sát dữ liệu
         orderViewModel.getAllOrderResponse().observe(getViewLifecycleOwner(), new Observer<Resource<List<Order>>>() {
             @Override

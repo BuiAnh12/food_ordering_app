@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/item_confirmed_order"
@@ -47,28 +48,16 @@
             app:layout_constraintTop_toTopOf="@id/order_number" />
 
         <TextView
-            android:id="@+id/pickup_time"
-            android:layout_width="310dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="Giao lúc 14:50 (trong 20 phút)"
-            android:textColor="@color/secondaryColor"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/order_number"
-            app:layout_constraintTop_toBottomOf="@id/order_id" />
-
-        <TextView
             android:id="@+id/customer_name"
             android:layout_width="296dp"
             android:layout_height="21dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:text="Tuấn Anh Bùi Vũ"
             android:textColor="@color/secondaryColor"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pickup_time" />
+            app:layout_constraintTop_toBottomOf="@+id/order_number" />
 
         <TextView
             android:id="@+id/status"

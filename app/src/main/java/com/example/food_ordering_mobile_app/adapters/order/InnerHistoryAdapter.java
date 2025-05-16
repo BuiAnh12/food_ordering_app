@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_mobile_app.R;
+import com.example.food_ordering_mobile_app.models.location.Location;
 import com.example.food_ordering_mobile_app.models.order.Order;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderDetail;
 import com.example.food_ordering_mobile_app.ui.orders.FragmentOrderHistoryDetail;
@@ -39,10 +40,12 @@ public class InnerHistoryAdapter extends RecyclerView.Adapter<InnerHistoryAdapte
 
         holder.customerName.setText(order.getCustomerName() != null ? order.getCustomerName() : "Khách hàng không xác định");
         holder.orderNumber.setText(Function.generateOrderNumber(order.getId()) != "" ? Function.generateOrderNumber(order.getId()) : "N/A");
-        holder.pickupTime.setText("Không có thời gian");
+        String orderStartTime = order.getCreatedAt();
+
+//        holder.pickupTime.setText("Không có thời gian");
         holder.totalItems.setText(order.getTotalItems() > 0 ? String.valueOf(order.getTotalItems()) : "0");
         holder.totalPrice.setText(order.getTotalPrice() > 0 ? String.valueOf(order.getTotalPrice()) + "₫" : "0₫");
-        holder.distance.setText("Không xác định");
+//        holder.distance.setText("Không xác định");
         holder.status.setText(order.getStatus() != null ? order.getStatus() : "Không xác định");
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -75,10 +78,10 @@ public class InnerHistoryAdapter extends RecyclerView.Adapter<InnerHistoryAdapte
             super(itemView);
             customerName = itemView.findViewById(R.id.customer_name);
             orderNumber = itemView.findViewById(R.id.order_number);
-            pickupTime = itemView.findViewById(R.id.pickup_time);
+//            pickupTime = itemView.findViewById(R.id.pickup_time);
             totalItems = itemView.findViewById(R.id.item_count);
             totalPrice = itemView.findViewById(R.id.total_price);
-            distance = itemView.findViewById(R.id.distance_value);
+//            distance = itemView.findViewById(R.id.distance_value);
             status = itemView.findViewById(R.id.history_status);
             cardView = itemView.findViewById(R.id.item_preorder);
         }
