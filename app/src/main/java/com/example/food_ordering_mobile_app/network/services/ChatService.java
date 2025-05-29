@@ -16,19 +16,19 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ChatService {
-    @POST("/api/v1/chat/{id}")
+    @POST("chat/{id}")
     Call<Chat> createChat(@Path("id") String id);
 
-    @POST("/api/v1/chat/{id}/store/{storeId}")
+    @POST("chat/{id}/store/{storeId}")
     Call<Chat> createStoreChat(@Path("id") String id, @Path("storeId") String storeId);
-    @POST("/api/v1/message/{id}")
+    @POST("message/{id}")
     Call<ApiResponse<Message>> sendMessage(@Path("id") String id, @Body Map<String, Object> data);
-    @GET("/api/v1/chat/")
+    @GET("chat/")
     Call<List<Chat>> getAllChats();
-    @GET("/api/v1/message/{id}")
+    @GET("message/{id}")
     Call<MessageResponse> getAllMessages(@Path("id") String id);
-    @DELETE("/api/v1/chat/delete/{id}")
+    @DELETE("chat/delete/{id}")
     Call<ApiResponse<String>> deleteChat(@Path("id") String id);
-    @DELETE("/api/v1/message/delete/{id}")
+    @DELETE("message/delete/{id}")
     Call<ApiResponse<String>> deleteMessage(@Path("id") String id);
 }

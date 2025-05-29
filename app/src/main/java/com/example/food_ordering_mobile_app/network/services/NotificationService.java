@@ -12,13 +12,13 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NotificationService {
-    @GET("/api/v1/notification/get-all-notifications")
+    @GET("notification/get-all-notifications")
     Call<ApiResponse<List<Notification>>> getAllNotifications();
 
-    @PUT("/api/v1/notification/update-notification/{id}")
+    @PUT("notification/update-notification/{id}")
     Call<ApiResponse<List<Notification>>> updateNotificationStatus(@Path("id") String id);
 
-    @GET("/api/v1/notification/get-all-notifications/store/{store_id}")
+    @GET("notification/get-all-notifications/store/{store_id}")
     Call<ApiResponse<List<Notification>>> getStoreNotification(@Path("store_id") String storeId,
                                                                @Query("page") int page,
                                                                @Query("limit") int limit);

@@ -26,6 +26,7 @@ public class Dish {
 
     private List<ToppingGroup> toppingGroups;
     private String description;
+    private String stockStatus;
 
     public Dish() {
         // Default constructor

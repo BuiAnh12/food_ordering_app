@@ -37,7 +37,7 @@ public class TokenAuthenticator implements Authenticator {
 
         Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("https://food-ordering-server-nr2h.onrender.com/")
-                .baseUrl("http://10.0.2.2:5000")
+                .baseUrl("http://10.0.2.2:5000/api/v1/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

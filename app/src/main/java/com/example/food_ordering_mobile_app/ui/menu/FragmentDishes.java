@@ -50,7 +50,9 @@ public class FragmentDishes extends Fragment {
         dishRecyclerView = view.findViewById(R.id.recyclerView);
         dishRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new OuterDishAdapter(dishCategories);
+        OuterDishAdapter adapter = new OuterDishAdapter(dishCategories, (dishId) -> {
+            dishViewModel.updateDishStockStatus(dishId);
+        });
         dishRecyclerView.setAdapter(adapter);
 
         dishViewModel = new ViewModelProvider(this).get(DishViewModel.class);
@@ -78,8 +80,25 @@ public class FragmentDishes extends Fragment {
                         }
                         break;
                     case ERROR:
-                        Log.e("FragmentConfirmOrder", "Error: " + listResource.getMessage());
+                        Log.e("Fragment Dishes", "Error: " + listResource.getMessage());
                         Toast.makeText(getContext(), listResource.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        dishViewModel.getUpdateDishStockStatusResponse().observe(getViewLifecycleOwner(), new Observer<Resource>() {
+            @Override
+            public void onChanged(Resource resource) {
+                switch (resource.getStatus()) {
+                    case LOADING:
+                        break;
+                    case SUCCESS:
+                        Log.e("FragmentDishes", "Success: " + resource.getMessage());
+                        Toast.makeText(getContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case ERROR:
+                        Log.e("FragmentDishes", "Error: " + resource.getMessage());
+                        Toast.makeText(getContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

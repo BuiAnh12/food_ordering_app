@@ -9,9 +9,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 public interface StoreDetailService {
-    @GET("/api/v1/store/{store_id}")
+    @GET("store/{store_id}")
     Call<ApiResponse<Store>> getStore(@Path("store_id") String storeId);
 
-    @PUT("/api/v1/store/{store_id}")
+    @PUT("store/{store_id}")
     Call<ApiResponse<Store>> setStore(@Path("store_id") String storeId, @Body Store store);
 }

@@ -32,6 +32,13 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
         this.dishList = dishList;
     }
 
+    private OnStockToggleListener listener;
+
+    public InnerDishAdapter(List<Dish> dishList, OnStockToggleListener listener) {
+        this.dishList = dishList;
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,6 +52,7 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
 
         holder.dish_name.setText(dish.getName() != null ? dish.getName() : "Không xác định");
         holder.dish_price.setText(dish.getPrice() > 0 ? String.valueOf(dish.getPrice()) : "N/A");
+        holder.available_stock.setChecked(dish.getStockStatus() == null || dish.getStockStatus().equals("AVAILABLE"));
         Image dish_image = dish.getImage();
 
         Glide.with(holder.itemView.getContext())
@@ -78,6 +86,11 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
                         .commit();
             }
         });
+        holder.available_stock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (listener != null) {
+                listener.onStockToggled(dish.getId());
+            }
+        });
     }
 
 
@@ -90,6 +103,7 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
         ImageView  dish_image;
 
         TextView dish_name, dish_price;
+        androidx.appcompat.widget.SwitchCompat available_stock;
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -97,7 +111,7 @@ public class InnerDishAdapter extends RecyclerView.Adapter<InnerDishAdapter.View
             dish_name = itemView.findViewById(R.id.dish_name);
             dish_price = itemView.findViewById(R.id.dish_price);
             cardView = itemView.findViewById(R.id.item_topping);
-//            enable_toggle = itemView.findViewById(R.id.dish_toggle);
+            available_stock = itemView.findViewById(R.id.available_stock);
         }
     }
 }

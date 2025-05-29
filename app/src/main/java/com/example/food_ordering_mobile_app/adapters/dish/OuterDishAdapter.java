@@ -17,6 +17,12 @@ import java.util.List;
 public class OuterDishAdapter extends RecyclerView.Adapter<OuterDishAdapter.ViewHolder> {
     private List<DishCategory> dishCategories;
 
+    private OnStockToggleListener listener;
+
+    public OuterDishAdapter(List<DishCategory> dishCategories, OnStockToggleListener listener) {
+        this.dishCategories = dishCategories;
+        this.listener = listener;
+    }
     public OuterDishAdapter(List<DishCategory> dishCategories) {
         this.dishCategories = dishCategories;
     }
@@ -32,8 +38,7 @@ public class OuterDishAdapter extends RecyclerView.Adapter<OuterDishAdapter.View
     public void onBindViewHolder(@NonNull OuterDishAdapter.ViewHolder holder, int position) {
         DishCategory dishCategory = dishCategories.get(position);
         holder.catText.setText(dishCategory.getCategoryName());
-
-        InnerDishAdapter childAdapter = new InnerDishAdapter(dishCategory.getItems());
+        InnerDishAdapter childAdapter = new InnerDishAdapter(dishCategory.getItems(), listener);
         holder.innerRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.innerRecyclerView.setAdapter(childAdapter);
     }

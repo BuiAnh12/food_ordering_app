@@ -189,6 +189,23 @@ public class DishRepository {
         return result;
     }
 
+    public LiveData<Resource> updateDishStockStatus(String dishId) {
+            MutableLiveData<Resource> result = new MutableLiveData<>();
+            result.setValue(Resource.loading(null));
+            dishService.changeStockStatus(dishId).enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    result.setValue(Resource.success("Cập nhật thành công!", null));
+                }
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                    result.setValue(Resource.error("Cập nhật món thất bại", null));
+                    Log.e("DishRepository", "Lỗi: " + throwable.getMessage(), throwable);
+                }
+            });
+            return result;
+    }
+
     private <T> void handleErrorResponse(Response<ApiResponse<T>> response, MutableLiveData<Resource<T>> result) {
         try {
             String errorMessage = response.errorBody() != null ? response.errorBody().string() : "Lỗi không xác định!";

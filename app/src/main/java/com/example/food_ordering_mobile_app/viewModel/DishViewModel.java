@@ -12,6 +12,7 @@ import com.example.food_ordering_mobile_app.models.topping.Topping;
 import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 import com.example.food_ordering_mobile_app.repository.DishRepository;
 import com.example.food_ordering_mobile_app.utils.Resource;
+import com.google.android.material.internal.ManufacturerUtils;
 
 import java.util.List;
 
@@ -100,5 +101,14 @@ public class DishViewModel extends AndroidViewModel {
     public void deleteDish(String dishId) {
         LiveData<Resource> result = dishRepository.deleteDish(dishId);
         result.observeForever(deleteDishResponse::setValue);
+    }
+
+    private final MutableLiveData<Resource> updateDishStockStatusResponse = new MutableLiveData<>();
+    public LiveData<Resource> getUpdateDishStockStatusResponse() {
+        return updateDishStockStatusResponse;
+    }
+    public void updateDishStockStatus(String dishId) {
+        LiveData<Resource> result = dishRepository.updateDishStockStatus(dishId);
+        result.observeForever(updateDishStockStatusResponse::setValue);
     }
 }

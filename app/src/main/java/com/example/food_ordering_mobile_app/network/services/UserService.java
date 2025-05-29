@@ -11,9 +11,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserService {
-    @GET("/api/v1/user/{id}")
+    @GET("user/{id}")
     Call<User> getUserById(@Path("id") String id);
 
-    @PUT("/api/v1/user")
+    @PUT("user")
     Call<User> updateUser(@Body User user);
 }

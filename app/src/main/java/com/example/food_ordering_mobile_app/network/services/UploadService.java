@@ -15,12 +15,12 @@ import retrofit2.http.Part;
 
 public interface UploadService {
     @Multipart
-    @POST("/api/v1/upload/avatar")
+    @POST("upload/avatar")
     Call<ResponseBody> uploadAvatar(@Part MultipartBody.Part file);
     @Multipart
-    @POST("/api/v1/upload/images")
+    @POST("upload/images")
     Call<List<Image>> uploadImages(@Part List<MultipartBody.Part> files);
 
-    @DELETE("/api/v1/upload/delete-file")
+    @DELETE("upload/delete-file")
     Call<ResponseBody> deleteFile();
 }

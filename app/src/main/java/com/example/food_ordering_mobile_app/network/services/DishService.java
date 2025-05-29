@@ -2,8 +2,6 @@ package com.example.food_ordering_mobile_app.network.services;
 
 import com.example.food_ordering_mobile_app.models.ApiResponse;
 import com.example.food_ordering_mobile_app.models.dish.Dish;
-import com.example.food_ordering_mobile_app.models.rating.Rating;
-import com.example.food_ordering_mobile_app.models.topping.Topping;
 import com.example.food_ordering_mobile_app.models.topping.ToppingGroup;
 
 import retrofit2.Call;
@@ -19,27 +17,30 @@ import java.util.List;
 
 public interface DishService {
 
-    @GET("/api/v1/dish/store/{store_id}")
+    @GET("dish/store/{store_id}")
     Call <ApiResponse<List<Dish>>> getAllDishes(@Path("store_id") String storeId,
                                                 @Query("name") String name,
                                                 @Query("limit") Integer limit,
                                                 @Query("page") Integer page);
 
-    @GET("/api/v1/dish/{dish_id}")
+    @GET("dish/{dish_id}")
     Call<ApiResponse<Dish>> getDish(@Path("dish_id") String dishId);
 
-    @GET("/api/v1/dish/{dish_id}/rating/avg")
+    @GET("dish/{dish_id}/rating/avg")
     Call<ApiResponse<Float>> getAvgRating(@Path("dish_id") String dishId);
 
-    @GET("/api/v1/topping/dish/{dish_id}")
+    @GET("topping/dish/{dish_id}")
     Call<ApiResponse<List<ToppingGroup>>> getToppingsFromDish(@Path("dish_id") String dishId);
 
-    @PUT("/api/v1/dish/{dish_id}")
+    @PUT("dish/{dish_id}")
     Call<ApiResponse> updateDish(@Path("dish_id") String dishId, @Body Dish dish);
 
-    @POST("/api/v1/dish/store/{store_id}")
+    @POST("dish/store/{store_id}")
     Call<ApiResponse> createDish(@Path("store_id") String storeId, @Body Dish dish);
 
-    @DELETE("/api/v1/dish/{dish_id}")
+    @DELETE("dish/{dish_id}")
     Call<ApiResponse> deleteDish(@Path("dish_id") String dishId);
+
+    @POST("dish/{dish_id}/saleStatus")
+    Call<ApiResponse> changeStockStatus(@Path("dish_id") String dishId);
 }

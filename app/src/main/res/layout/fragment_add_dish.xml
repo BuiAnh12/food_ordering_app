@@ -220,27 +220,6 @@
                     android:background="@android:drawable/editbox_background"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="28dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Thời gian bán"
-                    android:textColor="@color/blackColor"
-                    android:padding="4dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
-                <Spinner
-                    android:id="@+id/saleTimeSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="@android:drawable/editbox_background"/>
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/group_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
