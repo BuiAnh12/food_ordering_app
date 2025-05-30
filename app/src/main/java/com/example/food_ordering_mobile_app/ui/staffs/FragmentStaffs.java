@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_ordering_mobile_app.R;
@@ -68,7 +69,10 @@ public class FragmentStaffs extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_staffs, container, false);
+        TextView returnBackBtn = view.findViewById(R.id.backBtn);
+        returnBackBtn.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
         storeDetailViewModel = new ViewModelProvider(this).get(StoreDetailViewModel.class);
         staffAdapter = new StaffAdapter(staffList, staff -> {
             // Create the detail fragment with the staff ID as an argument

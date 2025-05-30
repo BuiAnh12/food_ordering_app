@@ -34,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:drawableStart="@drawable/ic_arrow_left_long_24"
-                    android:onClick="goBack"
                     android:textColor="@color/onPrimary"
                     android:textSize="26sp"
                     android:textStyle="bold" />
