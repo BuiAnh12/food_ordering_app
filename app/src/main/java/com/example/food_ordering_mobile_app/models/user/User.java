@@ -54,4 +54,13 @@ public class User {
         this.gender = gender;
         this.password = password;
     }
+
+
+
+    public String getTopRole() {
+        if (role != null && !role.isEmpty()) {
+            return role.get(0);
+        }
+        return "";
+    }
 }

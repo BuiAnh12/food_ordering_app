@@ -80,5 +80,13 @@
     <string name="inform_driver">Thông báo tài xế</string>
     <string name="dishes">Món chính</string>
     <string name="topping">Món phụ</string>
+    <string-array name="gender_array">
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
 
+    <string-array name="role_array">
+        <item>Nhân viên</item>
+        <item>Quản lý</item>
+    </string-array>
 </resources>
