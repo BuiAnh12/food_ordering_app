@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
         LinearLayout orderLayout = view.findViewById(R.id.orderLayout);
         LinearLayout staffLayout = view.findViewById(R.id.staffLayout);
         LinearLayout storeInformationLayout = view.findViewById(R.id.storeInformationLayout);
-        LinearLayout serviceQualityLayout = view.findViewById(R.id.serviceQualityLayout);
+//        LinearLayout serviceQualityLayout = view.findViewById(R.id.serviceQualityLayout);
         LinearLayout chatLayout = view.findViewById(R.id.chatLayout);
         LinearLayout menuLayout = view.findViewById(R.id.menuLayout);
 
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         orderLayout.setOnClickListener(this::orderClick);
         chatLayout.setOnClickListener(this::chatLayout);
         storeInformationLayout.setOnClickListener(this::storeInfoClick);
-        serviceQualityLayout.setOnClickListener(this::serviceQualityClick);
+//        serviceQualityLayout.setOnClickListener(this::serviceQualityClick);
         staffLayout.setOnClickListener(this::staffManagementClick);
         String userRole = SecurityManager.getHighestRole();
 
@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
                 orderLayout.setVisibility(View.GONE);
                 menuLayout.setVisibility(View.GONE);
                 storeInformationLayout.setVisibility(View.GONE);
-                serviceQualityLayout.setVisibility(View.GONE);
+//                serviceQualityLayout.setVisibility(View.GONE);
                 staffLayout.setVisibility(View.GONE);
                 chatLayout.setVisibility(View.GONE);
                 break;
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
                 orderLayout.setVisibility(View.GONE);
                 menuLayout.setVisibility(View.GONE);
                 storeInformationLayout.setVisibility(View.GONE);
-                serviceQualityLayout.setVisibility(View.GONE);
+//                serviceQualityLayout.setVisibility(View.GONE);
                 staffLayout.setVisibility(View.GONE);
                 chatLayout.setVisibility(View.GONE);
                 break;

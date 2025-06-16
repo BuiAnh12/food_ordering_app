@@ -41,7 +41,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_add" />
+                android:src="@drawable/ic_order_home"/>
 
             <TextView
                 android:id="@+id/btn_orders"
@@ -70,7 +70,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_add" />
+                android:src="@drawable/ic_home_menu"/>
 
             <TextView
                 android:id="@+id/btn_menu"
@@ -99,7 +99,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_add" />
+                android:src="@drawable/ic_home_store" />
 
             <TextView
                 android:id="@+id/btn_store_detail"
@@ -113,33 +113,33 @@
         </LinearLayout>
 
         <!-- Service Quality -->
-        <LinearLayout
-            android:id="@+id/serviceQualityLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp"
-            android:onClick="serviceQualityClick"
-            android:clickable="true"
-            android:focusable="true">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/serviceQualityLayout"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:orientation="vertical"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="8dp"-->
+<!--            android:onClick="serviceQualityClick"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true">-->
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_add" />
+<!--            <ImageView-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:src="@android:drawable/ic_menu_add" />-->
 
-            <TextView
-                android:id="@+id/btn_service_quality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/service_quality"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="4dp"/>
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/btn_service_quality"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/service_quality"-->
+<!--                android:textColor="@android:color/black"-->
+<!--                android:textSize="12sp"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginTop="4dp"/>-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/staffLayout"
@@ -156,7 +156,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_add" />
+                android:src="@drawable/ic_home_staff" />
 
             <TextView
                 android:id="@+id/btn_help_center"
@@ -185,7 +185,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_add" />
+                android:src="@drawable/ic_home_chat" />
 
             <TextView
                 android:id="@+id/button_label"
